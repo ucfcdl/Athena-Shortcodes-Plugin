@@ -6,7 +6,9 @@ if ( ! class_exists( 'ATHENA_SC_Container_Shortcode' ) ) {
 	class ContainerSC extends ATHENA_SC_Shortcode {
 		public
 			$command = 'container',
-			$name = 'Container';
+			$name = 'Container',
+			$desc = 'Wraps content in a wrapper div with class .container.',
+			$content = true;
 
 		/**
 		 * Returns the shortcode's fields.
@@ -16,7 +18,7 @@ if ( ! class_exists( 'ATHENA_SC_Container_Shortcode' ) ) {
 		 *
 		 * @return Array | The shortcode's fields.
 		 **/
-		public static function fields() {
+		public function fields() {
 			return array(
 				array(
 					'param'   => 'class',

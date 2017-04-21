@@ -6,7 +6,9 @@ if ( ! class_exists( 'ATHENA_SC_Shortcode' ) ) {
 	abstract class ATHENA_SC_Shortcode {
 		public
 			$command = 'Shortcode',
-			$name = 'shortcode';
+			$name = 'shortcode',
+			$desc = '',
+			$content = false;
 
 		/**
 		 * Returns an array of fields
@@ -16,8 +18,27 @@ if ( ! class_exists( 'ATHENA_SC_Shortcode' ) ) {
 		 *
 		 * @return Array | The array of fields.
 		 **/
-		public static function fields() {
+		public function fields() {
 			return array();
+		}
+
+		/**
+		 * Registers the fields with the `WP-Shortcode-Interface` Plugin
+		 * 
+		 * @author Jim Barnes
+		 * @since 1.0.0
+		 * 
+		 * @param $shortcodes Array | The registered shortcodes.
+		 * @return Array | The modified registered shortcodes array.
+		 **/
+		public function register_interface() {
+			return array(
+				'command' => $this->command,
+				'name'    => $this->name,
+				'desc'    => $this->desc,
+				'content' => $this->content,
+				'fields'  => $this->fields()
+			);
 		}
 
 		/**
