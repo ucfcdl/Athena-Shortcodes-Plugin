@@ -41,8 +41,20 @@ if ( ! class_exists( 'ATHENA_SC_Config' ) ) {
 
 		public static function athena_sc_add_shortcode( $shortcodes ) {
 			return array(
-				'ContainerSC'
+				'ContainerSC',
+				'RowSC',
+				'ColSC'
 			);
+		}
+
+		public static function no_texturize( $shortcodes ) {
+			$installed = self::installed_shortcodes();
+
+			foreach( $installed as $shortcode ) {
+				$shortcodes[] = $shortcode->command;
+			}
+
+			return $shortcodes;
 		}
 	}
 }

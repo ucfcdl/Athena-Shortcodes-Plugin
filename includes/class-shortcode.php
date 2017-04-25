@@ -49,14 +49,16 @@ if ( ! class_exists( 'ATHENA_SC_Shortcode' ) ) {
 		 * 
 		 * @return Array | An array of default values.
 		 **/
-		public static function defaults() {
+		public function defaults() {
 			$retval = array();
-			$fields = self::fields();
+			$fields = $this->fields();
 
 			foreach( $fields as $field ) {
 				if ( isset( $field['default'] ) ) {
 					$retval[$field['param']] = $field['default'];
 				}
+
+				$retval[$field['param']] = '';
 			}
 
 			return $retval;
@@ -83,8 +85,28 @@ if ( ! class_exists( 'ATHENA_SC_Shortcode' ) ) {
 		 *
 		 * @return string | The html output of the shortcode.
 		 **/
-		public static function callback( $atts, $content ) {
+		public function callback( $atts, $content ) {
 			return '';
+		}
+
+		/**
+		 * Determines if the shortcode $content contains
+		 * the shortcode itself.
+		 * @author Jim Barnes
+		 * @since 1.0.0
+		 * @param $content string | The content
+		 * @return string
+		 **/
+		public function contains_nested( $content ) {
+			$pattern = '/\[[a-zA-Z \=\"]+?\](.*+)?(\[\/\w+\])?/s';
+
+			preg_match( $pattern, $content, $matches );
+
+			if ( $matches ) {
+				return true;
+			}
+
+			return false;
 		}
 	}
 }
