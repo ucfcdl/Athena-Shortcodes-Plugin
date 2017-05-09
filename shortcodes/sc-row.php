@@ -36,7 +36,7 @@ if ( ! class_exists( 'RowSC' ) ) {
 
 			$class = 'row';
 
-			$class .= isset( $atts['class'] ) ? $atts["class"] : '';
+			$class .= isset( $atts['class'] ) ? $atts['class'] : '';
 
 			ob_start();
 		?>
