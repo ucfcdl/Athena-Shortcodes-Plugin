@@ -12,29 +12,21 @@ if ( ! class_exists( 'ATHENA_SC_Config' ) ) {
 
 			foreach( $shortcodes as $shortcode ) {
 				$shortcode->register_shortcode();
-
-				// if ( $interface_install ) {
-				// 	$shortcode->register_shortcode_interface();
-				// }
 			}
 		}
 
 		public static function register_shortcodes_interface( $shortcodes ) {
 			$installed = self::installed_shortcodes();
-			// $registration_array = array();
 
 			foreach( $installed as $shortcode ) {
 				$shortcodes[] = $shortcode->register_interface();
 			}
 
-			// var_dump($shortcodes);
-
 			return $shortcodes;
 		}
 
 		public static function installed_shortcodes() {
-			// $installed = apply_filters( 'athena_sc_add_shortcode', $shortcodes );
-			$installed = apply_filters( 'athena_sc_add_shortcode', self::athena_sc_add_shortcode() );
+			$installed = apply_filters( 'athena_sc_add_shortcode', array( 'ATHENA_SC_Config', 'athena_sc_add_shortcode' ) );
 
 			return array_map( create_function( '$class', '
 				return new $class;
