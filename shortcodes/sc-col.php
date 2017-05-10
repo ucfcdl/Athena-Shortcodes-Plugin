@@ -7,7 +7,7 @@ if ( ! class_exists( 'ColSC' ) ) {
 		public
 			$command = 'col',
 			$name = 'Column',
-			$desc = 'Adds a bootstrap column.',
+			$desc = 'Adds an Athena column.',
 			$content = true;
 
 		/**
@@ -43,32 +43,28 @@ if ( ! class_exists( 'ColSC' ) ) {
 					'name'    => 'Extra Large Size',
 					'desc'    => 'The size of the column at the -xl breakpoint (>= 1200px).',
 					'type'    => 'select',
-					'options' => $col_options,
-					'default' => ''
+					'options' => $col_options
 				),
 				array(
 					'param'   => 'lg',
 					'name'    => 'Large Size',
 					'desc'    => 'The size of the column at the -lg breakpoint and up (>= 992px).',
 					'type'    => 'select',
-					'options' => $col_options,
-					'default' => ''
+					'options' => $col_options
 				),
 				array(
 					'param'   => 'md',
 					'name'    => 'Medium Size',
 					'desc'    => 'The size of the column at the -md breakpoint and up (>= 768px).',
 					'type'    => 'select',
-					'options' => $col_options,
-					'default' => ''
+					'options' => $col_options
 				),
 				array(
 					'param'   => 'sm',
 					'name'    => 'Small Size',
 					'desc'    => 'The size of the column at the -sm breakpoint and up (>= 576px).',
 					'type'    => 'select',
-					'options' => $col_options,
-					'default' => ''
+					'options' => $col_options
 				),
 				array(
 					'param'   => 'xs',
@@ -76,7 +72,7 @@ if ( ! class_exists( 'ColSC' ) ) {
 					'desc'    => 'The default size of the column (-xs breakpoint and up).',
 					'type'    => 'select',
 					'options' => $col_options,
-					'default' => ''
+					'default' => '12'
 				),
 				array(
 					'param'   => 'xl_offset',
@@ -189,7 +185,8 @@ if ( ! class_exists( 'ColSC' ) ) {
 		public function callback( $atts, $content='' ) {
 			$atts = shortcode_atts( $this->defaults(), $atts );
 
-			$classes = array( $atts['class'] ? $atts['class'] : '' );
+			$classes  = array( isset( $atts['class'] ) ? $atts['class'] : '' );
+			$styles   = isset( $atts['style'] ) ? $atts['style'] : false;
 			$prefixes = array( 'xs', 'sm', 'md', 'lg', 'xl' );
 			$suffixes = array( '', '_offset', '_pull', '_push' );
 
@@ -198,10 +195,10 @@ if ( ! class_exists( 'ColSC' ) ) {
 					$field_key = $prefix.$suffix;
 					$field_val = $atts[$field_key];
 
-					if ( isset( $field_val ) ) {
-						$modifier = str_replace( '_', '', $suffix );
+					if ( isset( $field_val ) && $field_val !== '' ) {
+						$modifier   = str_replace( '_', '', $suffix );
 						$breakpoint = $prefix == 'xs' ? '' : '-' . $prefix;
-						$size = $field_value == '12' ? '' : '-' . $field_value;
+						$size       = ( in_array( $field_val, array( '', '12', 'none' ), true ) ) ? '' : '-' . $field_val;
 
 						// This is a offset, pull or push class
 						if ( $suffix !== '' ) {
@@ -209,7 +206,9 @@ if ( ! class_exists( 'ColSC' ) ) {
 						}
 						// This is a standard col class
 						else {
-							$modifier = '-' . $modifier;
+							if ( $modifier !== '' ) {
+								$modifier = '-' . $modifier;
+							}
 							$classes[] = 'col' . $breakpoint . $modifier . $size;
 						}
 					}
@@ -220,7 +219,7 @@ if ( ! class_exists( 'ColSC' ) ) {
 
 			ob_start();
 		?>
-			<div class="<?php echo $cls_str; ?>"<?php echo $attr['style'] ? ' style="'.$attr['style'].'"' : '';?>>
+			<div class="<?php echo $cls_str; ?>" <?php if ( $styles ) { echo 'style="' . $styles . '"'; } ?>>
 				<?php echo do_shortcode( $content ); ?>
 			</div>
 		<?php
