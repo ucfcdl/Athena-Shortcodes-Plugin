@@ -36,7 +36,7 @@ if ( ! class_exists( 'ContainerSC' ) ) {
 
 			$class = 'container';
 
-			$class .= isset( $atts['class'] ) ? $atts["class"] : '';
+			$class .= isset( $atts['class'] ) ? $atts['class'] : '';
 
 			ob_start();
 		?>

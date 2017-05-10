@@ -19,36 +19,64 @@ if ( ! class_exists( 'ColSC' ) ) {
 		 * @return Array | The shortcode's fields.
 		 **/
 		public function fields() {
+			$col_options = array(
+				'' => '---',
+				'1' => '1',
+				'2' => '2',
+				'3' => '3',
+				'4' => '4',
+				'5' => '5',
+				'6' => '6',
+				'7' => '7',
+				'8' => '8',
+				'9' => '9',
+				'10' => '10',
+				'11' => '11',
+				'12' => '12',
+				'auto' => 'Auto (variable-width column)',
+				'none' => 'None (equal-width column)'
+			);
+
 			return array(
 				array(
 					'param'   => 'xl',
 					'name'    => 'Extra Large Size',
 					'desc'    => 'The size of the column at the -xl breakpoint (>= 1200px).',
-					'type'    => 'number'
+					'type'    => 'select',
+					'options' => $col_options,
+					'default' => ''
 				),
 				array(
 					'param'   => 'lg',
 					'name'    => 'Large Size',
-					'desc'    => 'The size of the column at the -lg breakpoint (>= 992px).',
-					'type'    => 'number'
+					'desc'    => 'The size of the column at the -lg breakpoint and up (>= 992px).',
+					'type'    => 'select',
+					'options' => $col_options,
+					'default' => ''
 				),
 				array(
 					'param'   => 'md',
 					'name'    => 'Medium Size',
-					'desc'    => 'The size of the column at the -md breakpoint (>= 768px).',
-					'type'    => 'number'
+					'desc'    => 'The size of the column at the -md breakpoint and up (>= 768px).',
+					'type'    => 'select',
+					'options' => $col_options,
+					'default' => ''
 				),
 				array(
 					'param'   => 'sm',
 					'name'    => 'Small Size',
-					'desc'    => 'The size of the column at the -sm breakpoint (>= 576px).',
-					'type'    => 'number'
+					'desc'    => 'The size of the column at the -sm breakpoint and up (>= 576px).',
+					'type'    => 'select',
+					'options' => $col_options,
+					'default' => ''
 				),
 				array(
 					'param'   => 'xs',
 					'name'    => 'Default Size',
-					'desc'    => 'The size of the column at the at the smallest sizes (< 576px).',
-					'type'    => 'number'
+					'desc'    => 'The default size of the column (-xs breakpoint and up).',
+					'type'    => 'select',
+					'options' => $col_options,
+					'default' => ''
 				),
 				array(
 					'param'   => 'xl_offset',
@@ -59,25 +87,25 @@ if ( ! class_exists( 'ColSC' ) ) {
 				array(
 					'param'   => 'lg_offset',
 					'name'    => 'Large Offset',
-					'desc'    => 'The offset of the column at the -lg breakpoint (>= 992px).',
+					'desc'    => 'The offset of the column at the -lg breakpoint and up (>= 992px).',
 					'type'    => 'number'
 				),
 				array(
 					'param'   => 'md_offset',
 					'name'    => 'Medium Offset',
-					'desc'    => 'The offset of the column at the -md breakpoint (>= 768px).',
+					'desc'    => 'The offset of the column at the -md breakpoint and up (>= 768px).',
 					'type'    => 'number'
 				),
 				array(
 					'param'   => 'sm_offset',
 					'name'    => 'Small Offset',
-					'desc'    => 'The offset of the column at the -sm breakpoint (>= 576px).',
+					'desc'    => 'The offset of the column at the -sm breakpoint and up (>= 576px).',
 					'type'    => 'number'
 				),
 				array(
 					'param'   => 'xs_offset',
 					'name'    => 'Default Offset',
-					'desc'    => 'The offset of the column at the at the smallest sizes (< 576px).',
+					'desc'    => 'The default offset of the column (-xs breakpoint and up).',
 					'type'    => 'number'
 				),
 				array(
@@ -89,25 +117,25 @@ if ( ! class_exists( 'ColSC' ) ) {
 				array(
 					'param'   => 'lg_push',
 					'name'    => 'Large Push',
-					'desc'    => 'Pushes the column the specified number of column widths at the -lg breakpoint (>= 992px).',
+					'desc'    => 'Pushes the column the specified number of column widths at the -lg breakpoint and up (>= 992px).',
 					'type'    => 'number'
 				),
 				array(
 					'param'   => 'md_push',
 					'name'    => 'Medium Push',
-					'desc'    => 'Pushes the column the specified number of column widths at the -md breakpoint (>= 768px).',
+					'desc'    => 'Pushes the column the specified number of column widths at the -md breakpoint and up (>= 768px).',
 					'type'    => 'number'
 				),
 				array(
 					'param'   => 'sm_push',
 					'name'    => 'Small Push',
-					'desc'    => 'Pushes the column the specified number of column widths at the -sm breakpoint (>= 576px).',
+					'desc'    => 'Pushes the column the specified number of column widths at the -sm breakpoint and up (>= 576px).',
 					'type'    => 'number'
 				),
 				array(
 					'param'   => 'xs_push',
 					'name'    => 'Default Push',
-					'desc'    => 'Pushes the column the specified number of column widths at the smallest sizes (< 576px).',
+					'desc'    => 'Pushes the column the specified number of column widths (-xs breakpoint and up).',
 					'type'    => 'number'
 				),
 				array(
@@ -119,25 +147,25 @@ if ( ! class_exists( 'ColSC' ) ) {
 				array(
 					'param'   => 'lg_pull',
 					'name'    => 'Large Pull',
-					'desc'    => 'Pulls the column the specified number of column widths at the -lg breakpoint (>= 992px).',
+					'desc'    => 'Pulls the column the specified number of column widths at the -lg breakpoint and up (>= 992px).',
 					'type'    => 'number'
 				),
 				array(
 					'param'   => 'md_pull',
 					'name'    => 'Medium Pull',
-					'desc'    => 'Pulls the column the specified number of column widths at the -md breakpoint (>= 768px).',
+					'desc'    => 'Pulls the column the specified number of column widths at the -md breakpoint and up (>= 768px).',
 					'type'    => 'number'
 				),
 				array(
 					'param'   => 'sm_pull',
 					'name'    => 'Small Pull',
-					'desc'    => 'Pulls the column the specified number of column widths at the -sm breakpoint (>= 576px).',
+					'desc'    => 'Pulls the column the specified number of column widths at the -sm breakpoint and up (>= 576px).',
 					'type'    => 'number'
 				),
 				array(
 					'param'   => 'xs_pull',
 					'name'    => 'Default Pull',
-					'desc'    => 'Pulls the column the specified number of column widths at the smallest sizes (< 576px).',
+					'desc'    => 'Pulls the column the specified number of column widths (-xs breakpoint and up).',
 					'type'    => 'number'
 				),
 				array(
@@ -167,12 +195,22 @@ if ( ! class_exists( 'ColSC' ) ) {
 
 			foreach( $prefixes as $prefix ) {
 				foreach( $suffixes as $suffix ) {
-					if ( $atts[$prefix.$suffix] ) {
-						$suf = str_replace( '_', '', $suffix );
-						if ( $suf !== '' ) {
-							$classes[] = $suf . '-' . $prefix . '-' . $atts[$prefix.$suffix];
-						} else {
-							$classes[] = 'col-' . $prefix . '-' . $atts[$prefix.$suffix];
+					$field_key = $prefix.$suffix;
+					$field_val = $atts[$field_key];
+
+					if ( isset( $field_val ) ) {
+						$modifier = str_replace( '_', '', $suffix );
+						$breakpoint = $prefix == 'xs' ? '' : '-' . $prefix;
+						$size = $field_value == '12' ? '' : '-' . $field_value;
+
+						// This is a offset, pull or push class
+						if ( $suffix !== '' ) {
+							$classes[] = $modifier . $breakpoint . $size;
+						}
+						// This is a standard col class
+						else {
+							$modifier = '-' . $modifier;
+							$classes[] = 'col' . $breakpoint . $modifier . $size;
 						}
 					}
 				}
