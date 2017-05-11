@@ -24,10 +24,10 @@ if ( ! class_exists( 'ATHENA_SC_Shortcode' ) ) {
 
 		/**
 		 * Registers the fields with the `WP-Shortcode-Interface` Plugin
-		 * 
+		 *
 		 * @author Jim Barnes
 		 * @since 1.0.0
-		 * 
+		 *
 		 * @param $shortcodes Array | The registered shortcodes.
 		 * @return Array | The modified registered shortcodes array.
 		 **/
@@ -46,7 +46,7 @@ if ( ! class_exists( 'ATHENA_SC_Shortcode' ) ) {
 		 *
 		 * @author Jim Barnes
 		 * @since 1.0.0
-		 * 
+		 *
 		 * @return Array | An array of default values.
 		 **/
 		public function defaults() {
@@ -57,8 +57,9 @@ if ( ! class_exists( 'ATHENA_SC_Shortcode' ) ) {
 				if ( isset( $field['default'] ) ) {
 					$retval[$field['param']] = $field['default'];
 				}
-
-				$retval[$field['param']] = '';
+				else {
+					$retval[$field['param']] = '';
+				}
 			}
 
 			return $retval;
@@ -76,10 +77,10 @@ if ( ! class_exists( 'ATHENA_SC_Shortcode' ) ) {
 
 		/**
 		 * The callback for the shortcode
-		 * 
+		 *
 		 * @author Jim Barnes
 		 * @since 1.0.0
-		 * 
+		 *
 		 * @param $atts Array | The shortcode attributes
 		 * @param $content string | The html content within the shortcode
 		 *
