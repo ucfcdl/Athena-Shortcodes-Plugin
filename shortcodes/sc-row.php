@@ -23,7 +23,7 @@ if ( ! class_exists( 'RowSC' ) ) {
 				array(
 					'param'   => 'no_gutters',
 					'name'    => 'Disable gutters',
-					'desc'    => 'When checked, the generated .row\'s child columns will no left- or right-hand gutters.',
+					'desc'    => 'When checked, the generated .row\'s child columns will not have left- or right-hand gutters.',
 					'type'    => 'checkbox'
 				),
 				array(
