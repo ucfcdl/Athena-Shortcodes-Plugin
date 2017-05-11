@@ -34,7 +34,7 @@ if ( ! class_exists( 'RowSC' ) ) {
 				array(
 					'param'   => 'style',
 					'name'    => 'Inline Styles',
-					'desc'    => 'Any additional styles for the column.',
+					'desc'    => 'Any additional styles for the row.',
 					'type'    => 'text'
 				)
 			);
