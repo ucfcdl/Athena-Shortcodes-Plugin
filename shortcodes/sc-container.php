@@ -7,7 +7,7 @@ if ( ! class_exists( 'ContainerSC' ) ) {
 		public
 			$command = 'container',
 			$name = 'Container',
-			$desc = 'Wraps content in a wrapper div with class .container.',
+			$desc = 'Wraps content in an Athena container.',
 			$content = true;
 
 		/**
@@ -21,8 +21,24 @@ if ( ! class_exists( 'ContainerSC' ) ) {
 		public function fields() {
 			return array(
 				array(
+					'param'   => 'type',
+					'name'    => 'Container Type',
+					'desc'    => 'Specify the type of container to use.  Standard, fixed-width .container\'s are used by default.',
+					'type'    => 'select',
+					'options' => array(
+						'container' => 'Fixed-width per breakpoint (.container)',
+						'container-fluid' => 'Fluid container (.container-fluid)'
+					)
+				),
+				array(
 					'param'   => 'class',
 					'name'    => 'CSS Classes',
+					'type'    => 'text'
+				),
+				array(
+					'param'   => 'style',
+					'name'    => 'Inline Styles',
+					'desc'    => 'Any additional styles for the column.',
 					'type'    => 'text'
 				)
 			);
@@ -34,13 +50,16 @@ if ( ! class_exists( 'ContainerSC' ) ) {
 		public function callback( $atts, $content='' ) {
 			$atts = shortcode_atts( $this->defaults(), $atts );
 
-			$class = 'container';
-
-			$class .= isset( $atts['class'] ) ? $atts['class'] : '';
+			$classes = array();
+			$classes[] = ( isset( $atts['type'] ) && $atts['type'] ) ? $atts['type'] : 'container';
+			if ( isset( $atts['class'] ) && $atts['class'] ) {
+				$classes[] = $atts['class'];
+			}
+			$styles = isset( $atts['style'] ) ? $atts['style'] : false;
 
 			ob_start();
 		?>
-			<div class="<?php echo $class; ?>">
+			<div class="<?php echo implode( $classes, ' ' ); ?>" <?php if ( $styles ) { echo 'style="' . $styles . '"'; } ?>>
 				<?php echo do_shortcode( $content ); ?>
 			</div>
 		<?php
