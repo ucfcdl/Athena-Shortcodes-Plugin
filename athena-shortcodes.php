@@ -16,7 +16,7 @@ define( 'ATHENA_SC__PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
 // Shortcode files
 include_once 'includes/class-shortcode.php';
-include_once 'shortcodes/bs4-shortcodes.php';
+include_once 'shortcodes/shortcodes.php';
 
 include_once 'includes/athena-sc-config.php';
 
@@ -29,7 +29,7 @@ if ( ! function_exists( 'athena_sc_plugin_activated' ) ) {
 	register_activation_hook( ATHENA_SC__PLUGIN_FILE, 'athena_sc_plugin_activated' );
 }
 
-if ( ! function_exists( 'athena_sc_plguin_deactivated' ) ) {
+if ( ! function_exists( 'athena_sc_plugin_deactivated' ) ) {
 	function athena_sc_plugin_deactivated() {
 		return;
 	}
