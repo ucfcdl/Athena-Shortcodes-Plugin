@@ -37,7 +37,8 @@ if ( ! class_exists( 'ATHENA_SC_Config' ) ) {
 			return array(
 				'ContainerSC',
 				'RowSC',
-				'ColSC'
+				'ColSC',
+				'ButtonSC'
 			);
 		}
 
