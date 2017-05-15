@@ -55,7 +55,8 @@ if ( ! class_exists( 'ATHENA_SC_Config' ) ) {
 
 		/**
 		 * Strip out <p></p> and <br> from inner shortcode contents. Applied
-		 * only to shortcodes returned by the athena_sc_get_shortcodes hook.
+		 * only to shortcodes returned by the
+		 * athena_sc_get_formatted_shortcodes hook.
 		 *
 		 * https://wordpress.stackexchange.com/a/130185
 		 **/
