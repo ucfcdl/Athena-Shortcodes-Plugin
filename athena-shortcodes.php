@@ -42,7 +42,8 @@ if ( ! function_exists( 'athena_sc_init' ) ) {
 		// Add our preconfigured shortcodes.
 		add_action( 'athena_sc_add_shortcode', array( 'ATHENA_SC_Config', 'athena_sc_add_shortcode' ), 10, 1 );
 		// Add out shortcodes to the no_texturized list
-		//add_action( 'no_texturize_shortcodes', array( 'ATHENA_SC_Config', 'no_texturize' ), 10, 1 );
+		// add_action( 'no_texturize_shortcodes', array( 'ATHENA_SC_Config', 'no_texturize' ), 10, 1 );
+		add_filter( 'the_content', array( 'ATHENA_SC_Config', 'format_shortcode_output' ), 10, 1 );
 		// Register our shortcodes.
 		add_action( 'init', array( 'ATHENA_SC_Config', 'register_shortcodes' ) );
 
@@ -56,8 +57,9 @@ if ( ! function_exists( 'athena_sc_init' ) ) {
 		// add_filter( 'the_content', 'wpautop' , 99);
 		// add_filter( 'the_content', 'shortcode_unautop',100 );
 
-		add_filter('the_content', 'do_shortcode', 9);
-		add_filter('widget_text', 'do_shortcode', 9);
+		// add_filter('the_content', 'do_shortcode', 9);
+		// add_filter('widget_text', 'do_shortcode', 9);
+		add_filter( 'widget_text', 'do_shortcode' );
 	}
 
 	add_action( 'plugins_loaded', 'athena_sc_init' );
