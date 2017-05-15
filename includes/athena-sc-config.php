@@ -26,7 +26,9 @@ if ( ! class_exists( 'ATHENA_SC_Config' ) ) {
 		}
 
 		public static function installed_shortcodes() {
-			$installed = apply_filters( 'athena_sc_add_shortcode', array( 'ATHENA_SC_Config', 'athena_sc_add_shortcode' ) );
+			// Get shortcodes via the `athena_sc_add_shortcode` hook.
+			$installed = self::athena_sc_add_shortcode();
+			$installed = apply_filters( 'athena_sc_add_shortcode', $installed );
 
 			return array_map( create_function( '$class', '
 				return new $class;
@@ -41,7 +43,7 @@ if ( ! class_exists( 'ATHENA_SC_Config' ) ) {
 			);
 		}
 
-		public static function no_texturize( $shortcodes ) {
+		public static function athena_sc_get_formatted_shortcodes() {
 			$installed = self::installed_shortcodes();
 
 			foreach( $installed as $shortcode ) {
@@ -49,6 +51,24 @@ if ( ! class_exists( 'ATHENA_SC_Config' ) ) {
 			}
 
 			return $shortcodes;
+		}
+
+		/**
+		 * Strip out <p></p> and <br> from inner shortcode contents. Applied
+		 * only to shortcodes returned by the
+		 * athena_sc_get_formatted_shortcodes hook.
+		 *
+		 * https://wordpress.stackexchange.com/a/130185
+		 **/
+		public static function format_shortcode_output( $content ) {
+			// Get shortcodes via the `athena_sc_get_formatted_shortcodes` hook.
+			$shortcodes = self::athena_sc_get_formatted_shortcodes();
+			$shortcodes = apply_filters( 'athena_sc_get_formatted_shortcodes', $shortcodes );
+
+			$block = join( '|', $shortcodes );
+			$rep = preg_replace( "/(<p>)?\[($block)(\s[^\]]+)?\](<\/p>|<br \/>)?/", "[$2$3]", $content );
+			$rep = preg_replace( "/(<p>)?\[\/($block)](<\/p>|<br \/>)?/", "[/$2]", $rep );
+			return $rep;
 		}
 	}
 }
