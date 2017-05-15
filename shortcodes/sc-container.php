@@ -38,7 +38,7 @@ if ( ! class_exists( 'ContainerSC' ) ) {
 				array(
 					'param'   => 'style',
 					'name'    => 'Inline Styles',
-					'desc'    => 'Any additional styles for the column.',
+					'desc'    => 'Any additional styles for the container.',
 					'type'    => 'text'
 				)
 			);
@@ -51,11 +51,11 @@ if ( ! class_exists( 'ContainerSC' ) ) {
 			$atts = shortcode_atts( $this->defaults(), $atts );
 
 			$classes = array();
-			$classes[] = ( isset( $atts['type'] ) && $atts['type'] ) ? $atts['type'] : 'container';
-			if ( isset( $atts['class'] ) && $atts['class'] ) {
+			$classes[] = $atts['type'] ?: 'container';
+			if ( $atts['class'] ) {
 				$classes[] = $atts['class'];
 			}
-			$styles = isset( $atts['style'] ) ? $atts['style'] : false;
+			$styles = $atts['style'] ?: false;
 
 			ob_start();
 		?>

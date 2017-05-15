@@ -23,7 +23,7 @@ if ( ! class_exists( 'RowSC' ) ) {
 				array(
 					'param'   => 'no_gutters',
 					'name'    => 'Disable gutters',
-					'desc'    => 'When checked, the generated .row\'s child columns will no left- or right-hand gutters.',
+					'desc'    => 'When checked, the generated .row\'s child columns will not have left- or right-hand gutters.',
 					'type'    => 'checkbox'
 				),
 				array(
@@ -34,7 +34,7 @@ if ( ! class_exists( 'RowSC' ) ) {
 				array(
 					'param'   => 'style',
 					'name'    => 'Inline Styles',
-					'desc'    => 'Any additional styles for the column.',
+					'desc'    => 'Any additional styles for the row.',
 					'type'    => 'text'
 				)
 			);
@@ -47,13 +47,13 @@ if ( ! class_exists( 'RowSC' ) ) {
 			$atts = shortcode_atts( $this->defaults(), $atts );
 
 			$classes = array( 'row' );
-			if ( isset( $atts['no_gutters'] ) && filter_var( $atts['no_gutters'], FILTER_VALIDATE_BOOLEAN ) ) {
+			if ( $atts['no_gutters'] && filter_var( $atts['no_gutters'], FILTER_VALIDATE_BOOLEAN ) ) {
 				$classes[] = 'no-gutters';
 			}
-			if ( isset( $atts['class'] ) && $atts['class'] ) {
+			if ( $atts['class'] ) {
 				$classes[] = $atts['class'];
 			}
-			$styles = isset( $atts['style'] ) ? $atts['style'] : false;
+			$styles = $atts['style'] ?: false;
 
 			ob_start();
 		?>
