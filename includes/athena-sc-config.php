@@ -42,7 +42,7 @@ if ( ! class_exists( 'ATHENA_SC_Config' ) ) {
 			);
 		}
 
-		public static function no_texturize( $shortcodes ) {
+		public static function no_texturize( $shortcodes=array() ) {
 			$installed = self::installed_shortcodes();
 
 			foreach( $installed as $shortcode ) {
@@ -50,6 +50,19 @@ if ( ! class_exists( 'ATHENA_SC_Config' ) ) {
 			}
 
 			return $shortcodes;
+		}
+
+		/**
+		 * Strip out <p></p> and <br> from inner shortcode contents. Applied
+		 * only to shortcodes returned by ATHENA_SC_Config::no_texturize().
+		 *
+		 * https://wordpress.stackexchange.com/a/130185
+		 **/
+		public static function format_shortcode_output( $content ) {
+			$block = join( '|', self::no_texturize() );
+			$rep = preg_replace( "/(<p>)?\[($block)(\s[^\]]+)?\](<\/p>|<br \/>)?/", "[$2$3]", $content );
+			$rep = preg_replace( "/(<p>)?\[\/($block)](<\/p>|<br \/>)?/", "[/$2]", $rep );
+			return $rep;
 		}
 	}
 }
