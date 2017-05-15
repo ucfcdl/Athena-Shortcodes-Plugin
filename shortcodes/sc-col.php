@@ -185,8 +185,8 @@ if ( ! class_exists( 'ColSC' ) ) {
 		public function callback( $atts, $content='' ) {
 			$atts = shortcode_atts( $this->defaults(), $atts );
 
-			$classes  = array( isset( $atts['class'] ) ? $atts['class'] : '' );
-			$styles   = isset( $atts['style'] ) ? $atts['style'] : false;
+			$classes  = array( $atts['class'] ?: '' );
+			$styles   = $atts['style'] ?: false;
 			$prefixes = array( 'xs', 'sm', 'md', 'lg', 'xl' );
 			$suffixes = array( '', '_offset', '_pull', '_push' );
 
@@ -195,7 +195,7 @@ if ( ! class_exists( 'ColSC' ) ) {
 					$field_key = $prefix.$suffix;
 					$field_val = $atts[$field_key];
 
-					if ( isset( $field_val ) && $field_val !== '' ) {
+					if ( $field_val && $field_val !== '' ) {
 						$modifier   = str_replace( '_', '', $suffix );
 						$breakpoint = $prefix == 'xs' ? '' : '-' . $prefix;
 						$size       = ( in_array( $field_val, array( '', '12', 'none' ), true ) ) ? '' : '-' . $field_val;

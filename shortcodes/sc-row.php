@@ -47,13 +47,13 @@ if ( ! class_exists( 'RowSC' ) ) {
 			$atts = shortcode_atts( $this->defaults(), $atts );
 
 			$classes = array( 'row' );
-			if ( isset( $atts['no_gutters'] ) && filter_var( $atts['no_gutters'], FILTER_VALIDATE_BOOLEAN ) ) {
+			if ( $atts['no_gutters'] && filter_var( $atts['no_gutters'], FILTER_VALIDATE_BOOLEAN ) ) {
 				$classes[] = 'no-gutters';
 			}
-			if ( isset( $atts['class'] ) && $atts['class'] ) {
+			if ( $atts['class'] ) {
 				$classes[] = $atts['class'];
 			}
-			$styles = isset( $atts['style'] ) ? $atts['style'] : false;
+			$styles = $atts['style'] ?: false;
 
 			ob_start();
 		?>
