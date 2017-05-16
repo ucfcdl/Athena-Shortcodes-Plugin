@@ -42,7 +42,7 @@ if ( ! class_exists( 'ButtonSC' ) ) {
 				),
 				array(
 					'param'   => 'id',
-					'name'    => 'CSS ID',
+					'name'    => 'ID',
 					'desc'    => 'ID attribute for the button. Must be unique.',
 					'type'    => 'text'
 				),
