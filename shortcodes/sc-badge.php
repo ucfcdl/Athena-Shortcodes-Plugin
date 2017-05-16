@@ -1,6 +1,6 @@
 <?php
 /**
- * Provides a shortcode for the .container class
+ * Provides a shortcode for the .badge class
  **/
 if ( ! class_exists( 'BadgeSC' ) ) {
 	class BadgeSC extends ATHENA_SC_Shortcode {
