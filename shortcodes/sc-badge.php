@@ -40,7 +40,7 @@ if ( ! class_exists( 'BadgeSC' ) ) {
 				),
 				array(
 					'param'   => 'id',
-					'name'    => 'CSS ID',
+					'name'    => 'ID',
 					'desc'    => 'ID attribute for the badge. Must be unique.',
 					'type'    => 'text'
 				),
