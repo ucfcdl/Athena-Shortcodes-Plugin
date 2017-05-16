@@ -56,6 +56,8 @@ if ( ! class_exists( 'JumbotronSC' ) ) {
 		 * Wraps content inside of a div with class .jumbotron
 		 **/
 		public function callback( $atts, $content='' ) {
+			$atts = shortcode_atts( $this->defaults(), $atts );
+
 			$styles  = $atts['style'];
 			$id      = $atts['id'];
 			$classes = array( 'jumbotron', $atts['type'] );
