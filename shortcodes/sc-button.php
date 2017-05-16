@@ -1,6 +1,9 @@
 <?php
 /**
- * Provides a shortcode for the .container class
+ * Provides a shortcode for the .btn class.
+ *
+ * Note: button plugin features (toggle states, checkbox/radio buttons) are not
+ * supported by this shortcode.
  **/
 if ( ! class_exists( 'ButtonSC' ) ) {
 	class ButtonSC extends ATHENA_SC_Shortcode {
@@ -23,71 +26,24 @@ if ( ! class_exists( 'ButtonSC' ) ) {
 				array(
 					'param'   => 'href',
 					'name'    => 'Button Link',
-					'type'    => 'text',
-					'default' => '#'
+					'type'    => 'text'
 				),
 				array(
-					'param'   => 'type',
-					'name'    => 'Button Type',
-					'desc'    => 'Specify the type of button to use.  Solid buttons are used by default.',
-					'type'    => 'select',
-					'options' => array(
-						'solid' => 'Solid (default)',
-						'outline' => 'Outline',
-						'outline-inverse' => 'Inverse outline'
-					),
-					'default' => 'solid'
-				),
-				array(
-					'param'   => 'color',
-					'name'    => 'Button Color',
-					'desc'    => 'Specify the button color.  "Primary" buttons are used by default.  Note that not all colors are compatible with all button types.',
-					'type'    => 'select',
-					'options' => array(
-						'primary'       => 'Gold (-primary)',
-						'default'       => 'White with gray outline (-default)',
-						'secondary'     => 'Black (-secondary)',
-						'inverse'       => 'White (-inverse)',
-						'link'          => 'Unstyled link',
-						'complementary' => 'Blue (-complementary)',
-						'success'       => 'Green (-success)',
-						'info'          => 'Light Blue (-info)',
-						'warning'       => 'Orange (-warning)',
-						'danger'        => 'Red (-danger)'
-					),
-					'default' => 'primary'
-				),
-				array(
-					'param'   => 'size',
-					'name'    => 'Button Size',
-					'desc'    => 'Specify a size override for the button.',
-					'type'    => 'select',
-					'options' => array(
-						''   => '---',
-						'sm' => 'Small',
-						'lg' => 'Large'
-					)
-				),
-				array(
-					'param'   => 'block',
-					'name'    => 'Block-level Button',
-					'desc'    => 'When checked, the generated button will be block-level (and span the full width of its parent).',
-					'type'    => 'checkbox'
-				),
-				array(
-					'param'   => 'state',
-					'name'    => 'Button State',
-					'desc'    => 'Specify whether the button should have a default state on load.',
-					'type'    => 'select',
-					'options' => array(
-						''   => '---',
-						'active'   => 'Active',
-						'disabled' => 'Disabled'
-					)
+					'param'   => 'new_window',
+					'name'    => 'Open link in a new window',
+					'type'    => 'checkbox',
+					'default' => false
 				),
 				array(
 					'param'   => 'class',
 					'name'    => 'CSS Classes',
+					'desc'    => 'Separate each class with a single space. Refer to the Athena Framework documentation for available classes.',
+					'type'    => 'text'
+				),
+				array(
+					'param'   => 'id',
+					'name'    => 'CSS ID',
+					'desc'    => 'ID attribute for the button. Must be unique.',
 					'type'    => 'text'
 				),
 				array(
@@ -105,56 +61,29 @@ if ( ! class_exists( 'ButtonSC' ) ) {
 		public function callback( $atts, $content='' ) {
 			$atts = shortcode_atts( $this->defaults(), $atts );
 
-			$href = $atts['href'];
-			$styles = $atts['style'] ?: false;
+			$href       = $atts['href'];
+			$new_window = filter_var( $atts['new_window'], FILTER_VALIDATE_BOOLEAN );
+			$id         = $atts['id'];
+			$styles     = $atts['style'];
 			$attributes = array();
-			$classes = array( 'btn' );
+			$classes    = array( 'btn' );
 
-			// Get the color variant class
-			$variant_class = 'btn-';
-			switch ( $atts['type'] ) {
-				case 'outline':
-					$variant_class .= 'outline-';
-					break;
-				case 'outline-inverse':
-					$variant_class .= 'outline-i-';
-				case 'solid':
-				default:
-					break;
+			// Use primary button if the user didn't provide any classes
+			if ( !$atts['class'] ) {
+				$classes[] = 'btn-primary';
 			}
-			$variant_class .= $atts['color'];
-			$classes[] = $variant_class;
-
-			// Get the size class, if applicable
-			if ( $atts['size'] ) {
-				$classes[] = 'btn-' . $atts['size'];
+			else {
+				$classes = array_unique( array_merge( $classes, explode( ' ', $atts['class'] ) ) );
 			}
 
-			// Get the block-level btn class, if applicable
-			if ( $atts['block'] && filter_var( $atts['block'], FILTER_VALIDATE_BOOLEAN ) ) {
-				$classes[] = 'btn-block';
+			// Get any state-related attributes, if applicable
+			if ( in_array( 'active', $classes ) ) {
+				$attributes[] = 'aria-pressed="true"';
 			}
-
-			// Get any other additional classes
-			if ( $atts['class'] ) {
-				$classes[] = $atts['class'];
-			}
-
-			// Get any state-related classes and attributes, if applicable
-			switch ( $atts['state'] ) {
-				case 'active':
-					$classes[] = 'active';
-					$attributes[] = 'aria-pressed="true"';
-					break;
-				case 'disabled':
-					$classes[] = 'disabled';
-					$attributes[] = 'aria-disabled="true"';
-					$attributes[] = 'tabindex="-1"';
-					$attributes[] = 'onclick="return false;"';
-					break;
-				case '':
-				default:
-					break;
+			else if ( in_array( 'disabled', $classes ) ) {
+				$attributes[] = 'aria-disabled="true"';
+				$attributes[] = 'tabindex="-1"';
+				$attributes[] = 'onclick="return false;"';
 			}
 
 			// Set the button's "role" attribute if it has no href value (we
@@ -168,9 +97,11 @@ if ( ! class_exists( 'ButtonSC' ) ) {
 			ob_start();
 		?>
 			<a href="<?php echo $href; ?>"
-			class="<?php echo implode( $classes, ' ' ); ?>"
+			class="<?php echo implode( ' ', $classes ); ?>"
+			<?php if ( $id ) { echo 'id="' . $id . '"'; } ?>
+			<?php if ( $new_window ) { echo 'target="_blank"'; } ?>
 			<?php if ( $styles ) { echo 'style="' . $styles . '"'; } ?>
-			<?php if ( $attributes ) { echo implode( $attributes, ' ' ); } ?>
+			<?php if ( $attributes ) { echo implode( ' ', $attributes ); } ?>
 			>
 				<?php echo do_shortcode( $content ); ?>
 			</a>
