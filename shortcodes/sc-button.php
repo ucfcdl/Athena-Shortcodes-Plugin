@@ -96,8 +96,8 @@ if ( ! class_exists( 'ButtonSC' ) ) {
 
 			ob_start();
 		?>
-			<a href="<?php echo $href; ?>"
-			class="<?php echo implode( ' ', $classes ); ?>"
+			<a class="<?php echo implode( ' ', $classes ); ?>"
+			<?php if ( $href ) { echo 'href="' . $href . '"'; } ?>
 			<?php if ( $id ) { echo 'id="' . $id . '"'; } ?>
 			<?php if ( $new_window ) { echo 'target="_blank"'; } ?>
 			<?php if ( $styles ) { echo 'style="' . $styles . '"'; } ?>
