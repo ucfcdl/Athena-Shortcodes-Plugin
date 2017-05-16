@@ -63,7 +63,6 @@ if ( ! class_exists( 'BadgeSC' ) ) {
 			$new_window = filter_var( $atts['new_window'], FILTER_VALIDATE_BOOLEAN );
 			$id         = $atts['id'];
 			$styles     = $atts['style'];
-			$attributes = array();
 			$classes    = array( 'badge' );
 			$elem       = $href ? 'a' : 'span';
 
@@ -82,7 +81,6 @@ if ( ! class_exists( 'BadgeSC' ) ) {
 			<?php if ( $id ) { echo 'id="' . $id . '"'; } ?>
 			<?php if ( $href && $new_window ) { echo 'target="_blank"'; } ?>
 			<?php if ( $styles ) { echo 'style="' . $styles . '"'; } ?>
-			<?php if ( $attributes ) { echo implode( ' ', $attributes ); } ?>
 			>
 				<?php echo do_shortcode( $content ); ?>
 			</<?php echo $elem; ?>>
