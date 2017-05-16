@@ -40,7 +40,8 @@ if ( ! class_exists( 'ATHENA_SC_Config' ) ) {
 				'ContainerSC',
 				'RowSC',
 				'ColSC',
-				'ButtonSC'
+				'ButtonSC',
+				'BadgeSC'
 			);
 		}
 
