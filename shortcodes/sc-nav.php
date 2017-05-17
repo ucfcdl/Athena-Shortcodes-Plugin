@@ -1,0 +1,221 @@
+<?php
+/**
+ * Provides a shortcode for the .nav class
+ **/
+if ( ! class_exists( 'NavSC' ) ) {
+	class NavSC extends ATHENA_SC_Shortcode {
+		public
+			$command = 'nav',
+			$name = 'Nav',
+			$desc = 'Wraps content in an Athena nav.',
+			$content = true;
+
+		/**
+		 * Returns the shortcode's fields.
+		 *
+		 * @author Jim Barnes
+		 * @since 1.0.0
+		 *
+		 * @return Array | The shortcode's fields.
+		 **/
+		public function fields() {
+			return array(
+				array(
+					'param'   => 'element_type',
+					'name'    => 'Element Type',
+					'desc'    => 'Specify the type of element to use for the nav. Unordered lists (ul) are used by default.',
+					'type'    => 'select',
+					'options' => array(
+						'ul'  => 'ul (unordered list)',
+						'nav' => 'nav (semantic navigation element)',
+						'div' => 'div'
+					),
+					'default' => 'ul'
+				),
+				array(
+					'param'   => 'class',
+					'name'    => 'CSS Classes',
+					'type'    => 'text'
+				),
+				array(
+					'param'   => 'style',
+					'name'    => 'Inline Styles',
+					'desc'    => 'Any additional styles for the container.',
+					'type'    => 'text'
+				)
+			);
+		}
+
+		/**
+		 * Wraps content inside of an element with class .nav
+		 **/
+		public function callback( $atts, $content='' ) {
+			$atts = shortcode_atts( $this->defaults(), $atts );
+
+			$styles  = $atts['style'];
+			$classes = array_unique( array_merge( array( 'nav' ), explode( ' ', $atts['class'] ) ) );
+			$elem    = in_array( $atts['element_type'], array( 'ul', 'nav', 'div' ) ) ? $atts['element_type'] : 'ul';
+
+			ob_start();
+		?>
+			<<?php echo $elem; ?> class="<?php echo implode( ' ', $classes ); ?>"
+			<?php if ( $styles ) { echo 'style="' . $styles . '"'; } ?>
+			>
+				<?php echo do_shortcode( $content ); ?>
+			</<?php echo $elem; ?>>
+		<?php
+			return ob_get_clean();
+		}
+	}
+}
+
+
+/**
+ * Provides a shortcode for the .nav-item class
+ **/
+if ( ! class_exists( 'NavItemSC' ) ) {
+	class NavItemSC extends ATHENA_SC_Shortcode {
+		public
+			$command = 'nav-item',
+			$name = 'Nav Item',
+			$desc = 'Wraps content in an Athena nav-item.',
+			$content = true;
+
+		/**
+		 * Returns the shortcode's fields.
+		 *
+		 * @author Jim Barnes
+		 * @since 1.0.0
+		 *
+		 * @return Array | The shortcode's fields.
+		 **/
+		public function fields() {
+			return array(
+				array(
+					'param'   => 'element_type',
+					'name'    => 'Element Type',
+					'desc'    => 'Specify the type of element to use for the nav item. List items (li) are used by default.',
+					'type'    => 'select',
+					'options' => array(
+						'li'  => 'li (list item)',
+						'div' => 'div'
+					),
+					'default' => 'li'
+				),
+				array(
+					'param'   => 'class',
+					'name'    => 'CSS Classes',
+					'type'    => 'text'
+				),
+				array(
+					'param'   => 'style',
+					'name'    => 'Inline Styles',
+					'desc'    => 'Any additional styles for the container.',
+					'type'    => 'text'
+				)
+			);
+		}
+
+		/**
+		 * Wraps content inside of an element with class .nav
+		 **/
+		public function callback( $atts, $content='' ) {
+			$atts = shortcode_atts( $this->defaults(), $atts );
+
+			$styles  = $atts['style'];
+			$classes = array_unique( array_merge( array( 'nav-item' ), explode( ' ', $atts['class'] ) ) );
+			$elem    = in_array( $atts['element_type'], array( 'li', 'div' ) ) ? $atts['element_type'] : 'li';
+
+			ob_start();
+		?>
+			<<?php echo $elem; ?> class="<?php echo implode( ' ', $classes ); ?>"
+			<?php if ( $styles ) { echo 'style="' . $styles . '"'; } ?>
+			>
+				<?php echo do_shortcode( $content ); ?>
+			</<?php echo $elem; ?>>
+		<?php
+			return ob_get_clean();
+		}
+	}
+}
+
+
+/**
+ * Provides a shortcode for the .nav-link class
+ **/
+if ( ! class_exists( 'NavLinkSC' ) ) {
+	class NavLinkSC extends ATHENA_SC_Shortcode {
+		public
+			$command = 'nav-link',
+			$name = 'Nav Link',
+			$desc = 'Wraps content in an Athena nav-link.',
+			$content = true;
+
+		/**
+		 * Returns the shortcode's fields.
+		 *
+		 * @author Jim Barnes
+		 * @since 1.0.0
+		 *
+		 * @return Array | The shortcode's fields.
+		 **/
+		public function fields() {
+			return array(
+				array(
+					'param'   => 'href',
+					'name'    => 'Nav Link URL',
+					'type'    => 'text'
+				),
+				array(
+					'param'   => 'new_window',
+					'name'    => 'If checked, opens link in a new window.',
+					'type'    => 'checkbox',
+					'default' => false
+				),
+				array(
+					'param'   => 'class',
+					'name'    => 'CSS Classes',
+					'type'    => 'text'
+				),
+				array(
+					'param'   => 'id',
+					'name'    => 'ID',
+					'desc'    => 'ID attribute for the link. Must be unique.',
+					'type'    => 'text'
+				),
+				array(
+					'param'   => 'style',
+					'name'    => 'Inline Styles',
+					'desc'    => 'Any additional styles for the container.',
+					'type'    => 'text'
+				)
+			);
+		}
+
+		/**
+		 * Wraps content inside of a link with class .nav-link
+		 **/
+		public function callback( $atts, $content='' ) {
+			$atts = shortcode_atts( $this->defaults(), $atts );
+
+			$href       = $atts['href'];
+			$new_window = filter_var( $atts['new_window'], FILTER_VALIDATE_BOOLEAN );
+			$id         = $atts['id'];
+			$styles     = $atts['style'];
+			$classes    = array_unique( array_merge( array( 'nav-link' ), explode( ' ', $atts['class'] ) ) );
+
+			ob_start();
+		?>
+			<a class="<?php echo implode( ' ', $classes ); ?>"
+			<?php if ( $href ) { echo 'href="' . $href . '"'; } ?>
+			<?php if ( $id ) { echo 'id="' . $id . '"'; } ?>
+			<?php if ( $new_window ) { echo 'target="_blank"'; } ?>
+			<?php if ( $styles ) { echo 'style="' . $styles . '"'; } ?>
+			>
+				<?php echo do_shortcode( $content ); ?>
+			</a>
+		<?php
+			return ob_get_clean();
+		}
+	}
+}
