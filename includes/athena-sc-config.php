@@ -42,7 +42,12 @@ if ( ! class_exists( 'ATHENA_SC_Config' ) ) {
 				'ColSC',
 				'BadgeSC',
 				'ButtonSC',
-				'JumbotronSC'
+				'JumbotronSC',
+				'NavSC',
+				'NavItemSC',
+				'NavLinkSC',
+				'TabContentSC',
+				'TabPaneSC'
 			);
 		}
 

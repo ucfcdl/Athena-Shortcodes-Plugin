@@ -54,7 +54,7 @@ if ( ! class_exists( 'BadgeSC' ) ) {
 		}
 
 		/**
-		 * Wraps content inside of a div with class .container
+		 * Wraps content inside of a span or link with class .badge
 		 **/
 		public function callback( $atts, $content='' ) {
 			$atts = shortcode_atts( $this->defaults(), $atts );

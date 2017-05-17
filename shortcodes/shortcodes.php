@@ -9,3 +9,4 @@ include_once 'sc-col.php';
 include_once 'sc-badge.php';
 include_once 'sc-button.php';
 include_once 'sc-jumbotron.php';
+include_once 'sc-nav.php';
