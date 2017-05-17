@@ -293,7 +293,7 @@ if ( ! class_exists( 'TabContentSC' ) ) {
 	class TabContentSC extends ATHENA_SC_Shortcode {
 		public
 			$command = 'tab-content',
-			$name = 'Tab Content',
+			$name = 'Nav Tab Content',
 			$desc = 'Wraps content in an Athena tab-content wrapper.',
 			$content = true;
 
@@ -351,7 +351,7 @@ if ( ! class_exists( 'TabPaneSC' ) ) {
 	class TabPaneSC extends ATHENA_SC_Shortcode {
 		public
 			$command = 'tab-pane',
-			$name = 'Tab Pane',
+			$name = 'Nav Tab Pane',
 			$desc = 'Wraps content in an Athena tab-pane.',
 			$content = true;
 
