@@ -51,12 +51,42 @@ if ( ! class_exists( 'ButtonSC' ) ) {
 					'name'    => 'Inline Styles',
 					'desc'    => 'Any additional styles for the button.',
 					'type'    => 'text'
+				),
+				array(
+					'param'   => 'data_toggle',
+					'name'    => 'Data-Toggle',
+					'desc'    => 'Type of toggling functionality the button should have. Use the [modal-toggle], [collapse-toggle], [popover] or [tooltip] shortcodes to create toggles for those components instead of the [button] shortcode.',
+					'type'    => 'select',
+					'options' => $this->data_toggle_options()
+				),
+				array(
+					'param'   => 'data_dismiss',
+					'name'    => 'Data-Dismiss',
+					'desc'    => 'Parent element that should be dismissed/closed when the button is clicked.',
+					'type'    => 'select',
+					'options' => $this->data_dismiss_options()
 				)
 			);
 		}
 
+		public function data_toggle_options() {
+			return array(
+				''         => '---',
+				'button'   => 'button',
+				'dropdown' => 'dropdown'
+			);
+		}
+
+		public function data_dismiss_options() {
+			return array(
+				''         => '---',
+				'alert'    => 'alert',
+				'modal'    => 'modal'
+			);
+		}
+
 		/**
-		 * Wraps content inside of a div with class .container
+		 * Wraps content inside of a link with class .btn
 		 **/
 		public function callback( $atts, $content='' ) {
 			$atts = shortcode_atts( $this->defaults(), $atts );
@@ -84,6 +114,14 @@ if ( ! class_exists( 'ButtonSC' ) ) {
 				$attributes[] = 'aria-disabled="true"';
 				$attributes[] = 'tabindex="-1"';
 				$attributes[] = 'onclick="return false;"';
+			}
+
+			// Get any data-attributes, if applicable
+			if ( $atts['data_toggle'] && in_array( $atts['data_toggle'], $this->data_toggle_options() ) ) {
+				$attributes[] = 'data-toggle="' . $atts['data_toggle'] . '"';
+			}
+			if ( $atts['data_dismiss'] && in_array( $atts['data_dismiss'], $this->data_dismiss_options() ) ) {
+				$attributes[] = 'data-dismiss="' . $atts['data_dismiss'] . '"';
 			}
 
 			// Set the button's "role" attribute if it has no href value (we
