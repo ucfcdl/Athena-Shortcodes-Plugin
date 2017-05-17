@@ -47,9 +47,10 @@ if ( ! class_exists( 'ATHENA_SC_Shortcode' ) ) {
 		 * @author Jim Barnes
 		 * @since 1.0.0
 		 *
-		 * @return Array | An array of default values.
+		 * @param $param String | Optional, single shortcode param that a default value should be returned for.
+		 * @return Mixed | An array of default values, or a single param's default value (if $param is set).
 		 **/
-		public function defaults() {
+		public function defaults( $param=null ) {
 			$retval = array();
 			$fields = $this->fields();
 
@@ -60,6 +61,10 @@ if ( ! class_exists( 'ATHENA_SC_Shortcode' ) ) {
 				else {
 					$retval[$field['param']] = '';
 				}
+			}
+
+			if ( $param && isset( $retval[$param] ) ) {
+				$retval = $retval[$param];
 			}
 
 			return $retval;
