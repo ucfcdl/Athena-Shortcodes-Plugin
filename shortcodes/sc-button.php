@@ -1,9 +1,6 @@
 <?php
 /**
  * Provides a shortcode for the .btn class.
- *
- * Note: button plugin features (toggle states, checkbox/radio buttons) are not
- * supported by this shortcode.
  **/
 if ( ! class_exists( 'ButtonSC' ) ) {
 	class ButtonSC extends ATHENA_SC_Shortcode {
