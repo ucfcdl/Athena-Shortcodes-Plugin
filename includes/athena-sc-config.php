@@ -41,6 +41,7 @@ if ( ! class_exists( 'ATHENA_SC_Config' ) ) {
 				'RowSC',
 				'ColSC',
 				'BadgeSC',
+				'ButtonSC',
 				'JumbotronSC',
 				'NavSC',
 				'NavItemSC',
