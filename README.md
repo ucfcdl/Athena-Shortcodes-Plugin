@@ -4,7 +4,7 @@
 
 ## Description ##
 
-Provides shortcodes that support the use of the [Athena Framework](https://github.com/Athena-Framework).
+Provides shortcodes that support the use of the [Athena Framework](https://github.com/UCF/Athena-Framework).
 
 
 ## Installation ##
