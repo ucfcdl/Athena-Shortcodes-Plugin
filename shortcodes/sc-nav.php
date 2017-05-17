@@ -25,11 +25,7 @@ if ( ! class_exists( 'NavSC' ) ) {
 					'name'    => 'Element Type',
 					'desc'    => 'Specify the type of element to use for the nav. Unordered lists (ul) are used by default.',
 					'type'    => 'select',
-					'options' => array(
-						'ul'  => 'ul (unordered list)',
-						'nav' => 'nav (semantic navigation element)',
-						'div' => 'div'
-					),
+					'options' => $this->element_type_options(),
 					'default' => 'ul'
 				),
 				array(
@@ -46,6 +42,14 @@ if ( ! class_exists( 'NavSC' ) ) {
 			);
 		}
 
+		public function element_type_options() {
+			return array(
+				'ul'  => 'ul (unordered list)',
+				'nav' => 'nav (semantic navigation element)',
+				'div' => 'div'
+			);
+		}
+
 		/**
 		 * Wraps content inside of an element with class .nav
 		 **/
@@ -54,7 +58,7 @@ if ( ! class_exists( 'NavSC' ) ) {
 
 			$styles  = $atts['style'];
 			$classes = array_unique( array_merge( array( 'nav' ), explode( ' ', $atts['class'] ) ) );
-			$elem    = in_array( $atts['element_type'], array( 'ul', 'nav', 'div' ) ) ? $atts['element_type'] : 'ul';
+			$elem    = in_array( $atts['element_type'], $this->element_type_options() ) ? $atts['element_type'] : $this->defaults( 'element_type' );
 
 			ob_start();
 		?>
@@ -96,10 +100,7 @@ if ( ! class_exists( 'NavItemSC' ) ) {
 					'name'    => 'Element Type',
 					'desc'    => 'Specify the type of element to use for the nav item. List items (li) are used by default.',
 					'type'    => 'select',
-					'options' => array(
-						'li'  => 'li (list item)',
-						'div' => 'div'
-					),
+					'options' => $this->element_type_options(),
 					'default' => 'li'
 				),
 				array(
@@ -116,15 +117,22 @@ if ( ! class_exists( 'NavItemSC' ) ) {
 			);
 		}
 
+		public function element_type_options() {
+			return array(
+				'li'  => 'li (list item)',
+				'div' => 'div'
+			);
+		}
+
 		/**
-		 * Wraps content inside of an element with class .nav
+		 * Wraps content inside of an element with class .nav-item
 		 **/
 		public function callback( $atts, $content='' ) {
 			$atts = shortcode_atts( $this->defaults(), $atts );
 
 			$styles  = $atts['style'];
 			$classes = array_unique( array_merge( array( 'nav-item' ), explode( ' ', $atts['class'] ) ) );
-			$elem    = in_array( $atts['element_type'], array( 'li', 'div' ) ) ? $atts['element_type'] : 'li';
+			$elem    = in_array( $atts['element_type'], $this->element_type_options() ) ? $atts['element_type'] : $this->defaults( 'element_type' );
 
 			ob_start();
 		?>
