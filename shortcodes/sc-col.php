@@ -71,8 +71,7 @@ if ( ! class_exists( 'ColSC' ) ) {
 					'name'    => 'Default Size',
 					'desc'    => 'The default size of the column (-xs breakpoint and up).',
 					'type'    => 'select',
-					'options' => $col_options,
-					'default' => '12'
+					'options' => $col_options
 				),
 				array(
 					'param'   => 'xl_offset',
@@ -198,7 +197,7 @@ if ( ! class_exists( 'ColSC' ) ) {
 					if ( $field_val && $field_val !== '' ) {
 						$modifier   = str_replace( '_', '', $suffix );
 						$breakpoint = $prefix == 'xs' ? '' : '-' . $prefix;
-						$size       = ( in_array( $field_val, array( '', '12', 'none' ), true ) ) ? '' : '-' . $field_val;
+						$size       = ( in_array( $field_val, array( '', 'none' ), true ) ) ? '' : '-' . $field_val;
 
 						// This is a offset, pull or push class
 						if ( $suffix !== '' ) {
