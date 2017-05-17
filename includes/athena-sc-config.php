@@ -45,7 +45,9 @@ if ( ! class_exists( 'ATHENA_SC_Config' ) ) {
 				'JumbotronSC',
 				'NavSC',
 				'NavItemSC',
-				'NavLinkSC'
+				'NavLinkSC',
+				'TabContentSC',
+				'TabPaneSC'
 			);
 		}
 

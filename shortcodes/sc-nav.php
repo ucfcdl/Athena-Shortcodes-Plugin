@@ -13,7 +13,7 @@ if ( ! class_exists( 'NavSC' ) ) {
 		/**
 		 * Returns the shortcode's fields.
 		 *
-		 * @author Jim Barnes
+		 * @author Jo Dickson
 		 * @since 1.0.0
 		 *
 		 * @return Array | The shortcode's fields.
@@ -36,8 +36,14 @@ if ( ! class_exists( 'NavSC' ) ) {
 				array(
 					'param'   => 'style',
 					'name'    => 'Inline Styles',
-					'desc'    => 'Any additional styles for the container.',
+					'desc'    => 'Any additional styles for the nav.',
 					'type'    => 'text'
+				),
+				array(
+					'param'   => 'tablist',
+					'name'    => 'Controls Tab Panes',
+					'desc'    => 'Check this checkbox if the nav contains links that toggle tab panes when clicked. Applies role="tablist" to the generated nav element.',
+					'type'    => 'checkbox'
 				)
 			);
 		}
@@ -56,14 +62,22 @@ if ( ! class_exists( 'NavSC' ) ) {
 		public function callback( $atts, $content='' ) {
 			$atts = shortcode_atts( $this->defaults(), $atts );
 
-			$styles  = $atts['style'];
-			$classes = array_unique( array_merge( array( 'nav' ), explode( ' ', $atts['class'] ) ) );
-			$elem    = in_array( $atts['element_type'], $this->element_type_options() ) ? $atts['element_type'] : $this->defaults( 'element_type' );
+			$styles     = $atts['style'];
+			$classes    = array_unique( array_merge( array( 'nav' ), explode( ' ', $atts['class'] ) ) );
+			$elem       = in_array( $atts['element_type'], $this->element_type_options() ) ? $atts['element_type'] : $this->defaults( 'element_type' );
+			$tablist    = filter_var( $atts['tablist'], FILTER_VALIDATE_BOOLEAN );
+			$attributes = array();
+
+			// Set the "role" attribute, if applicable
+			if ( $tablist ) {
+				$attributes[] = 'role="tablist"';
+			}
 
 			ob_start();
 		?>
 			<<?php echo $elem; ?> class="<?php echo implode( ' ', $classes ); ?>"
 			<?php if ( $styles ) { echo 'style="' . $styles . '"'; } ?>
+			<?php if ( $attributes ) { echo implode( ' ', $attributes ); } ?>
 			>
 				<?php echo do_shortcode( $content ); ?>
 			</<?php echo $elem; ?>>
@@ -88,7 +102,7 @@ if ( ! class_exists( 'NavItemSC' ) ) {
 		/**
 		 * Returns the shortcode's fields.
 		 *
-		 * @author Jim Barnes
+		 * @author Jo Dickson
 		 * @since 1.0.0
 		 *
 		 * @return Array | The shortcode's fields.
@@ -111,7 +125,7 @@ if ( ! class_exists( 'NavItemSC' ) ) {
 				array(
 					'param'   => 'style',
 					'name'    => 'Inline Styles',
-					'desc'    => 'Any additional styles for the container.',
+					'desc'    => 'Any additional styles for the nav item.',
 					'type'    => 'text'
 				)
 			);
@@ -162,7 +176,7 @@ if ( ! class_exists( 'NavLinkSC' ) ) {
 		/**
 		 * Returns the shortcode's fields.
 		 *
-		 * @author Jim Barnes
+		 * @author Jo Dickson
 		 * @since 1.0.0
 		 *
 		 * @return Array | The shortcode's fields.
@@ -194,9 +208,25 @@ if ( ! class_exists( 'NavLinkSC' ) ) {
 				array(
 					'param'   => 'style',
 					'name'    => 'Inline Styles',
-					'desc'    => 'Any additional styles for the container.',
+					'desc'    => 'Any additional styles for the nav link.',
 					'type'    => 'text'
+				),
+				array(
+					'param'   => 'data_toggle',
+					'name'    => 'Data-Toggle',
+					'desc'    => 'Type of toggling functionality the nav link should have.',
+					'type'    => 'select',
+					'options' => $this->data_toggle_options()
 				)
+			);
+		}
+
+		public function data_toggle_options() {
+			return array(
+				''         => '---',
+				'pill'     => 'pill',
+				'tab'      => 'tab',
+				'dropdown' => 'dropdown'
 			);
 		}
 
@@ -210,7 +240,33 @@ if ( ! class_exists( 'NavLinkSC' ) ) {
 			$new_window = filter_var( $atts['new_window'], FILTER_VALIDATE_BOOLEAN );
 			$id         = $atts['id'];
 			$styles     = $atts['style'];
+			$attributes = array();
 			$classes    = array_unique( array_merge( array( 'nav-link' ), explode( ' ', $atts['class'] ) ) );
+
+			// Get any data-attributes, if applicable
+			if ( $atts['data_toggle'] && in_array( $atts['data_toggle'], $this->data_toggle_options() ) ) {
+				$attributes[] = 'data-toggle="' . $atts['data_toggle'] . '"';
+			}
+
+			// Set the link's "role" attribute
+			if ( $href == '' || $href == '#' || $atts['data_toggle'] == 'dropdown' ) {
+				$attributes[] = 'role="button"';
+			}
+			else if ( $atts['data_toggle'] == 'tab' || $atts['data_toggle'] == 'pill' ) {
+				$attributes[] = 'role="tab"';
+			}
+
+			// Set aria attributes as necessary
+			if ( $atts['data_toggle'] == 'dropdown' ) {
+				$attributes[] = 'aria-haspopup="true"';
+				$attributes[] = 'aria-expanded="false"';
+			}
+			else if (
+				( $atts['data_toggle'] == 'tab' || $atts['data_toggle'] == 'pill' )
+				&& ( strlen( $href ) > 1 && substr( $href, 0, 1 ) == '#' )
+			) {
+				$attributes[] = 'aria-controls="' . substr( $href, 1 ) . '"';
+			}
 
 			ob_start();
 		?>
@@ -219,9 +275,133 @@ if ( ! class_exists( 'NavLinkSC' ) ) {
 			<?php if ( $id ) { echo 'id="' . $id . '"'; } ?>
 			<?php if ( $new_window ) { echo 'target="_blank"'; } ?>
 			<?php if ( $styles ) { echo 'style="' . $styles . '"'; } ?>
+			<?php if ( $attributes ) { echo implode( ' ', $attributes ); } ?>
 			>
 				<?php echo do_shortcode( $content ); ?>
 			</a>
+		<?php
+			return ob_get_clean();
+		}
+	}
+}
+
+
+/**
+ * Provides a shortcode for the .tab-content class
+ **/
+if ( ! class_exists( 'TabContentSC' ) ) {
+	class TabContentSC extends ATHENA_SC_Shortcode {
+		public
+			$command = 'tab-content',
+			$name = 'Tab Content',
+			$desc = 'Wraps content in an Athena tab-content wrapper.',
+			$content = true;
+
+		/**
+		 * Returns the shortcode's fields.
+		 *
+		 * @author Jo Dickson
+		 * @since 1.0.0
+		 *
+		 * @return Array | The shortcode's fields.
+		 **/
+		public function fields() {
+			return array(
+				array(
+					'param'   => 'class',
+					'name'    => 'CSS Classes',
+					'type'    => 'text'
+				),
+				array(
+					'param'   => 'style',
+					'name'    => 'Inline Styles',
+					'desc'    => 'Any additional styles for the tab-content element.',
+					'type'    => 'text'
+				)
+			);
+		}
+
+		/**
+		 * Wraps content inside of a div with class .tab-content
+		 **/
+		public function callback( $atts, $content='' ) {
+			$atts = shortcode_atts( $this->defaults(), $atts );
+
+			$styles  = $atts['style'];
+			$classes = array_unique( array_merge( array( 'tab-content' ), explode( ' ', $atts['class'] ) ) );
+
+			ob_start();
+		?>
+			<div class="<?php echo implode( ' ', $classes ); ?>"
+			<?php if ( $styles ) { echo 'style="' . $styles . '"'; } ?>
+			>
+				<?php echo do_shortcode( $content ); ?>
+			</div>
+		<?php
+			return ob_get_clean();
+		}
+	}
+}
+
+
+/**
+ * Provides a shortcode for the .tab-pane class
+ **/
+if ( ! class_exists( 'TabPaneSC' ) ) {
+	class TabPaneSC extends ATHENA_SC_Shortcode {
+		public
+			$command = 'tab-pane',
+			$name = 'Tab Pane',
+			$desc = 'Wraps content in an Athena tab-pane.',
+			$content = true;
+
+		/**
+		 * Returns the shortcode's fields.
+		 *
+		 * @author Jo Dickson
+		 * @since 1.0.0
+		 *
+		 * @return Array | The shortcode's fields.
+		 **/
+		public function fields() {
+			return array(
+				array(
+					'param'   => 'class',
+					'name'    => 'CSS Classes',
+					'type'    => 'text'
+				),
+				array(
+					'param'   => 'id',
+					'name'    => 'ID',
+					'desc'    => 'A unique ID for the tab pane. Required for the pane to be properly activated when toggled.',
+					'type'    => 'text'
+				),
+				array(
+					'param'   => 'style',
+					'name'    => 'Inline Styles',
+					'desc'    => 'Any additional styles for the tab-pane element.',
+					'type'    => 'text'
+				)
+			);
+		}
+
+		/**
+		 * Wraps content inside of a div with class .tab-pane
+		 **/
+		public function callback( $atts, $content='' ) {
+			$atts = shortcode_atts( $this->defaults(), $atts );
+
+			$id      = $atts['id'];
+			$styles  = $atts['style'];
+			$classes = array_unique( array_merge( array( 'tab-pane' ), explode( ' ', $atts['class'] ) ) );
+
+			ob_start();
+		?>
+			<div class="<?php echo implode( ' ', $classes ); ?>" role="tabpanel" id="<?php echo $id; ?>"
+			<?php if ( $styles ) { echo 'style="' . $styles . '"'; } ?>
+			>
+				<?php echo do_shortcode( $content ); ?>
+			</div>
 		<?php
 			return ob_get_clean();
 		}
