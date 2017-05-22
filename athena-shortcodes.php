@@ -50,12 +50,15 @@ if ( ! function_exists( 'athena_sc_init' ) ) {
 
 		// Enqueue TinyMCE styles.
 		add_editor_style( plugins_url( 'static/athena-framework/css/framework.min.css', ATHENA_SC__PLUGIN_FILE ) );
+		// Enable custom TinyMCE formats.
+		add_filter( 'mce_buttons_2', array( 'ATHENA_SC_TinyMCE_Config', 'enable_formats' ) );
 		// Register custom formatting options with TinyMCE.
-		add_action( 'tiny_mce_before_init', array( 'ATHENA_SC_TinyMCE_Config', 'register_settings' ) );
+		add_action( 'tiny_mce_before_init', array( 'ATHENA_SC_TinyMCE_Config', 'register_formats' ) );
 
-		// If the `WP-Shortcode-Interface` plugin is installed add the definitions.
+		// If the `WP-Shortcode-Interface` plugin is installed, add the definitions.
 		if ( is_plugin_active( 'WP-Shortcode-Interface/wp-shortcode-interface.php' ) ) {
 			add_action( 'wp_scif_add_shortcode', array( 'ATHENA_SC_Config', 'register_shortcodes_interface' ), 10, 1 );
+			add_action( 'wp_scif_get_preview_stylesheets', array( 'ATHENA_SC_Config', 'register_shortcodes_preview_styles' ), 10, 1 );
 		}
 
 		// Allow shortcodes within text widgets.
