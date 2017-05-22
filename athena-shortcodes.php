@@ -19,6 +19,7 @@ include_once 'includes/class-shortcode.php';
 include_once 'shortcodes/shortcodes.php';
 
 include_once 'includes/athena-sc-config.php';
+include_once 'includes/athena-sc-tinymce-config.php';
 
 
 if ( ! function_exists( 'athena_sc_plugin_activated' ) ) {
@@ -46,6 +47,11 @@ if ( ! function_exists( 'athena_sc_init' ) ) {
 		add_filter( 'the_content', array( 'ATHENA_SC_Config', 'format_shortcode_output' ), 10, 1 );
 		// Register our shortcodes.
 		add_action( 'init', array( 'ATHENA_SC_Config', 'register_shortcodes' ) );
+
+		// Enqueue TinyMCE styles.
+		add_editor_style( plugins_url( 'static/athena-framework/css/framework.min.css', ATHENA_SC__PLUGIN_FILE ) );
+		// Register custom formatting options with TinyMCE.
+		add_action( 'tiny_mce_before_init', array( 'ATHENA_SC_TinyMCE_Config', 'register_settings' ) );
 
 		// If the `WP-Shortcode-Interface` plugin is installed add the definitions.
 		if ( is_plugin_active( 'WP-Shortcode-Interface/wp-shortcode-interface.php' ) ) {
