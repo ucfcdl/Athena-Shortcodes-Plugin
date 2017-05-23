@@ -254,5 +254,22 @@ if ( ! class_exists( 'ATHENA_SC_TinyMCE_Config' ) ) {
 
 			return $settings;
 		}
+
+		/**
+		 * Modifies WordPress's default markup for images added to the WYSIWYG
+		 * editor.
+		 *
+		 * Had this as a separate method from ATHENA_SC_Config::format_image_output()
+		 * to split out default markup output changes from editor-specific markup changes.
+		 **/
+		 public static function format_image_output( $html, $id, $caption, $title, $align, $url, $size, $alt ) {
+			// We shouldn't have to do this, but hooking into get_image_tag
+			// eliminates any inserted [caption] shortcodes.
+			// width=1 is overridden via a hook to img_caption_shortcode_width.
+			// if ( $caption ) {
+			// 	$html = '[caption caption="' . $caption . '" width="1"]' . $html . '[/caption]';
+			// }
+			return $html;
+		 }
 	}
 }
