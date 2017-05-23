@@ -10,6 +10,45 @@ if ( ! class_exists( 'ATHENA_SC_TinyMCE_Config' ) ) {
 			return $buttons;
 		}
 
+		public static function tinymce_formats_to_array( $formats ) {
+			$retval = array();
+			$array = array_filter( array_map( 'trim', explode( ';', $formats ) ) );
+			foreach ( $array as $keyval ) {
+				list( $key, $val ) = explode( '=', $keyval );
+				$retval[$key] = $val;
+			}
+			return $retval;
+		}
+
+		public static function array_to_tinymce_formats( $array ) {
+			$retval = '';
+			$keys = array_keys( $array );
+			$last_key = array_pop( $keys );
+			foreach ( $array as $key => $val ) {
+				$retval .= $key . '=' . $val;
+				if ( $key !== $last_key ) {
+					$retval .= ';';
+				}
+			}
+			return $retval;
+		}
+
+		public static function get_block_formats( $block_formats ) {
+			$block_formats = self::tinymce_formats_to_array( $block_formats );
+			$new_block_formats = array_merge( $block_formats, array(
+				'Div' => 'div',
+				'Paragraph' => 'p',
+				'Heading 1' => 'h1',
+				'Heading 2' => 'h2',
+				'Heading 3' => 'h3',
+				'Heading 4' => 'h4',
+				'Heading 5' => 'h5',
+				'Heading 6' => 'h6',
+				'Preformatted' => 'p'
+			) );
+			return self::array_to_tinymce_formats( $new_block_formats );
+		}
+
 		public static function get_format_options( $classes ) {
 			$retval = array();
 			if ( is_array( $classes ) ) {
@@ -51,12 +90,13 @@ if ( ! class_exists( 'ATHENA_SC_TinyMCE_Config' ) ) {
 			);
 		}
 
-		public static function register_formats( $formats ) {
-			// TODO tinymce plugins with separate buttons would be ideal
-			$style_formats = array();
+		public static function get_style_formats( $style_formats ) {
+			$style_formats = $style_formats ? json_decode( $style_formats, true ) : array();
+
+			$new_style_formats = array();
 
 			// Text, list formatting options
-			$style_formats = array(
+			$new_style_formats = array(
 				self::get_format( 'Blockquote Styles', array(
 					array( 'block' => 'blockquote', 'classes' => 'blockquote', 'selector' => 'blockquote' ),
 					array( 'block' => 'blockquote', 'classes' => 'blockquote-reverse', 'selector' => 'blockquote' ),
@@ -205,9 +245,14 @@ if ( ! class_exists( 'ATHENA_SC_TinyMCE_Config' ) ) {
 				) ),
 			);
 
-			$formats['style_formats'] = json_encode( $style_formats );
+			return json_encode( array_merge( $style_formats, $new_style_formats ) );
+		}
 
-			return $formats;
+		public static function register_settings( $settings ) {
+			$settings['block_formats'] = self::get_block_formats( $settings['block_formats'] );
+			$settings['style_formats'] = self::get_style_formats( $settings['style_formats'] );
+
+			return $settings;
 		}
 	}
 }

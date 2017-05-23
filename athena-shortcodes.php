@@ -53,7 +53,7 @@ if ( ! function_exists( 'athena_sc_init' ) ) {
 		// Enable custom TinyMCE formats.
 		add_filter( 'mce_buttons_2', array( 'ATHENA_SC_TinyMCE_Config', 'enable_formats' ) );
 		// Register custom formatting options with TinyMCE.
-		add_action( 'tiny_mce_before_init', array( 'ATHENA_SC_TinyMCE_Config', 'register_formats' ) );
+		add_action( 'tiny_mce_before_init', array( 'ATHENA_SC_TinyMCE_Config', 'register_settings' ) );
 
 		// If the `WP-Shortcode-Interface` plugin is installed, add the definitions.
 		if ( is_plugin_active( 'WP-Shortcode-Interface/wp-shortcode-interface.php' ) ) {
