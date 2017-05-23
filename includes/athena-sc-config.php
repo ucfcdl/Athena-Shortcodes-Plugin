@@ -83,39 +83,5 @@ if ( ! class_exists( 'ATHENA_SC_Config' ) ) {
 			$rep = preg_replace( "/(<p>)?\[\/($block)](<\/p>|<br \/>)?/", "[/$2]", $rep );
 			return $rep;
 		}
-
-		public static function format_image_output_classes( $class, $id, $align, $size ) {
-			return; // TODO
-		}
-
-		/**
-		 * Modifies WordPress's default markup for images.
-		 *
-		 * I'd like to modify image markup at this level if possible, to ensure
-		 * image tags are generated consistently in and outside of the post editor
-		 **/
-		 public static function format_image_output( $html, $id, $alt, $title, $align, $size ) {
-			$athena_align = '';
-			switch ( $align ) {
-				case 'left':
-					$athena_align = 'float-left';
-					break;
-				case 'center':
-					$athena_align = 'mx-auto d-block';
-					break;
-				case 'right':
-					$athena_align = 'float-right';
-					break;
-				case 'none':
-				default:
-					break;
-			}
-
-			list( $img_src, $width, $height ) = image_downsize( $id, $size );
-			$title = $title ? 'title="' . esc_attr( $title ) . '" ' : '';
-			$class = $athena_align . ' img-fluid size-' . esc_attr( $size ) . ' wp-image-' . $id;
-			$html = '<img src="' . esc_attr( $img_src ) . '" alt="' . esc_attr($alt) . '" ' . $title . 'class="' . $class . '">';
-			return $html;
-		 }
 	}
 }
