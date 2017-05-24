@@ -172,6 +172,22 @@ if ( ! class_exists( 'ATHENA_SC_TinyMCE_Config' ) ) {
 					'visible-print-inline-block',
 					'hidden-print'
 				) ),
+				self::get_format( 'Table Styles', array(
+					array( 'classes' => 'table', 'selector' => 'table' ),
+					array( 'classes' => 'table-responsive', 'selector' => 'table' ),
+					array( 'classes' => 'table-striped', 'selector' => 'table' ),
+					array( 'classes' => 'table-bordered', 'selector' => 'table' ),
+					array( 'classes' => 'table-hover', 'selector' => 'table' ),
+					array( 'classes' => 'table-sm', 'selector' => 'table' ),
+					array( 'classes' => 'table-inverse', 'selector' => 'table' ),
+					array( 'classes' => 'thead-inverse', 'selector' => 'thead' ),
+					array( 'classes' => 'thead-default', 'selector' => 'thead' ),
+					array( 'classes' => 'table-active', 'selector' => 'tr,th,td' ),
+					array( 'classes' => 'table-success', 'selector' => 'tr,th,td' ),
+					array( 'classes' => 'table-info', 'selector' => 'tr,th,td' ),
+					array( 'classes' => 'table-warning', 'selector' => 'tr,th,td' ),
+					array( 'classes' => 'table-danger', 'selector' => 'tr,th,td' ),
+				) ),
 				self::get_format( 'Text Alignment', array(
 					'text-left',
 					'text-center',
