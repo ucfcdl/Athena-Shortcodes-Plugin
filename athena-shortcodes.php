@@ -49,7 +49,7 @@ if ( ! function_exists( 'athena_sc_init' ) ) {
 		add_action( 'init', array( 'ATHENA_SC_Config', 'register_shortcodes' ) );
 
 		// Enqueue TinyMCE styles.
-		add_editor_style( plugins_url( 'static/athena-framework/css/framework.min.css', ATHENA_SC__PLUGIN_FILE ) );
+		add_editor_style( plugins_url( 'static/css/athena-editor-styles.min.css', ATHENA_SC__PLUGIN_FILE ) );
 		// Enable custom TinyMCE formats.
 		add_filter( 'mce_buttons_2', array( 'ATHENA_SC_TinyMCE_Config', 'enable_formats' ) );
 		// Register custom formatting options with TinyMCE.
