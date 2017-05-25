@@ -8,7 +8,8 @@ if ( ! class_exists( 'ATHENA_SC_Shortcode' ) ) {
 			$command = 'Shortcode',
 			$name = 'shortcode',
 			$desc = '',
-			$content = false;
+			$content = false,
+			$preview = false;
 
 		/**
 		 * Returns an array of fields
@@ -37,7 +38,8 @@ if ( ! class_exists( 'ATHENA_SC_Shortcode' ) ) {
 				'name'    => $this->name,
 				'desc'    => $this->desc,
 				'content' => $this->content,
-				'fields'  => $this->fields()
+				'fields'  => $this->fields(),
+				'preview' => $this->preview
 			);
 		}
 

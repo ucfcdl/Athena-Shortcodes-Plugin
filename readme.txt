@@ -7,12 +7,12 @@ Stable tag: 1.0.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/copyleft/gpl-3.0.html
 
-Provides shortcodes that support the use of the [Athena Framework](https://github.com/Athena-Framework).
+Provides shortcodes that support the use of the [Athena Framework](https://github.com/UCF/Athena-Framework).
 
 
 == Description ==
 
-Provides shortcodes that support the use of the [Athena Framework](https://github.com/Athena-Framework).
+Provides shortcodes that support the use of the [Athena Framework](https://github.com/UCF/Athena-Framework).
 
 
 == Installation ==
