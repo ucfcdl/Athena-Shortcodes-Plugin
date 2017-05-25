@@ -8,7 +8,8 @@ if ( ! class_exists( 'BadgeSC' ) ) {
 			$command = 'badge',
 			$name = 'Badge',
 			$desc = 'Wraps content in an Athena badge.',
-			$content = true;
+			$content = true,
+			$preview = true;
 
 		/**
 		 * Returns the shortcode's fields.
