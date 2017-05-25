@@ -3,3 +3,9 @@
 [contenteditable]:focus {
   outline: none;
 }
+
+// scss-lint:disable IdSelector
+#tinymce {
+  padding: $grid-gutter-width-base / 2;
+}
+// scss-lint:enable IdSelector
