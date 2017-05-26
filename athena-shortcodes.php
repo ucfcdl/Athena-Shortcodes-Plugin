@@ -49,7 +49,7 @@ if ( ! function_exists( 'athena_sc_init' ) ) {
 		add_action( 'init', array( 'ATHENA_SC_Config', 'register_shortcodes' ) );
 
 		// If the `WP-Shortcode-Interface` plugin is installed, add the definitions.
-		if ( is_plugin_active( 'WP-Shortcode-Interface/wp-shortcode-interface.php' ) ) {
+		if ( class_exists( 'WP_SCIF_Config' ) ) {
 			add_action( 'wp_scif_add_shortcode', array( 'ATHENA_SC_Config', 'register_shortcodes_interface' ), 10, 1 );
 			add_action( 'wp_scif_get_preview_stylesheets', array( 'ATHENA_SC_Config', 'register_shortcodes_preview_styles' ), 10, 1 );
 		}
