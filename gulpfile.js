@@ -24,7 +24,7 @@ var config = {
 
 // Copy Athena fonts
 gulp.task('move-components-athena-fonts', function() {
-  gulp.src(config.packagesPath + '/athena-framework/dist/fonts/**/*')
+  gulp.src(config.packagesPath + '/ucf-athena-framework/dist/fonts/**/*')
    .pipe(gulp.dest(config.dist.fontPath));
 });
 
