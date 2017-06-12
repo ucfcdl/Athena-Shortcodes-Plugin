@@ -25,6 +25,11 @@ if ( ! class_exists( 'ATHENA_SC_Config' ) ) {
 			return $shortcodes;
 		}
 
+		public static function register_shortcodes_preview_styles( $stylesheets ) {
+			$stylesheets[] = plugins_url( 'static/css/athena-editor-styles.min.css', ATHENA_SC__PLUGIN_FILE );
+			return $stylesheets;
+		}
+
 		public static function installed_shortcodes() {
 			// Get shortcodes via the `athena_sc_add_shortcode` hook.
 			$installed = self::athena_sc_add_shortcode();
