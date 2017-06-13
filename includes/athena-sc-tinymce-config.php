@@ -102,6 +102,7 @@ if ( ! class_exists( 'ATHENA_SC_TinyMCE_Config' ) ) {
 					array( 'block' => 'blockquote', 'classes' => 'blockquote-reverse', 'selector' => 'blockquote' ),
 					array( 'block' => 'blockquote', 'classes' => 'blockquote-quotation', 'selector' => 'blockquote' ),
 					array( 'block' => 'blockquote', 'classes' => 'blockquote-quotation-inverse', 'selector' => 'blockquote' ),
+					array( 'block' => 'blockquote', 'classes' => 'card-blockquote', 'selector' => 'blockquote' ),
 					array( 'block' => 'footer', 'classes' => 'blockquote-footer' )
 				) ),
 				self::get_format( 'Font Family', array(
