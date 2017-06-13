@@ -74,7 +74,7 @@ if ( ! class_exists( 'CardSC' ) ) {
 			$content_formatted = do_shortcode( $content );
 
 			// Fix formatting issues with inner card img's
-			if ( preg_match_all( '/(<p>)?<img [^>]+>(<\/p>)?/', $content_formatted, $matches ) !== false ) {
+			if ( preg_match_all( '/(<p>)?(<a [^>]+>)?<img [^>]+>(<\/a>)?(<\/p>)?/', $content_formatted, $matches ) !== false ) {
 				foreach ( $matches[0] as $image ) {
 					if (
 						strpos( $image, 'card-img' ) !== false
