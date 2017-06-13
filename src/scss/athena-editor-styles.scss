@@ -7,5 +7,9 @@
 // scss-lint:disable IdSelector
 #tinymce {
   padding: $grid-gutter-width-base / 2;
+
+  .media-background {
+    position: static;
+  }
 }
 // scss-lint:enable IdSelector
