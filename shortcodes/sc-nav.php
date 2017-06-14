@@ -64,7 +64,7 @@ if ( ! class_exists( 'NavSC' ) ) {
 
 			$styles     = $atts['style'];
 			$classes    = array_unique( array_merge( array( 'nav' ), explode( ' ', $atts['class'] ) ) );
-			$elem       = in_array( $atts['element_type'], $this->element_type_options() ) ? $atts['element_type'] : $this->defaults( 'element_type' );
+			$elem       = array_key_exists( $atts['element_type'], $this->element_type_options() ) ? $atts['element_type'] : $this->defaults( 'element_type' );
 			$tablist    = filter_var( $atts['tablist'], FILTER_VALIDATE_BOOLEAN );
 			$attributes = array();
 
@@ -146,7 +146,7 @@ if ( ! class_exists( 'NavItemSC' ) ) {
 
 			$styles  = $atts['style'];
 			$classes = array_unique( array_merge( array( 'nav-item' ), explode( ' ', $atts['class'] ) ) );
-			$elem    = in_array( $atts['element_type'], $this->element_type_options() ) ? $atts['element_type'] : $this->defaults( 'element_type' );
+			$elem    = array_key_exists( $atts['element_type'], $this->element_type_options() ) ? $atts['element_type'] : $this->defaults( 'element_type' );
 
 			ob_start();
 		?>
@@ -244,7 +244,7 @@ if ( ! class_exists( 'NavLinkSC' ) ) {
 			$classes    = array_unique( array_merge( array( 'nav-link' ), explode( ' ', $atts['class'] ) ) );
 
 			// Get any data-attributes, if applicable
-			if ( $atts['data_toggle'] && in_array( $atts['data_toggle'], $this->data_toggle_options() ) ) {
+			if ( $atts['data_toggle'] && array_key_exists( $atts['data_toggle'], $this->data_toggle_options() ) ) {
 				$attributes[] = 'data-toggle="' . $atts['data_toggle'] . '"';
 			}
 
