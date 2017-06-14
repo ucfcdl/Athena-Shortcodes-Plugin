@@ -70,7 +70,7 @@ if ( ! class_exists( 'CardSC' ) ) {
 			}
 			$styles  = $atts['style'] ?: false;
 			$id      = $atts['id'];
-			$elem    = in_array( $atts['element_type'], $this->element_type_options() ) ? $atts['element_type'] : $this->defaults( 'element_type' );
+			$elem    = array_key_exists( $atts['element_type'], $this->element_type_options() ) ? $atts['element_type'] : $this->defaults( 'element_type' );
 			$content_formatted = do_shortcode( $content );
 
 			// Fix formatting issues with inner card img's
@@ -159,14 +159,14 @@ if ( ! class_exists( 'CardHeaderSC' ) ) {
 
 		public function element_type_options() {
 			return array(
-				'div' => 'div',
+				'div'    => 'div',
 				'header' => 'header (semantic header element)',
-				'h1' => 'h1',
-				'h2' => 'h2',
-				'h3' => 'h3',
-				'h4' => 'h4',
-				'h5' => 'h5',
-				'h6' => 'h6'
+				'h1'     => 'h1',
+				'h2'     => 'h2',
+				'h3'     => 'h3',
+				'h4'     => 'h4',
+				'h5'     => 'h5',
+				'h6'     => 'h6'
 			);
 		}
 
@@ -182,7 +182,7 @@ if ( ! class_exists( 'CardHeaderSC' ) ) {
 			}
 			$styles  = $atts['style'] ?: false;
 			$id      = $atts['id'];
-			$elem    = in_array( $atts['element_type'], $this->element_type_options() ) ? $atts['element_type'] : $this->defaults( 'element_type' );
+			$elem    = array_key_exists( $atts['element_type'], $this->element_type_options() ) ? $atts['element_type'] : $this->defaults( 'element_type' );
 
 			ob_start();
 		?>
@@ -265,7 +265,7 @@ if ( ! class_exists( 'CardFooterSC' ) ) {
 			}
 			$styles  = $atts['style'] ?: false;
 			$id      = $atts['id'];
-			$elem    = in_array( $atts['element_type'], $this->element_type_options() ) ? $atts['element_type'] : $this->defaults( 'element_type' );
+			$elem    = array_key_exists( $atts['element_type'], $this->element_type_options() ) ? $atts['element_type'] : $this->defaults( 'element_type' );
 
 			ob_start();
 		?>
@@ -421,7 +421,7 @@ if ( ! class_exists( 'CardTitleSC' ) ) {
 			}
 			$styles  = $atts['style'] ?: false;
 			$id      = $atts['id'];
-			$elem    = in_array( $atts['element_type'], $this->element_type_options() ) ? $atts['element_type'] : $this->defaults( 'element_type' );
+			$elem    = array_key_exists( $atts['element_type'], $this->element_type_options() ) ? $atts['element_type'] : $this->defaults( 'element_type' );
 
 			ob_start();
 		?>
@@ -498,7 +498,7 @@ if ( ! class_exists( 'CardSubtitleSC' ) ) {
 				$classes = array_unique( array_merge( $classes, explode( ' ', $atts['class'] ) ) );
 			}
 			$styles  = $atts['style'] ?: false;
-			$elem    = in_array( $atts['element_type'], $this->element_type_options() ) ? $atts['element_type'] : $this->defaults( 'element_type' );
+			$elem    = array_key_exists( $atts['element_type'], $this->element_type_options() ) ? $atts['element_type'] : $this->defaults( 'element_type' );
 
 			ob_start();
 		?>
@@ -574,7 +574,7 @@ if ( ! class_exists( 'CardTextSC' ) ) {
 				$classes = array_unique( array_merge( $classes, explode( ' ', $atts['class'] ) ) );
 			}
 			$styles  = $atts['style'] ?: false;
-			$elem    = in_array( $atts['element_type'], $this->element_type_options() ) ? $atts['element_type'] : $this->defaults( 'element_type' );
+			$elem    = array_key_exists( $atts['element_type'], $this->element_type_options() ) ? $atts['element_type'] : $this->defaults( 'element_type' );
 
 			ob_start();
 		?>
@@ -684,7 +684,7 @@ if ( ! class_exists( 'CardLinkSC' ) ) {
 			}
 
 			// Get any data-attributes, if applicable
-			if ( $atts['data_toggle'] && in_array( $atts['data_toggle'], $this->data_toggle_options() ) ) {
+			if ( $atts['data_toggle'] && array_key_exists( $atts['data_toggle'], $this->data_toggle_options() ) ) {
 				$attributes[] = 'data-toggle="' . $atts['data_toggle'] . '"';
 			}
 

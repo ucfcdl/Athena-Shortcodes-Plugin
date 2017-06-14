@@ -60,7 +60,7 @@ if ( ! class_exists( 'ButtonSC' ) ) {
 				array(
 					'param'   => 'data_dismiss',
 					'name'    => 'Data-Dismiss',
-					'desc'    => 'Parent element that should be dismissed/closed when the button is clicked.',
+					'desc'    => 'Parent component that should be dismissed/closed when the button is clicked.',
 					'type'    => 'select',
 					'options' => $this->data_dismiss_options()
 				)
@@ -115,10 +115,10 @@ if ( ! class_exists( 'ButtonSC' ) ) {
 			}
 
 			// Get any data-attributes, if applicable
-			if ( $atts['data_toggle'] && in_array( $atts['data_toggle'], $this->data_toggle_options() ) ) {
+			if ( $atts['data_toggle'] && array_key_exists( $atts['data_toggle'], $this->data_toggle_options() ) ) {
 				$attributes[] = 'data-toggle="' . $atts['data_toggle'] . '"';
 			}
-			if ( $atts['data_dismiss'] && in_array( $atts['data_dismiss'], $this->data_dismiss_options() ) ) {
+			if ( $atts['data_dismiss'] && array_key_exists( $atts['data_dismiss'], $this->data_dismiss_options() ) ) {
 				$attributes[] = 'data-dismiss="' . $atts['data_dismiss'] . '"';
 			}
 
@@ -128,6 +128,14 @@ if ( ! class_exists( 'ButtonSC' ) ) {
 			// of being a basic link.
 			if ( $href == '' || $href == '#' ) {
 				$attributes[] = 'role="button"';
+			}
+
+			// If the href isn't set at all, force a tabindex value to allow
+			// the link to still be tabbable. Also works around styling in
+			// Athena that resets .btn text colors when no tabindex and href
+			// are present.
+			if ( !$href ) {
+				$attributes[] = 'tabindex="0"';
 			}
 
 			ob_start();
