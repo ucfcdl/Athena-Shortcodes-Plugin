@@ -138,6 +138,13 @@ if ( ! class_exists( 'CardHeaderSC' ) ) {
 					'default' => 'div'
 				),
 				array(
+					'param'   => 'accordion_toggle',
+					'name'    => 'Is an Accordion Toggle',
+					'desc'    => 'If checked, the card header will have role="tab" applied to it for accessibility purposes. Should only be checked when the card header serves as a panel tab within an accordion.',
+					'type'    => 'checkbox',
+					'default' => false
+				),
+				array(
 					'param'   => 'class',
 					'name'    => 'CSS Classes',
 					'type'    => 'text'
@@ -183,12 +190,17 @@ if ( ! class_exists( 'CardHeaderSC' ) ) {
 			$styles  = $atts['style'] ?: false;
 			$id      = $atts['id'];
 			$elem    = array_key_exists( $atts['element_type'], $this->element_type_options() ) ? $atts['element_type'] : $this->defaults( 'element_type' );
+			$attributes = array();
+			if ( $atts['accordion_toggle'] ) {
+				$attributes[] = 'role="tab"';
+			}
 
 			ob_start();
 		?>
 			<<?php echo $elem; ?> class="<?php echo implode( $classes, ' ' ); ?>"
 			<?php if ( $id ) { echo 'id="' . $id . '"'; } ?>
-			<?php if ( $styles ) { echo 'style="' . $styles . '"'; } ?>>
+			<?php if ( $styles ) { echo 'style="' . $styles . '"'; } ?>
+			<?php if ( $attributes ) { echo implode( ' ', $attributes ); } ?>>
 				<?php echo do_shortcode( $content ); ?>
 			</<?php echo $elem; ?>>
 		<?php
