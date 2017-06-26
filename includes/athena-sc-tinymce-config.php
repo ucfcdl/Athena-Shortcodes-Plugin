@@ -266,8 +266,8 @@ if ( ! class_exists( 'ATHENA_SC_TinyMCE_Config' ) ) {
 		}
 
 		public static function register_settings( $settings ) {
-			$settings['block_formats'] = self::get_block_formats( $settings['block_formats'] );
-			$settings['style_formats'] = self::get_style_formats( $settings['style_formats'] );
+			$settings['block_formats'] = self::get_block_formats( isset( $settings['block_formats'] ) ? $settings['block_formats'] : false );
+			$settings['style_formats'] = self::get_style_formats( isset( $settings['style_formats'] ) ? $settings['style_formats'] : false );
 
 			return $settings;
 		}
