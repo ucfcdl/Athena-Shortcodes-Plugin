@@ -45,10 +45,10 @@ if ( ! function_exists( 'athena_sc_init' ) ) {
 		// Update the_content to strip excess <p></p> and <br> insertion around
 		// Athena shortcodes.
 		add_filter( 'the_content', array( 'ATHENA_SC_Config', 'format_shortcode_output' ), 10, 1 );
-		// Hook into ACF's custom acf_the_content hook to strip excess
+		// Hook into ACF's custom field filtering hooks to strip excess
 		// <p></p> and <br> insertion around shortcodes in WYSIWYG fields.
 		if ( class_exists( 'acf' ) ) {
-			add_filter( 'acf_the_content', array( 'ATHENA_SC_Config', 'format_shortcode_output' ), 10, 1 );
+			add_filter( 'acf/format_value/type=wysiwyg', array( 'ATHENA_SC_Config', 'format_acf_wysiwyg_output' ), 99, 3 );
 		}
 		// Register our shortcodes.
 		add_action( 'init', array( 'ATHENA_SC_Config', 'register_shortcodes' ) );
