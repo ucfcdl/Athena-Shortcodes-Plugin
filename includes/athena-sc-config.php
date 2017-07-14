@@ -104,5 +104,17 @@ if ( ! class_exists( 'ATHENA_SC_Config' ) ) {
 			$rep = preg_replace( "/(<p>)?\[\/($block)](<\/p>|<br \/>)?/", "[/$2]", $rep );
 			return $rep;
 		}
+
+		/**
+		 * Strip out <p></p> and <br> from inner shortcode contents within ACF
+		 * WYSIWYG field contents.
+		 *
+		 * There is probably a less janky way of doing this that doesn't
+		 * involve re-fetching the field value, but this works at least
+		 **/
+		public static function format_acf_wysiwyg_output( $content, $post_id, $field ) {
+			$value_raw = acf_get_value( $post_id, $field );
+			return apply_filters( 'the_content', $value_raw );
+		}
 	}
 }
