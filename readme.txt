@@ -27,7 +27,7 @@ Provides shortcodes that support the use of the [Athena Framework](https://githu
 
 == Changelog ==
 
-= 1.0.0 =
+= 0.1.0 =
 * Initial release
 
 
@@ -44,5 +44,3 @@ None
 == Development & Contributing ==
 
 NOTE: this plugin's readme.md file is automatically generated.  Please only make modifications to the readme.txt file, and make sure the `gulp readme` command has been run before committing readme changes.
-
-= Wishlist/TODOs =

@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Athena Shortcodes
-Version: 1.0.0
+Version: 0.1.0
 Author: UCF Web Communications
 Description: Provides shortcodes for use with the Athena-Framework.
 Plugin URL: https://github.com/UCF/Athena-Shortcodes-Plugin/

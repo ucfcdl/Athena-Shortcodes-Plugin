@@ -9,7 +9,8 @@ if ( ! class_exists( 'BadgeSC' ) ) {
 			$name = 'Badge',
 			$desc = 'Wraps content in an Athena badge.',
 			$content = true,
-			$preview = true;
+			$preview = true,
+			$group = 'Athena Framework - Badges';
 
 		/**
 		 * Returns the shortcode's fields.
