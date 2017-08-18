@@ -8,7 +8,8 @@ if ( ! class_exists( 'NavSC' ) ) {
 			$command = 'nav',
 			$name = 'Nav',
 			$desc = 'Wraps content in an Athena nav.',
-			$content = true;
+			$content = true,
+			$group = 'Athena Framework - Navs';
 
 		/**
 		 * Returns the shortcode's fields.
@@ -97,7 +98,8 @@ if ( ! class_exists( 'NavItemSC' ) ) {
 			$command = 'nav-item',
 			$name = 'Nav Item',
 			$desc = 'Wraps content in an Athena nav-item.',
-			$content = true;
+			$content = true,
+			$group = 'Athena Framework - Navs';
 
 		/**
 		 * Returns the shortcode's fields.
@@ -171,7 +173,8 @@ if ( ! class_exists( 'NavLinkSC' ) ) {
 			$command = 'nav-link',
 			$name = 'Nav Link',
 			$desc = 'Wraps content in an Athena nav-link.',
-			$content = true;
+			$content = true,
+			$group = 'Athena Framework - Navs';
 
 		/**
 		 * Returns the shortcode's fields.
@@ -295,7 +298,8 @@ if ( ! class_exists( 'TabContentSC' ) ) {
 			$command = 'tab-content',
 			$name = 'Nav Tab Content',
 			$desc = 'Wraps content in an Athena tab-content wrapper.',
-			$content = true;
+			$content = true,
+			$group = 'Athena Framework - Navs';
 
 		/**
 		 * Returns the shortcode's fields.
@@ -353,7 +357,8 @@ if ( ! class_exists( 'TabPaneSC' ) ) {
 			$command = 'tab-pane',
 			$name = 'Nav Tab Pane',
 			$desc = 'Wraps content in an Athena tab-pane.',
-			$content = true;
+			$content = true,
+			$group = 'Athena Framework - Navs';
 
 		/**
 		 * Returns the shortcode's fields.

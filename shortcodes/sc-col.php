@@ -8,7 +8,8 @@ if ( ! class_exists( 'ColSC' ) ) {
 			$command = 'col',
 			$name = 'Column',
 			$desc = 'Adds an Athena column.',
-			$content = true;
+			$content = true,
+			$group = 'Athena Framework - Grid System';
 
 		/**
 		 * Returns the shortcode's fields.

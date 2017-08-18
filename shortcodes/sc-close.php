@@ -8,7 +8,8 @@ if ( ! class_exists( 'CloseSC' ) ) {
 			$command = 'close',
 			$name = 'Close Button',
 			$desc = 'Creates a new button that closes a parent component.',
-			$content = false;
+			$content = false,
+			$group = 'Athena Framework - Utilities';
 
 		/**
 		 * Returns the shortcode's fields.
