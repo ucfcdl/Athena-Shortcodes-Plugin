@@ -244,15 +244,64 @@ if ( ! class_exists( 'MediaBackgroundContainerSC' ) ) {
 				$has_valid_media_bg = true;
 			}
 
-			if ( preg_match( '/<video [^>]+>.*<\/video>/', $content_formatted, $match ) ) {
-				// TODO
-				// var_dump( $match );
+			if ( preg_match( '/(<video [^>]+>)(.*)<\/video>/', $content_formatted, $match ) ) {
+				$match_full       = $match[0];
+				$match_video_open = $match[1]; // the opening <video> tag, with attributes
+				$match_video_open_filtered = $match_video_open;
+				$match_filtered   = $match_full;
+
+				// Remove fixed width/height attributes from video tag
+				if ( strpos( $match_video_open, 'width=' ) !== false || strpos( $match_video_open, 'height=' ) !== false ) {
+					$match_video_open_filtered = preg_replace( '/(width|height)="\d*"\s/', '', $match_video_open_filtered );
+				}
+
+				// Remove controls attribute from video tag
+				if ( strpos( $match_video_open, ' controls' ) !== false ) {
+					$match_video_open_filtered = preg_replace( '/ controls(\=[\"|\']controls[\"|\'])?/', '', $match_video_open_filtered );
+				}
+
+				// Apply extra classes.  Strip 'wp-video-shortcode' class
+				if ( preg_match( '/class\=[\"|\']([^\"|\']+)[\"|\']/', $match_video_open, $class_matches ) ) {
+					$elem_classes = array_merge( explode( ' ', $class_matches[1] ), $classes );
+
+					if ( ( $key = array_search( 'wp-video-shortcode', $elem_classes ) ) !== false ) {
+						unset( $elem_classes[$key] );
+					}
+
+					$match_video_open_filtered = str_replace( $class_matches[0], 'class="' . implode( ' ', $elem_classes ) . '"', $match_video_open_filtered );
+				}
+				else {
+					$match_video_open_filtered = str_replace( '<video ', '<video class="' . implode( ' ', $classes ) . '" ', $match_video_open_filtered );
+				}
+
+				// Apply extra styles
+				if ( $styles ) {
+					if ( preg_match( '/style\=[\"|\']([^\"|\']+)[\"|\']/', $match_video_open, $style_matches ) ) {
+						$match_video_open_filtered = str_replace( $style_matches[0], 'style="' . $styles . '"', $match_video_open_filtered );
+					}
+					else {
+						$match_video_open_filtered = str_replace( '<video ', '<video style="' . $styles . '" ', $match_video_open_filtered );
+					}
+				}
+
+				// Apply ID
+				if ( $id ) {
+					if ( preg_match( '/id\=[\"|\']([^\"|\']+)[\"|\']/', $match_video_open, $id_match ) ) {
+						$match_video_open_filtered = str_replace( $id_match[0], 'id="' . $id . '"', $match_video_open_filtered );
+					}
+					else {
+						$match_video_open_filtered = str_replace( '<video ', '<video id="' . $id . '" ', $match_video_open_filtered );
+					}
+				}
+
+				$match_filtered = str_replace( $match_video_open, $match_video_open_filtered, $match_filtered );
+				$content_formatted = $match_filtered;
 				$has_valid_media_bg = true;
 			}
 
-			// Return the media background, or an empty string if no inner
-			// contents are valid media backgrounds
-			return $has_valid_media_bg ? $content_formatted : '';
+			// Return the media background.  If no valid inner contents are
+			// detected, an empty div will be returned.
+			return $has_valid_media_bg ? $content_formatted : '<div class="' . implode( $classes, ' ' ) . '" id="' . $id . '" style="' . $styles . '"></div>';
 		}
 	}
 }
