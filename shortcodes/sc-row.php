@@ -8,7 +8,8 @@ if ( ! class_exists( 'RowSC' ) ) {
 			$command = 'row',
 			$name = 'Row',
 			$desc = 'Wraps content in a wrapper div with class .row.',
-			$content = true;
+			$content = true,
+			$group = 'Athena Framework - Grid System';
 
 		/**
 		 * Returns the shortcode's fields.

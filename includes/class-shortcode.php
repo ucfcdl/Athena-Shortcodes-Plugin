@@ -39,7 +39,8 @@ if ( ! class_exists( 'ATHENA_SC_Shortcode' ) ) {
 				'desc'    => $this->desc,
 				'content' => $this->content,
 				'fields'  => $this->fields(),
-				'preview' => $this->preview
+				'preview' => $this->preview,
+				'group'   => $this->group ?: 'Athena Framework - Uncategorized'
 			);
 		}
 
