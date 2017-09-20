@@ -143,6 +143,12 @@ if ( ! class_exists( 'MediaBackgroundContainerSC' ) ) {
 					'default' => 'object-fit-cover'
 				),
 				array(
+					'param'   => 'object_position',
+					'name'    => 'Object Position',
+					'desc'    => 'How the inner media background should be positioned within the media background container. See <a href="https://css-tricks.com/almanac/properties/o/object-position/">object-position documentation</a> for usage/more information. Note that setting this value is not necessary when using an object-fit of "cover".',
+					'type'    => 'text'
+				),
+				array(
 					'param'   => 'class',
 					'name'    => 'CSS Classes',
 					'desc'    => 'Separate each class with a single space. Refer to the Athena Framework documentation for available classes.',
@@ -182,11 +188,18 @@ if ( ! class_exists( 'MediaBackgroundContainerSC' ) ) {
 
 			$id         = $atts['id'];
 			$object_fit = array_key_exists( $atts['object_fit'], $this->object_fit_options() ) ? $atts['object_fit'] : $this->defaults( 'object_fit' );
-			$styles     = $atts['style'];
+			$styles     = trim( $atts['style'] );
 			$classes    = array( 'media-background', $object_fit );
+			$object_pos = $atts['object_position'];
 
 			if ( $atts['class'] ) {
 				$classes = array_unique( array_merge( $classes, explode( ' ', $atts['class'] ) ) );
+			}
+			if ( $styles && substr( $styles, -1 ) !== ';' ) {
+				$styles .= ';';
+			}
+			if ( $object_pos ) {
+				$styles .= ' object-position: ' . $object_pos . ';';
 			}
 
 			$content_formatted = do_shortcode( $content );
@@ -194,6 +207,7 @@ if ( ! class_exists( 'MediaBackgroundContainerSC' ) ) {
 
 			// Match any one inner <img> (either on its own, or as a <picture>
 			// fallback)
+			// TODO simplify match regex--no need to capture p/a elems here
 			if ( preg_match( '/(<p>)?(<a [^>]+>)?<img [^>]+>(<\/a>)?(<\/p>)?/', $content_formatted, $match ) ) {
 				$match_full = $match[0];
 				$p_start    = $match[1];
@@ -234,13 +248,22 @@ if ( ! class_exists( 'MediaBackgroundContainerSC' ) ) {
 					}
 				}
 
+				// Apply object-position data attribute if necessary
+				if ( $object_pos ) {
+					if ( preg_match( '/data-object-position\=[\"|\']([^\"|\']+)[\"|\']/', $match_filtered, $object_pos_matches ) ) {
+						$match_filtered = str_replace( $object_pos_matches[0], 'data-object-position="' . $object_pos . '"', $match_filtered );
+					}
+					else {
+						$match_filtered = str_replace( '<img ', '<img data-object-position="' . $object_pos . '" ', $match_filtered );
+					}
+				}
+
 				$content_formatted = str_replace( $match_full, $match_filtered, $content_formatted );
 				$has_valid_media_bg = true;
 			}
 
 			if ( preg_match( '/<picture [^>]+>.*<\/picture>/', $content_formatted, $match ) ) {
-				// TODO
-				// var_dump( $match );
+				// TODO picture elem support
 				$has_valid_media_bg = true;
 			}
 
@@ -294,6 +317,16 @@ if ( ! class_exists( 'MediaBackgroundContainerSC' ) ) {
 					}
 				}
 
+				// Apply object-position data attribute if necessary
+				if ( $object_pos ) {
+					if ( preg_match( '/data-object-position\=[\"|\']([^\"|\']+)[\"|\']/', $match_video_open, $object_pos_matches ) ) {
+						$match_video_open_filtered = str_replace( $object_pos_matches[0], 'data-object-position="' . $object_pos . '"', $match_video_open_filtered );
+					}
+					else {
+						$match_video_open_filtered = str_replace( '<video ', '<video data-object-position="' . $object_pos . '" ', $match_video_open_filtered );
+					}
+				}
+
 				$match_filtered = str_replace( $match_video_open, $match_video_open_filtered, $match_filtered );
 				$content_formatted = $match_filtered;
 				$has_valid_media_bg = true;
@@ -301,7 +334,18 @@ if ( ! class_exists( 'MediaBackgroundContainerSC' ) ) {
 
 			// Return the media background.  If no valid inner contents are
 			// detected, an empty div will be returned.
-			return $has_valid_media_bg ? $content_formatted : '<div class="' . implode( $classes, ' ' ) . '" id="' . $id . '" style="' . $styles . '"></div>';
+			if ( !$has_valid_media_bg ) {
+				ob_start();
+			?>
+				<div class="<?php echo implode( $classes, ' ' ); ?>"
+				<?php if ( $id ) { echo 'id="' . $id . '"'; } ?>
+				<?php if ( $styles ) { echo 'style="' . $styles . '"'; } ?>
+				<?php if ( $object_pos ) { echo 'data-object-position="' . $object_pos . '"'; } ?>
+				></div>
+			<?php
+				$content_formatted = ob_get_clean();
+			}
+			return $content_formatted;
 		}
 	}
 }
