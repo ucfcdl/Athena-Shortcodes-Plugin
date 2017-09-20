@@ -181,7 +181,8 @@ if ( ! class_exists( 'MediaBackgroundContainerSC' ) ) {
 
 		/**
 		 * Wraps content inside of a .media-background and applies
-		 * necessary classes to inner img/picture/video
+		 * necessary classes to inner img/picture/video. Note that only one
+		 * valid media background element within this shortcode is supported.
 		 **/
 		public function callback( $atts, $content='' ) {
 			$atts = shortcode_atts( $this->defaults(), $atts );
@@ -205,131 +206,76 @@ if ( ! class_exists( 'MediaBackgroundContainerSC' ) ) {
 			$content_formatted = do_shortcode( $content );
 			$has_valid_media_bg = false;
 
-			// Match any one inner <img> (either on its own, or as a <picture>
-			// fallback)
-			// TODO simplify match regex--no need to capture p/a elems here
-			if ( preg_match( '/(<p>)?(<a [^>]+>)?<img [^>]+>(<\/a>)?(<\/p>)?/', $content_formatted, $match ) ) {
-				$match_full = $match[0];
-				$p_start    = $match[1];
-				$a_start    = $match[2];
-				$a_end      = $match[3];
-				$p_end      = $match[4];
-				$match_filtered = $match_full;
+			// If there is some inner shortcode content, attempt to parse
+			// through it.  Don't pass empty strings to DomDocument->loadHTML
+			if ( trim( $content_formatted ) ) {
+				$dom = new DomDocument();
 
-				// Strip wrapper <p>'s and <a>'s from inner elems
-				$match_filtered = str_replace( array( $p_start, $a_start, $a_end, $p_end ), '', $match_filtered );
+				// DomDocument->loadHTML complains about HTML5 elements, so we
+				// have to suppress errors. https://stackoverflow.com/a/41845049
+				libxml_clear_errors();
+				$error_settings_cached = libxml_use_internal_errors( true );
 
-				// Apply extra classes
-				if ( preg_match( '/class\=[\"|\']([^\"|\']+)[\"|\']/', $match_filtered, $class_matches ) ) {
-					$elem_classes = array_merge( explode( ' ', $class_matches[1] ), $classes );
-					$match_filtered = str_replace( $class_matches[0], 'class="' . implode( ' ', $elem_classes ) . '"', $match_filtered );
+				// Parse the formatted HTML string
+				$dom->loadHTML( $content_formatted );
+				$node = null;
+
+				// Find a valid child element to use as a media background
+				// TODO <picture> support
+				$img_nodes = $dom->getElementsByTagName( 'img' );
+				if ( $img_nodes->length > 0 ) {
+					$node = $img_nodes->item(0);
 				}
-				else {
-					$match_filtered = str_replace( '<img ', '<img class="' . implode( ' ', $classes ) . '" ', $match_filtered );
-				}
-
-				// Apply extra styles
-				if ( $styles ) {
-					if ( preg_match( '/style\=[\"|\']([^\"|\']+)[\"|\']/', $match_filtered, $style_matches ) ) {
-						$match_filtered = str_replace( $style_matches[0], 'style="' . $styles . '"', $match_filtered );
-					}
-					else {
-						$match_filtered = str_replace( '<img ', '<img style="' . $styles . '" ', $match_filtered );
-					}
+				$video_nodes = $dom->getElementsByTagName( 'video' );
+				if ( $video_nodes->length > 0 ) {
+					$node = $video_nodes->item(0);
 				}
 
-				// Apply ID if this is a standalone img
-				if ( $id && strpos( $content_formatted, '<picture' ) === false ) {
-					if ( preg_match( '/id\=[\"|\']([^\"|\']+)[\"|\']/', $match_filtered, $id_match ) ) {
-						$match_filtered = str_replace( $id_match[0], 'id="' . $id . '"', $match_filtered );
-					}
-					else {
-						$match_filtered = str_replace( '<img ', '<img id="' . $id . '" ', $match_filtered );
-					}
-				}
-
-				// Apply object-position data attribute if necessary
-				if ( $object_pos ) {
-					if ( preg_match( '/data-object-position\=[\"|\']([^\"|\']+)[\"|\']/', $match_filtered, $object_pos_matches ) ) {
-						$match_filtered = str_replace( $object_pos_matches[0], 'data-object-position="' . $object_pos . '"', $match_filtered );
-					}
-					else {
-						$match_filtered = str_replace( '<img ', '<img data-object-position="' . $object_pos . '" ', $match_filtered );
-					}
-				}
-
-				$content_formatted = str_replace( $match_full, $match_filtered, $content_formatted );
-				$has_valid_media_bg = true;
-			}
-
-			if ( preg_match( '/<picture [^>]+>.*<\/picture>/', $content_formatted, $match ) ) {
-				// TODO picture elem support
-				$has_valid_media_bg = true;
-			}
-
-			if ( preg_match( '/(<video [^>]+>)(.*)<\/video>/', $content_formatted, $match ) ) {
-				$match_full       = $match[0];
-				$match_video_open = $match[1]; // the opening <video> tag, with attributes
-				$match_video_open_filtered = $match_video_open;
-				$match_filtered   = $match_full;
-
-				// Remove fixed width/height attributes from video tag
-				if ( strpos( $match_video_open, 'width=' ) !== false || strpos( $match_video_open, 'height=' ) !== false ) {
-					$match_video_open_filtered = preg_replace( '/(width|height)="\d*"\s/', '', $match_video_open_filtered );
-				}
-
-				// Remove controls attribute from video tag
-				if ( strpos( $match_video_open, ' controls' ) !== false ) {
-					$match_video_open_filtered = preg_replace( '/ controls(\=[\"|\']controls[\"|\'])?/', '', $match_video_open_filtered );
-				}
-
-				// Apply extra classes.  Strip 'wp-video-shortcode' class
-				if ( preg_match( '/class\=[\"|\']([^\"|\']+)[\"|\']/', $match_video_open, $class_matches ) ) {
-					$elem_classes = array_merge( explode( ' ', $class_matches[1] ), $classes );
-
-					if ( ( $key = array_search( 'wp-video-shortcode', $elem_classes ) ) !== false ) {
+				// If a valid element was found, modify it as needed
+				if ( $node ) {
+					// Apply extra classes. Strip out .wp-video-shortcode class
+					// for videos.
+					$elem_classes = array_merge( explode( ' ', $node->getAttribute( 'class' ) ), $classes );
+					if ( $node->nodeName === 'video' && ( $key = array_search( 'wp-video-shortcode', $elem_classes ) ) !== false ) {
 						unset( $elem_classes[$key] );
 					}
+					$node->setAttribute( 'class', implode( ' ', $elem_classes ) );
 
-					$match_video_open_filtered = str_replace( $class_matches[0], 'class="' . implode( ' ', $elem_classes ) . '"', $match_video_open_filtered );
-				}
-				else {
-					$match_video_open_filtered = str_replace( '<video ', '<video class="' . implode( ' ', $classes ) . '" ', $match_video_open_filtered );
-				}
+					// Apply ID
+					// TODO <picture> support: don't apply ID to <img> elements
+					// that have a parent <picture> elem
+					if ( $id ) {
+						$node->setAttribute( 'id', $id );
+					}
 
-				// Apply extra styles
-				if ( $styles ) {
-					if ( preg_match( '/style\=[\"|\']([^\"|\']+)[\"|\']/', $match_video_open, $style_matches ) ) {
-						$match_video_open_filtered = str_replace( $style_matches[0], 'style="' . $styles . '"', $match_video_open_filtered );
+					// Apply extra styles
+					if ( $styles ) {
+						$node->setAttribute( 'style', $styles );
 					}
-					else {
-						$match_video_open_filtered = str_replace( '<video ', '<video style="' . $styles . '" ', $match_video_open_filtered );
-					}
-				}
 
-				// Apply ID
-				if ( $id ) {
-					if ( preg_match( '/id\=[\"|\']([^\"|\']+)[\"|\']/', $match_video_open, $id_match ) ) {
-						$match_video_open_filtered = str_replace( $id_match[0], 'id="' . $id . '"', $match_video_open_filtered );
+					// Apply object-position data attribute if necessary
+					if ( $object_pos ) {
+						$node->setAttribute( 'data-object-position', $object_pos );
 					}
-					else {
-						$match_video_open_filtered = str_replace( '<video ', '<video id="' . $id . '" ', $match_video_open_filtered );
-					}
-				}
 
-				// Apply object-position data attribute if necessary
-				if ( $object_pos ) {
-					if ( preg_match( '/data-object-position\=[\"|\']([^\"|\']+)[\"|\']/', $match_video_open, $object_pos_matches ) ) {
-						$match_video_open_filtered = str_replace( $object_pos_matches[0], 'data-object-position="' . $object_pos . '"', $match_video_open_filtered );
+					// Video-specific attribute modification
+					if ( $node->nodeName === 'video' ) {
+						// Remove unnecessary/breaking attributes for videos
+						$node->removeAttribute( 'width' );
+						$node->removeAttribute( 'height' );
+						$node->removeAttribute( 'controls' );
+
+						// Force 'muted' attribute
+						$node->setAttribute( 'muted', 'muted' );
 					}
-					else {
-						$match_video_open_filtered = str_replace( '<video ', '<video data-object-position="' . $object_pos . '" ', $match_video_open_filtered );
-					}
+
+					$content_formatted = $dom->saveHTML( $node );
+					$has_valid_media_bg = true;
 				}
 
-				$match_filtered = str_replace( $match_video_open, $match_video_open_filtered, $match_filtered );
-				$content_formatted = $match_filtered;
-				$has_valid_media_bg = true;
+				// Clean up libxml error handling
+				libxml_clear_errors();
+				libxml_use_internal_errors( $error_settings_cached );
 			}
 
 			// Return the media background.  If no valid inner contents are
