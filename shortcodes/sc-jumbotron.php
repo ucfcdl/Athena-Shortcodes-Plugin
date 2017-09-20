@@ -8,7 +8,8 @@ if ( ! class_exists( 'JumbotronSC' ) ) {
 			$command = 'jumbotron',
 			$name = 'Jumbotron',
 			$desc = 'Wraps content in an Athena jumbotron.',
-			$content = true;
+			$content = true,
+			$group = 'Athena Framework - Jumbotrons';
 
 		/**
 		 * Returns the shortcode's fields.

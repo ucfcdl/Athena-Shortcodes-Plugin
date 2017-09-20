@@ -8,7 +8,8 @@ if ( ! class_exists( 'ContainerSC' ) ) {
 			$command = 'container',
 			$name = 'Container',
 			$desc = 'Wraps content in an Athena container.',
-			$content = true;
+			$content = true,
+			$group = 'Athena Framework - Grid System';
 
 		/**
 		 * Returns the shortcode's fields.

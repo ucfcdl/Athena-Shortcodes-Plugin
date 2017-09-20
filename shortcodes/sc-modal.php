@@ -8,7 +8,8 @@ if ( ! class_exists( 'ModalSC' ) ) {
 			$command = 'modal',
 			$name = 'Modal',
 			$desc = 'Wraps content in an Athena modal.',
-			$content = true;
+			$content = true,
+			$group = 'Athena Framework - Modals';
 
 		/**
 		 * Returns the shortcode's fields.
@@ -111,7 +112,8 @@ if ( ! class_exists( 'ModalHeaderSC' ) ) {
 			$command = 'modal-header',
 			$name = 'Modal Header',
 			$desc = 'Wraps content in an Athena modal header.',
-			$content = true;
+			$content = true,
+			$group = 'Athena Framework - Modals';
 
 		/**
 		 * Returns the shortcode's fields.
@@ -178,7 +180,8 @@ if ( ! class_exists( 'ModalFooterSC' ) ) {
 			$command = 'modal-footer',
 			$name = 'Modal Footer',
 			$desc = 'Wraps content in an Athena modal footer.',
-			$content = true;
+			$content = true,
+			$group = 'Athena Framework - Modals';
 
 		/**
 		 * Returns the shortcode's fields.
@@ -245,7 +248,8 @@ if ( ! class_exists( 'ModalBodySC' ) ) {
 			$command = 'modal-body',
 			$name = 'Modal Body',
 			$desc = 'Wraps content in an Athena modal body.',
-			$content = true;
+			$content = true,
+			$group = 'Athena Framework - Modals';
 
 		/**
 		 * Returns the shortcode's fields.
@@ -312,7 +316,8 @@ if ( ! class_exists( 'ModalTitleSC' ) ) {
 			$command = 'modal-title',
 			$name = 'Modal Title',
 			$desc = 'Wraps content in an Athena modal title.',
-			$content = true;
+			$content = true,
+			$group = 'Athena Framework - Modals';
 
 		/**
 		 * Returns the shortcode's fields.
@@ -403,7 +408,8 @@ if ( ! class_exists( 'ModalToggleSC' ) ) {
 			$name = 'Modal Toggle',
 			$desc = 'Creates a new link or button that displays a modal.',
 			$content = true,
-			$preview = true;
+			$preview = true,
+			$group = 'Athena Framework - Modals';
 
 		/**
 		 * Returns the shortcode's fields.

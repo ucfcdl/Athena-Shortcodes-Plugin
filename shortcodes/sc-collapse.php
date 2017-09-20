@@ -8,7 +8,8 @@ if ( ! class_exists( 'CollapseSC' ) ) {
 			$command = 'collapse',
 			$name = 'Collapse',
 			$desc = 'Wraps content in an Athena collapsible element.',
-			$content = true;
+			$content = true,
+			$group = 'Athena Framework - Collapse';
 
 		/**
 		 * Returns the shortcode's fields.
@@ -108,7 +109,8 @@ if ( ! class_exists( 'AccordionSC' ) ) {
 			$command = 'accordion',
 			$name = 'Accordion',
 			$desc = 'Wraps content in an Athena accordion.',
-			$content = true;
+			$content = true,
+			$group = 'Athena Framework - Collapse';
 
 		/**
 		 * Returns the shortcode's fields.
@@ -194,7 +196,8 @@ if ( ! class_exists( 'CollapseToggleSC' ) ) {
 			$name = 'Collapse Toggle',
 			$desc = 'Creates a new link or button that displays a collapsible component.',
 			$content = true,
-			$preview = true;
+			$preview = true,
+			$group = 'Athena Framework - Collapse';
 
 		/**
 		 * Returns the shortcode's fields.

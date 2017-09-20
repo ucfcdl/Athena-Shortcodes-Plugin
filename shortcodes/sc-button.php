@@ -9,7 +9,8 @@ if ( ! class_exists( 'ButtonSC' ) ) {
 			$name = 'Button',
 			$desc = 'Creates a new link styled as an Athena button.',
 			$content = true,
-			$preview = true;
+			$preview = true,
+			$group = 'Athena Framework - Buttons';
 
 		/**
 		 * Returns the shortcode's fields.
