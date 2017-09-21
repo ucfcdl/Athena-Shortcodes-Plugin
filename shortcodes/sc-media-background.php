@@ -9,7 +9,8 @@ if ( ! class_exists( 'MediaBackgroundContainerSC' ) ) {
 			$name = 'Media Background Container',
 			$desc = 'Creates a media background container.',
 			$content = true,
-			$preview = false;
+			$preview = false,
+			$group = 'Athena Framework - Media Backgrounds';
 
 		/**
 		 * Returns the shortcode's fields.
@@ -122,7 +123,8 @@ if ( ! class_exists( 'MediaBackgroundContainerSC' ) ) {
 			$name = 'Media Background',
 			$desc = 'Creates a media background. Immediate child images and video are auto-detected and used as media background(s).',
 			$content = true,
-			$preview = false;
+			$preview = false,
+			$group = 'Athena Framework - Media Backgrounds';
 
 		/**
 		 * Returns the shortcode's fields.
