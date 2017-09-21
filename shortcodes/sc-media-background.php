@@ -15,7 +15,7 @@ if ( ! class_exists( 'MediaBackgroundContainerSC' ) ) {
 		/**
 		 * Returns the shortcode's fields.
 		 *
-		 * @author Jim Barnes
+		 * @author Jo Dickson
 		 * @since 1.0.0
 		 *
 		 * @return Array | The shortcode's fields.
@@ -128,7 +128,7 @@ if ( ! class_exists( 'MediaBackgroundContainerSC' ) ) {
 		/**
 		 * Returns the shortcode's fields.
 		 *
-		 * @author Jim Barnes
+		 * @author Jo Dickson
 		 * @since 1.0.0
 		 *
 		 * @return Array | The shortcode's fields.
