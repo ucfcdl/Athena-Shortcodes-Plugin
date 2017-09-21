@@ -72,8 +72,7 @@ if ( ! class_exists( 'MediaBackgroundContainerSC' ) ) {
 		}
 
 		/**
-		 * Wraps content inside of a .media-background-container and applies
-		 * necessary classes to inner img/video
+		 * Wraps content inside of a .media-background-container
 		 **/
 		public function callback( $atts, $content='' ) {
 			$atts = shortcode_atts( $this->defaults(), $atts );
