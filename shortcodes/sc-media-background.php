@@ -15,7 +15,7 @@ if ( ! class_exists( 'MediaBackgroundContainerSC' ) ) {
 		/**
 		 * Returns the shortcode's fields.
 		 *
-		 * @author Jim Barnes
+		 * @author Jo Dickson
 		 * @since 1.0.0
 		 *
 		 * @return Array | The shortcode's fields.
@@ -72,8 +72,7 @@ if ( ! class_exists( 'MediaBackgroundContainerSC' ) ) {
 		}
 
 		/**
-		 * Wraps content inside of a .media-background-container and applies
-		 * necessary classes to inner img/video
+		 * Wraps content inside of a .media-background-container
 		 **/
 		public function callback( $atts, $content='' ) {
 			$atts = shortcode_atts( $this->defaults(), $atts );
@@ -129,7 +128,7 @@ if ( ! class_exists( 'MediaBackgroundContainerSC' ) ) {
 		/**
 		 * Returns the shortcode's fields.
 		 *
-		 * @author Jim Barnes
+		 * @author Jo Dickson
 		 * @since 1.0.0
 		 *
 		 * @return Array | The shortcode's fields.
