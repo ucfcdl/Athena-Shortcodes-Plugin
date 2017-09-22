@@ -195,7 +195,7 @@ if ( ! class_exists( 'ColSC' ) ) {
 					$field_key = $prefix.$suffix;
 					$field_val = $atts[$field_key];
 
-					if ( $field_val && $field_val !== '' ) {
+					if ( isset( $field_val ) && $field_val !== '' ) {
 						$modifier   = str_replace( '_', '', $suffix );
 						$breakpoint = $prefix == 'xs' ? '' : '-' . $prefix;
 						$size       = ( in_array( $field_val, array( '', 'none' ), true ) ) ? '' : '-' . $field_val;
