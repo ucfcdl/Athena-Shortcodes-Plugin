@@ -146,7 +146,7 @@ if ( ! class_exists( 'MediaBackgroundContainerSC' ) ) {
 				array(
 					'param'   => 'object_position',
 					'name'    => 'Object Position',
-					'desc'    => 'How the inner media background should be positioned within the media background container. See <a href="https://css-tricks.com/almanac/properties/o/object-position/">object-position documentation</a> for usage/more information. Note that setting this value is not necessary when using an object-fit of "cover".',
+					'desc'    => 'How the inner media background should be positioned within the media background container. See <a href="https://css-tricks.com/almanac/properties/o/object-position/">object-position documentation</a> for usage/more information.',
 					'type'    => 'text'
 				),
 				array(
