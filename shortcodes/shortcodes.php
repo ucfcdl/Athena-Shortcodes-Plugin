@@ -11,6 +11,7 @@ include_once 'sc-button.php';
 include_once 'sc-card.php';
 include_once 'sc-close.php';
 include_once 'sc-collapse.php';
+include_once 'sc-icon.php';
 include_once 'sc-jumbotron.php';
 include_once 'sc-media-background.php';
 include_once 'sc-modal.php';
