@@ -47,6 +47,7 @@ if ( ! class_exists( 'ATHENA_SC_Config' ) ) {
 				'ColSC',
 				'AccordionSC',
 				'BadgeSC',
+				'BlockLinkSC',
 				'ButtonSC',
 				'CardSC',
 				'CardHeaderSC',
