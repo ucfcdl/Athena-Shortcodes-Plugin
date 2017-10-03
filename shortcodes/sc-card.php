@@ -632,7 +632,7 @@ if ( ! class_exists( 'CardLinkSC' ) ) {
 			return array(
 				array(
 					'param'   => 'href',
-					'name'    => 'Button Link',
+					'name'    => 'Link URL',
 					'type'    => 'text'
 				),
 				array(
