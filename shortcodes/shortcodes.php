@@ -7,6 +7,7 @@ include_once 'sc-row.php';
 include_once 'sc-col.php';
 
 include_once 'sc-badge.php';
+include_once 'sc-block-link.php';
 include_once 'sc-button.php';
 include_once 'sc-card.php';
 include_once 'sc-close.php';
