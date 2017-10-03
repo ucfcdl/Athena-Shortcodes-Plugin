@@ -35,6 +35,12 @@ if ( ! class_exists( 'BadgeSC' ) ) {
 					'default' => false
 				),
 				array(
+					'param'   => 'rel',
+					'name'    => 'Link object relationship (rel)',
+					'desc'    => 'The relationship between the link and target object (if the badge is displayed as a link). Separate each link type with a single space.',
+					'type'    => 'text'
+				),
+				array(
 					'param'   => 'class',
 					'name'    => 'CSS Classes',
 					'desc'    => 'Separate each class with a single space. Refer to the Athena Framework documentation for available classes.',
@@ -67,6 +73,7 @@ if ( ! class_exists( 'BadgeSC' ) ) {
 			$styles     = $atts['style'];
 			$classes    = array( 'badge' );
 			$elem       = $href ? 'a' : 'span';
+			$rel        = $atts['rel'];
 
 			// Use primary badge if the user didn't provide any classes
 			if ( !$atts['class'] ) {
@@ -83,6 +90,7 @@ if ( ! class_exists( 'BadgeSC' ) ) {
 			<?php if ( $id ) { echo 'id="' . $id . '"'; } ?>
 			<?php if ( $href && $new_window ) { echo 'target="_blank"'; } ?>
 			<?php if ( $styles ) { echo 'style="' . $styles . '"'; } ?>
+			<?php if ( $href && $rel ) { echo 'rel="' . $rel . '"'; } ?>
 			>
 				<?php echo do_shortcode( $content ); ?>
 			</<?php echo $elem; ?>>
