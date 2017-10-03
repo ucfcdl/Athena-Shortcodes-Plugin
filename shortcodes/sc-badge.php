@@ -36,7 +36,7 @@ if ( ! class_exists( 'BadgeSC' ) ) {
 				),
 				array(
 					'param'   => 'rel',
-					'name'    => 'Link object relationship',
+					'name'    => 'Link object relationship (rel)',
 					'desc'    => 'The relationship between the link and target object (if the badge is displayed as a link). Separate each link type with a single space.',
 					'type'    => 'text'
 				),

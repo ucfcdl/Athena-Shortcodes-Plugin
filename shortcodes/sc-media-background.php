@@ -43,7 +43,7 @@ if ( ! class_exists( 'MediaBackgroundContainerSC' ) ) {
 				),
 				array(
 					'param'   => 'rel',
-					'name'    => 'Link object relationship',
+					'name'    => 'Link object relationship (rel)',
 					'desc'    => 'The relationship between the link and target object. Separate each link type with a single space.',
 					'type'    => 'text'
 				),
