@@ -42,6 +42,12 @@ if ( ! class_exists( 'MediaBackgroundContainerSC' ) ) {
 					'default' => false
 				),
 				array(
+					'param'   => 'rel',
+					'name'    => 'Link object relationship',
+					'desc'    => 'The relationship between the link and target object. Separate each link type with a single space.',
+					'type'    => 'text'
+				),
+				array(
 					'param'   => 'class',
 					'name'    => 'CSS Classes',
 					'desc'    => 'Separate each class with a single space. Refer to the Athena Framework documentation for available classes.',
@@ -82,6 +88,7 @@ if ( ! class_exists( 'MediaBackgroundContainerSC' ) ) {
 			$id           = $atts['id'];
 			$element_type = array_key_exists( $atts['element_type'], $this->element_type_options() ) ? $atts['element_type'] : $this->defaults( 'element_type' );
 			$styles       = $atts['style'];
+			$rel          = $atts['element_type'] === 'a' ? $atts['rel'] : '';
 			$attributes   = array();
 			$classes      = array( 'media-background-container' );
 			$content_formatted = do_shortcode( $content );
@@ -101,6 +108,7 @@ if ( ! class_exists( 'MediaBackgroundContainerSC' ) ) {
 			<?php if ( $id ) { echo 'id="' . $id . '"'; } ?>
 			<?php if ( $new_window ) { echo 'target="_blank"'; } ?>
 			<?php if ( $styles ) { echo 'style="' . $styles . '"'; } ?>
+			<?php if ( $rel ) { echo 'rel="' . $rel . '"'; } ?>
 			<?php if ( $attributes ) { echo implode( ' ', $attributes ); } ?>
 			>
 				<?php echo $content_formatted; ?>
