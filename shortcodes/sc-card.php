@@ -642,6 +642,12 @@ if ( ! class_exists( 'CardLinkSC' ) ) {
 					'default' => false
 				),
 				array(
+					'param'   => 'rel',
+					'name'    => 'Link object relationship',
+					'desc'    => 'The relationship between the link and target object. Separate each link type with a single space.',
+					'type'    => 'text'
+				),
+				array(
 					'param'   => 'class',
 					'name'    => 'CSS Classes',
 					'type'    => 'text'
@@ -688,6 +694,7 @@ if ( ! class_exists( 'CardLinkSC' ) ) {
 			$styles     = $atts['style'];
 			$attributes = array();
 			$classes    = array( 'card-link' );
+			$rel        = $atts['rel'];
 
 			if ( $atts['class'] ) {
 				$classes = array_unique( array_merge( $classes, explode( ' ', $atts['class'] ) ) );
@@ -723,6 +730,7 @@ if ( ! class_exists( 'CardLinkSC' ) ) {
 			<?php if ( $id ) { echo 'id="' . $id . '"'; } ?>
 			<?php if ( $new_window ) { echo 'target="_blank"'; } ?>
 			<?php if ( $styles ) { echo 'style="' . $styles . '"'; } ?>
+			<?php if ( $rel ) { echo 'rel="' . $rel . '"'; } ?>
 			<?php if ( $attributes ) { echo implode( ' ', $attributes ); } ?>
 			><?php echo do_shortcode( $content ); ?></a>
 		<?php

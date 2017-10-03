@@ -198,6 +198,12 @@ if ( ! class_exists( 'NavLinkSC' ) ) {
 					'default' => false
 				),
 				array(
+					'param'   => 'rel',
+					'name'    => 'Link object relationship',
+					'desc'    => 'The relationship between the link and target object. Separate each link type with a single space.',
+					'type'    => 'text'
+				),
+				array(
 					'param'   => 'class',
 					'name'    => 'CSS Classes',
 					'type'    => 'text'
@@ -243,6 +249,7 @@ if ( ! class_exists( 'NavLinkSC' ) ) {
 			$new_window = filter_var( $atts['new_window'], FILTER_VALIDATE_BOOLEAN );
 			$id         = $atts['id'];
 			$styles     = $atts['style'];
+			$rel        = $atts['rel'];
 			$attributes = array();
 			$classes    = array_unique( array_merge( array( 'nav-link' ), explode( ' ', $atts['class'] ) ) );
 
@@ -278,6 +285,7 @@ if ( ! class_exists( 'NavLinkSC' ) ) {
 			<?php if ( $id ) { echo 'id="' . $id . '"'; } ?>
 			<?php if ( $new_window ) { echo 'target="_blank"'; } ?>
 			<?php if ( $styles ) { echo 'style="' . $styles . '"'; } ?>
+			<?php if ( $rel ) { echo 'rel="' . $rel . '"'; } ?>
 			<?php if ( $attributes ) { echo implode( ' ', $attributes ); } ?>
 			>
 				<?php echo do_shortcode( $content ); ?>
