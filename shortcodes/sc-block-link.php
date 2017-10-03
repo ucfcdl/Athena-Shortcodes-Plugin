@@ -34,6 +34,12 @@ if ( ! class_exists( 'BlockLinkSC' ) ) {
 					'default' => false
 				),
 				array(
+					'param'   => 'rel',
+					'name'    => 'Link object relationship (rel)',
+					'desc'    => 'The relationship between the link and target object. Separate each link type with a single space.',
+					'type'    => 'text'
+				),
+				array(
 					'param'   => 'class',
 					'name'    => 'CSS Classes',
 					'desc'    => 'Separate each class with a single space. Refer to the Athena Framework documentation for available classes.',
@@ -64,6 +70,7 @@ if ( ! class_exists( 'BlockLinkSC' ) ) {
 			$new_window   = filter_var( $atts['new_window'], FILTER_VALIDATE_BOOLEAN );
 			$id           = $atts['id'];
 			$styles       = $atts['style'];
+			$rel          = $atts['rel'];
 			$attributes   = array();
 			$classes      = $atts['class'];
 
@@ -78,6 +85,7 @@ if ( ! class_exists( 'BlockLinkSC' ) ) {
 			<?php if ( $id ) { echo 'id="' . $id . '"'; } ?>
 			<?php if ( $new_window ) { echo 'target="_blank"'; } ?>
 			<?php if ( $styles ) { echo 'style="' . $styles . '"'; } ?>
+			<?php if ( $rel ) { echo 'rel="' . $rel . '"'; } ?>
 			<?php if ( $attributes ) { echo implode( ' ', $attributes ); } ?>
 			>
 				<?php echo do_shortcode( $content ); ?>
