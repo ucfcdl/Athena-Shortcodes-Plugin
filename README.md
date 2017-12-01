@@ -19,6 +19,14 @@ Provides shortcodes that support the use of the [Athena Framework](https://githu
 
 ## Changelog ##
 
+### 0.2.0 ###
+Enhancements:
+* Added `[media-background-container]` and `[media-background]` shortcodes. `<img>` and `<video>` media backgrounds are currently supported.
+* Added `[block-link]` shortcode for easier inclusion of generic block-level links in WordPress content.
+* Added `[icon]` shortcode for easier inclusion of font icons. The shortcode is library-agnostic/relevant classes for FontAwesome, etc will need to be added to the `class` attribute wherever this shortcode is used.
+* Added WP Shortcode Interface group name support for existing shortcodes.
+* Upgraded admin css to latest version of Athena Framework.
+
 ### 0.1.0 ###
 * Initial release
 
