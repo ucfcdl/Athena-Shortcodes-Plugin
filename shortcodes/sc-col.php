@@ -8,7 +8,8 @@ if ( ! class_exists( 'ColSC' ) ) {
 			$command = 'col',
 			$name = 'Column',
 			$desc = 'Adds an Athena column.',
-			$content = true;
+			$content = true,
+			$group = 'Athena Framework - Grid System';
 
 		/**
 		 * Returns the shortcode's fields.
@@ -194,22 +195,12 @@ if ( ! class_exists( 'ColSC' ) ) {
 					$field_key = $prefix.$suffix;
 					$field_val = $atts[$field_key];
 
-					if ( $field_val && $field_val !== '' ) {
-						$modifier   = str_replace( '_', '', $suffix );
-						$breakpoint = $prefix == 'xs' ? '' : '-' . $prefix;
+					if ( isset( $field_val ) && $field_val !== '' ) {
+						$modifier   = $suffix === '' ? 'col' : str_replace( '_', '', $suffix );
+						$breakpoint = $prefix === 'xs' ? '' : '-' . $prefix;
 						$size       = ( in_array( $field_val, array( '', 'none' ), true ) ) ? '' : '-' . $field_val;
 
-						// This is a offset, pull or push class
-						if ( $suffix !== '' ) {
-							$classes[] = $modifier . $breakpoint . $size;
-						}
-						// This is a standard col class
-						else {
-							if ( $modifier !== '' ) {
-								$modifier = '-' . $modifier;
-							}
-							$classes[] = 'col' . $breakpoint . $modifier . $size;
-						}
+						$classes[] = $modifier . $breakpoint . $size;
 					}
 				}
 			}

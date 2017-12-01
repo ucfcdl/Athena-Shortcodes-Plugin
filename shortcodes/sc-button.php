@@ -9,7 +9,8 @@ if ( ! class_exists( 'ButtonSC' ) ) {
 			$name = 'Button',
 			$desc = 'Creates a new link styled as an Athena button.',
 			$content = true,
-			$preview = true;
+			$preview = true,
+			$group = 'Athena Framework - Buttons';
 
 		/**
 		 * Returns the shortcode's fields.
@@ -31,6 +32,12 @@ if ( ! class_exists( 'ButtonSC' ) ) {
 					'name'    => 'Open link in a new window',
 					'type'    => 'checkbox',
 					'default' => false
+				),
+				array(
+					'param'   => 'rel',
+					'name'    => 'Link object relationship (rel)',
+					'desc'    => 'The relationship between the link and target object. Separate each link type with a single space.',
+					'type'    => 'text'
 				),
 				array(
 					'param'   => 'class',
@@ -95,6 +102,7 @@ if ( ! class_exists( 'ButtonSC' ) ) {
 			$styles     = $atts['style'];
 			$attributes = array();
 			$classes    = array( 'btn' );
+			$rel        = $atts['rel'];
 
 			// Use primary button if the user didn't provide any classes
 			if ( !$atts['class'] ) {
@@ -145,6 +153,7 @@ if ( ! class_exists( 'ButtonSC' ) ) {
 			<?php if ( $id ) { echo 'id="' . $id . '"'; } ?>
 			<?php if ( $new_window ) { echo 'target="_blank"'; } ?>
 			<?php if ( $styles ) { echo 'style="' . $styles . '"'; } ?>
+			<?php if ( $rel ) { echo 'rel="' . $rel . '"'; } ?>
 			<?php if ( $attributes ) { echo implode( ' ', $attributes ); } ?>
 			>
 				<?php echo do_shortcode( $content ); ?>

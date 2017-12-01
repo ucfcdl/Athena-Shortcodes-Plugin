@@ -9,7 +9,8 @@ if ( ! class_exists( 'CardSC' ) ) {
 			$name = 'Card',
 			$desc = 'Wraps content in an Athena card.',
 			$content = true,
-			$preview = true;
+			$preview = true,
+			$group = 'Athena Framework - Cards';
 
 		/**
 		 * Returns the shortcode's fields.
@@ -117,7 +118,8 @@ if ( ! class_exists( 'CardHeaderSC' ) ) {
 			$command = 'card-header',
 			$name = 'Card Header',
 			$desc = 'Wraps content in an Athena card header.',
-			$content = true;
+			$content = true,
+			$group = 'Athena Framework - Cards';
 
 		/**
 		 * Returns the shortcode's fields.
@@ -218,7 +220,8 @@ if ( ! class_exists( 'CardFooterSC' ) ) {
 			$command = 'card-footer',
 			$name = 'Card Footer',
 			$desc = 'Wraps content in an Athena card footer.',
-			$content = true;
+			$content = true,
+			$group = 'Athena Framework - Cards';
 
 		/**
 		 * Returns the shortcode's fields.
@@ -301,7 +304,8 @@ if ( ! class_exists( 'CardBlockSC' ) ) {
 			$command = 'card-block',
 			$name = 'Card Block',
 			$desc = 'Wraps content in an Athena card block.',
-			$content = true;
+			$content = true,
+			$group = 'Athena Framework - Cards';
 
 		/**
 		 * Returns the shortcode's fields.
@@ -368,7 +372,8 @@ if ( ! class_exists( 'CardTitleSC' ) ) {
 			$command = 'card-title',
 			$name = 'Card Title',
 			$desc = 'Wraps content in an Athena card title.',
-			$content = true;
+			$content = true,
+			$group = 'Athena Framework - Cards';
 
 		/**
 		 * Returns the shortcode's fields.
@@ -457,7 +462,8 @@ if ( ! class_exists( 'CardSubtitleSC' ) ) {
 			$command = 'card-subtitle',
 			$name = 'Card Subtitle',
 			$desc = 'Wraps content in an Athena card subtitle.',
-			$content = true;
+			$content = true,
+			$group = 'Athena Framework - Cards';
 
 		/**
 		 * Returns the shortcode's fields.
@@ -533,7 +539,8 @@ if ( ! class_exists( 'CardTextSC' ) ) {
 			$command = 'card-text',
 			$name = 'Card Text',
 			$desc = 'Wraps content as Athena card text.',
-			$content = true;
+			$content = true,
+			$group = 'Athena Framework - Cards';
 
 		/**
 		 * Returns the shortcode's fields.
@@ -610,7 +617,8 @@ if ( ! class_exists( 'CardLinkSC' ) ) {
 			$name = 'Card Link',
 			$desc = 'Creates a new link styled as an Athena card link.',
 			$content = true,
-			$preview = true;
+			$preview = true,
+			$group = 'Athena Framework - Cards';
 
 		/**
 		 * Returns the shortcode's fields.
@@ -624,7 +632,7 @@ if ( ! class_exists( 'CardLinkSC' ) ) {
 			return array(
 				array(
 					'param'   => 'href',
-					'name'    => 'Button Link',
+					'name'    => 'Link URL',
 					'type'    => 'text'
 				),
 				array(
@@ -632,6 +640,12 @@ if ( ! class_exists( 'CardLinkSC' ) ) {
 					'name'    => 'Open link in a new window',
 					'type'    => 'checkbox',
 					'default' => false
+				),
+				array(
+					'param'   => 'rel',
+					'name'    => 'Link object relationship (rel)',
+					'desc'    => 'The relationship between the link and target object. Separate each link type with a single space.',
+					'type'    => 'text'
 				),
 				array(
 					'param'   => 'class',
@@ -680,6 +694,7 @@ if ( ! class_exists( 'CardLinkSC' ) ) {
 			$styles     = $atts['style'];
 			$attributes = array();
 			$classes    = array( 'card-link' );
+			$rel        = $atts['rel'];
 
 			if ( $atts['class'] ) {
 				$classes = array_unique( array_merge( $classes, explode( ' ', $atts['class'] ) ) );
@@ -715,6 +730,7 @@ if ( ! class_exists( 'CardLinkSC' ) ) {
 			<?php if ( $id ) { echo 'id="' . $id . '"'; } ?>
 			<?php if ( $new_window ) { echo 'target="_blank"'; } ?>
 			<?php if ( $styles ) { echo 'style="' . $styles . '"'; } ?>
+			<?php if ( $rel ) { echo 'rel="' . $rel . '"'; } ?>
 			<?php if ( $attributes ) { echo implode( ' ', $attributes ); } ?>
 			><?php echo do_shortcode( $content ); ?></a>
 		<?php
@@ -732,7 +748,8 @@ if ( ! class_exists( 'CardGroupSC' ) ) {
 			$command = 'card-group',
 			$name = 'Card Group',
 			$desc = 'Wraps content in an Athena card group.',
-			$content = true;
+			$content = true,
+			$group = 'Athena Framework - Cards';
 
 		/**
 		 * Returns the shortcode's fields.
@@ -799,7 +816,8 @@ if ( ! class_exists( 'CardDeckSC' ) ) {
 			$command = 'card-deck',
 			$name = 'Card Deck',
 			$desc = 'Wraps content in an Athena card deck.',
-			$content = true;
+			$content = true,
+			$group = 'Athena Framework - Cards';
 
 		/**
 		 * Returns the shortcode's fields.
@@ -866,7 +884,8 @@ if ( ! class_exists( 'CardColumnsSC' ) ) {
 			$command = 'card-columns',
 			$name = 'Card Columns',
 			$desc = 'Wraps content in Athena card columns.',
-			$content = true;
+			$content = true,
+			$group = 'Athena Framework - Cards';
 
 		/**
 		 * Returns the shortcode's fields.

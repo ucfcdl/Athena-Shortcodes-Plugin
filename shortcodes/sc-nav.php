@@ -8,7 +8,8 @@ if ( ! class_exists( 'NavSC' ) ) {
 			$command = 'nav',
 			$name = 'Nav',
 			$desc = 'Wraps content in an Athena nav.',
-			$content = true;
+			$content = true,
+			$group = 'Athena Framework - Navs';
 
 		/**
 		 * Returns the shortcode's fields.
@@ -97,7 +98,8 @@ if ( ! class_exists( 'NavItemSC' ) ) {
 			$command = 'nav-item',
 			$name = 'Nav Item',
 			$desc = 'Wraps content in an Athena nav-item.',
-			$content = true;
+			$content = true,
+			$group = 'Athena Framework - Navs';
 
 		/**
 		 * Returns the shortcode's fields.
@@ -171,7 +173,8 @@ if ( ! class_exists( 'NavLinkSC' ) ) {
 			$command = 'nav-link',
 			$name = 'Nav Link',
 			$desc = 'Wraps content in an Athena nav-link.',
-			$content = true;
+			$content = true,
+			$group = 'Athena Framework - Navs';
 
 		/**
 		 * Returns the shortcode's fields.
@@ -193,6 +196,12 @@ if ( ! class_exists( 'NavLinkSC' ) ) {
 					'name'    => 'If checked, opens link in a new window.',
 					'type'    => 'checkbox',
 					'default' => false
+				),
+				array(
+					'param'   => 'rel',
+					'name'    => 'Link object relationship (rel)',
+					'desc'    => 'The relationship between the link and target object. Separate each link type with a single space.',
+					'type'    => 'text'
 				),
 				array(
 					'param'   => 'class',
@@ -240,6 +249,7 @@ if ( ! class_exists( 'NavLinkSC' ) ) {
 			$new_window = filter_var( $atts['new_window'], FILTER_VALIDATE_BOOLEAN );
 			$id         = $atts['id'];
 			$styles     = $atts['style'];
+			$rel        = $atts['rel'];
 			$attributes = array();
 			$classes    = array_unique( array_merge( array( 'nav-link' ), explode( ' ', $atts['class'] ) ) );
 
@@ -275,6 +285,7 @@ if ( ! class_exists( 'NavLinkSC' ) ) {
 			<?php if ( $id ) { echo 'id="' . $id . '"'; } ?>
 			<?php if ( $new_window ) { echo 'target="_blank"'; } ?>
 			<?php if ( $styles ) { echo 'style="' . $styles . '"'; } ?>
+			<?php if ( $rel ) { echo 'rel="' . $rel . '"'; } ?>
 			<?php if ( $attributes ) { echo implode( ' ', $attributes ); } ?>
 			>
 				<?php echo do_shortcode( $content ); ?>
@@ -295,7 +306,8 @@ if ( ! class_exists( 'TabContentSC' ) ) {
 			$command = 'tab-content',
 			$name = 'Nav Tab Content',
 			$desc = 'Wraps content in an Athena tab-content wrapper.',
-			$content = true;
+			$content = true,
+			$group = 'Athena Framework - Navs';
 
 		/**
 		 * Returns the shortcode's fields.
@@ -353,7 +365,8 @@ if ( ! class_exists( 'TabPaneSC' ) ) {
 			$command = 'tab-pane',
 			$name = 'Nav Tab Pane',
 			$desc = 'Wraps content in an Athena tab-pane.',
-			$content = true;
+			$content = true,
+			$group = 'Athena Framework - Navs';
 
 		/**
 		 * Returns the shortcode's fields.
