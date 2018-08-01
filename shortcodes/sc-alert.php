@@ -172,11 +172,10 @@ if ( ! class_exists( 'AlertLinkSC' ) ) {
 			<?php if ( $styles ) { echo 'style="' . $styles . '"'; } ?>
 			<?php if ( $rel ) { echo 'rel="' . $rel . '"'; } ?>
 			<?php if ( $attributes ) { echo implode( ' ', $attributes ); } ?>
-			>
-				<?php echo do_shortcode( $content ); ?>
-			</a>
+			><?php echo do_shortcode( $content ); ?></a>
 		<?php
-			return ob_get_clean();
+			$retval = ob_get_clean();
+			return trim( $retval );
 		}
 	}
 }
