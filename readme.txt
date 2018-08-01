@@ -27,6 +27,12 @@ Provides shortcodes that support the use of the [Athena Framework](https://githu
 
 == Changelog ==
 
+= 0.3.0 =
+Enhancements:
+* Added shortcodes for alerts: `[alert]`, `[alert-heading]` and `[alert-link]`.
+* Updated npm packages list.
+* Upgraded admin css to latest verion of Athena Framework.
+
 = 0.2.0 =
 Enhancements:
 * Added `[media-background-container]` and `[media-background]` shortcodes. `<img>` and `<video>` media backgrounds are currently supported.
