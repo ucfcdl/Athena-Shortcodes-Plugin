@@ -340,15 +340,28 @@ if ( ! class_exists( 'ATHENA_SC_TinyMCE_Config' ) ) {
 				'align'	  => '',
 				'caption' => '',
 				'class'   => '',
+				'width'   => ''
 			), $attr, 'caption' );
+			$width = 0;
+			$style = '';
 
 			if ( ! empty( $atts['id'] ) ) {
 				$atts['id'] = 'id="' . esc_attr( sanitize_html_class( $atts['id'] ) ) . '" ';
 			}
+			if ( ! empty( $atts['width'] ) ) {
+				$width = intval( $atts['width'] );
+			}
 
-			$athena_align = self::align_wp_to_athena( $atts['align'] );
-			$class = trim( 'figure ' . $athena_align . ' ' . $atts['class'] );
-			$html5 = current_theme_supports( 'html5', 'caption' );
+			// Maintain ability to filter caption width from default [caption] sc
+			$width = apply_filters( 'img_caption_shortcode_width', $width, $atts, $content );
+
+			if ( $width && intval( $width ) > 1 ) {
+				$style = 'style="max-width: ' . intval( $width ) . 'px;"';
+			}
+
+			$athena_align  = self::align_wp_to_athena( $atts['align'] );
+			$class         = trim( 'figure ' . $athena_align . ' ' . $atts['class'] );
+			$html5         = current_theme_supports( 'html5', 'caption' );
 
 			// Add 'figure-img' class to inner <img>
 			if ( preg_match( '/<img [^>]+>/', $content, $matches ) !== false ) {
@@ -359,10 +372,10 @@ if ( ! class_exists( 'ATHENA_SC_TinyMCE_Config' ) ) {
 			}
 
 			if ( $html5 ) {
-				$html = '<figure ' . $atts['id'] . 'class="' . esc_attr( $class ) . '">'
+				$html = '<figure ' . $atts['id'] . $style . ' class="' . esc_attr( $class ) . '">'
 				. do_shortcode( $content ) . '<figcaption class="figure-caption">' . $atts['caption'] . '</figcaption></figure>';
 			} else {
-				$html = '<div ' . $atts['id'] . 'class="' . esc_attr( $class ) . '">'
+				$html = '<div ' . $atts['id'] . $style . ' class="' . esc_attr( $class ) . '">'
 				. do_shortcode( $content ) . '<p class="figure-caption">' . $atts['caption'] . '</p></div>';
 			}
 
