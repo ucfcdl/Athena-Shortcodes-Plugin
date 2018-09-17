@@ -3,7 +3,7 @@ Contributors: ucfwebcom
 Tags: athena-framework, shortcodes
 Requires at least: 4.5.3
 Tested up to: 4.5.3
-Stable tag: 1.0.0
+Stable tag: 0.3.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/copyleft/gpl-3.0.html
 
@@ -26,6 +26,10 @@ Provides shortcodes that support the use of the [Athena Framework](https://githu
 
 
 == Changelog ==
+
+= 0.3.1 =
+Bug fixes:
+* Added missing `max-width` styling on `<figure>` element markup modified by this plugin, which prevents figure caption text from spanning a width greater than the image's width.
 
 = 0.3.0 =
 Enhancements:
