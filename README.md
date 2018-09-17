@@ -19,6 +19,10 @@ Provides shortcodes that support the use of the [Athena Framework](https://githu
 
 ## Changelog ##
 
+### 0.3.1 ###
+Bug fixes:
+* Added missing `max-width` styling on `<figure>` element markup modified by this plugin, which prevents figure caption text from spanning a width greater than the image's width.
+
 ### 0.3.0 ###
 Enhancements:
 * Added shortcodes for alerts: `[alert]`, `[alert-heading]` and `[alert-link]`.
