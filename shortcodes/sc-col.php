@@ -171,6 +171,12 @@ if ( ! class_exists( 'ColSC' ) ) {
 					'type'    => 'text'
 				),
 				array(
+					'param'   => 'id',
+					'name'    => 'ID',
+					'desc'    => 'ID attribute for the column. Must be unique.',
+					'type'    => 'text'
+				),
+				array(
 					'param'   => 'style',
 					'name'    => 'Inline Styles',
 					'desc'    => 'Any additional styles for the column.',
@@ -187,6 +193,7 @@ if ( ! class_exists( 'ColSC' ) ) {
 
 			$classes  = array( $atts['class'] ?: '' );
 			$styles   = $atts['style'] ?: false;
+			$id       = $atts['id'] ?: false;
 			$prefixes = array( 'xs', 'sm', 'md', 'lg', 'xl' );
 			$suffixes = array( '', '_offset', '_pull', '_push' );
 
@@ -209,7 +216,9 @@ if ( ! class_exists( 'ColSC' ) ) {
 
 			ob_start();
 		?>
-			<div class="<?php echo $cls_str; ?>" <?php if ( $styles ) { echo 'style="' . $styles . '"'; } ?>>
+			<div class="<?php echo $cls_str; ?>"
+			<?php if ( $id ) { echo 'id="' . $id . '"'; } ?>
+			<?php if ( $styles ) { echo 'style="' . $styles . '"'; } ?>>
 				<?php echo do_shortcode( $content ); ?>
 			</div>
 		<?php

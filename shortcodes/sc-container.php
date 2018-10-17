@@ -37,6 +37,12 @@ if ( ! class_exists( 'ContainerSC' ) ) {
 					'type'    => 'text'
 				),
 				array(
+					'param'   => 'id',
+					'name'    => 'ID',
+					'desc'    => 'ID attribute for the container. Must be unique.',
+					'type'    => 'text'
+				),
+				array(
 					'param'   => 'style',
 					'name'    => 'Inline Styles',
 					'desc'    => 'Any additional styles for the container.',
@@ -57,10 +63,13 @@ if ( ! class_exists( 'ContainerSC' ) ) {
 				$classes[] = $atts['class'];
 			}
 			$styles = $atts['style'] ?: false;
+			$id     = $atts['id'] ?: false;
 
 			ob_start();
 		?>
-			<div class="<?php echo implode( $classes, ' ' ); ?>" <?php if ( $styles ) { echo 'style="' . $styles . '"'; } ?>>
+			<div class="<?php echo implode( $classes, ' ' ); ?>"
+			<?php if ( $id ) { echo 'id="' . $id . '"'; } ?>
+			<?php if ( $styles ) { echo 'style="' . $styles . '"'; } ?>>
 				<?php echo do_shortcode( $content ); ?>
 			</div>
 		<?php
