@@ -88,7 +88,7 @@ if ( ! class_exists( 'ATHENA_SC_Config' ) ) {
 			$installed = self::installed_shortcodes();
 
 			foreach( $installed as $shortcode ) {
-				$shortcodes[] = $shortcode->command;
+				$shortcodes[] = $shortcode->command_names();
 			}
 
 			return $shortcodes;
