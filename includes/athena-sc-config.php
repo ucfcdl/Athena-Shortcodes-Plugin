@@ -86,9 +86,12 @@ if ( ! class_exists( 'ATHENA_SC_Config' ) ) {
 
 		public static function athena_sc_get_formatted_shortcodes() {
 			$installed = self::installed_shortcodes();
+			$shortcodes = array();
 
 			foreach( $installed as $shortcode ) {
-				$shortcodes[] = $shortcode->command;
+				foreach ( $shortcode->command_names() as $command ) {
+					$shortcodes[] = $command;
+				}
 			}
 
 			return $shortcodes;
