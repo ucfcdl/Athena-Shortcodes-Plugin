@@ -2,15 +2,16 @@
 /**
  * Provides a shortcode for media background containers.
  **/
-if ( ! class_exists( 'BlockLinkSC' ) ) {
-	class BlockLinkSC extends ATHENA_SC_Shortcode {
+if ( ! class_exists( 'GenericLinkSC' ) ) {
+	class GenericLinkSC extends ATHENA_SC_Shortcode {
 		public
-			$command = 'block-link',
-			$name = 'Block Link',
+			$command = 'link',
+			$name = 'Link',
 			$desc = 'Inserts a generic link. Useful for wrapping block-level content in a link that would otherwise get stripped by the WYSIWYG editor.',
 			$content = true,
 			$preview = false,
-			$group = 'Athena Framework - Utilities';
+			$group = 'Athena Framework - Utilities',
+			$aliases = array( 'block-link' );
 
 		/**
 		 * Returns the shortcode's fields.
