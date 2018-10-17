@@ -262,7 +262,7 @@ if ( ! class_exists( 'CollapseToggleSC' ) ) {
 		 **/
 		public function callback( $atts, $content='' ) {
 			$atts = shortcode_atts( $this->defaults(), $atts );
-			
+
 			$id         = $atts['id'];
 			$styles     = $atts['style'];
 			$attributes = array( 'data-toggle="collapse"' );
