@@ -5,11 +5,12 @@
 if ( ! class_exists( 'ATHENA_SC_Shortcode' ) ) {
 	abstract class ATHENA_SC_Shortcode {
 		public
-			$command = 'Shortcode',
-			$name = 'shortcode',
-			$desc = '',
-			$content = false,
-			$preview = false;
+			$command = 'Shortcode', // "Pretty" shortcode name
+			$name = 'shortcode',    // Actual command name (lowercase, alphanumeric, with dashes and underscores)
+			$desc = '',             // A brief description of the shortcode
+			$content = false,       // Whether or not the shortcode accepts inner contents (is enclosing)
+			$preview = false,       // Whether a preview of this shortcode should be displayed within the WP SCIF interface
+			$aliases = array();     // One or more alternate names for this shortcode (accepts an array of strings)
 
 		/**
 		 * Returns an array of fields
@@ -80,7 +81,10 @@ if ( ! class_exists( 'ATHENA_SC_Shortcode' ) ) {
 		 * @since 1.0.0
 		 **/
 		public function register_shortcode() {
-			add_shortcode( $this->command, array( $this, 'callback' ) );
+			$command_names = $this->command_names();
+			foreach ( $command_names as $command ) {
+				add_shortcode( $command, array( $this, 'callback' ) );
+			}
 		}
 
 		/**
@@ -116,6 +120,18 @@ if ( ! class_exists( 'ATHENA_SC_Shortcode' ) ) {
 			}
 
 			return false;
+		}
+
+		/**
+		 * Returns a list of all names this shortcode is registered under
+		 * (the primary command name and any aliases).
+		 *
+		 * @author Jo Dickson
+		 * @since 0.3.2
+		 * @return array Array of shortcode command names
+		 */
+		public function command_names() {
+			return array_merge( array( $this->command ), $this->aliases );
 		}
 	}
 }
