@@ -131,7 +131,7 @@ if ( ! class_exists( 'ATHENA_SC_Shortcode' ) ) {
 		 * @return array Array of shortcode command names
 		 */
 		public function command_names() {
-			return array( $this->command ) + $this->aliases;
+			return array_merge( array( $this->command ), $this->aliases );
 		}
 	}
 }
