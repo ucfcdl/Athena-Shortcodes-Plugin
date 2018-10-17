@@ -68,6 +68,7 @@ if ( ! class_exists( 'ATHENA_SC_Config' ) ) {
 				'CollapseToggleSC',
 				'IconSC',
 				'JumbotronSC',
+				'LinkSC',
 				'MediaBackgroundContainerSC',
 				'MediaBackgroundSC',
 				'ModalSC',
