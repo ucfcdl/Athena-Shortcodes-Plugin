@@ -145,7 +145,7 @@ if ( ! class_exists( 'ATHENA_SC_TinyMCE_Config' ) ) {
 					'initialism',
 					'lead',
 					'mark',
-					'small',
+					'small'
 				) ),
 				self::get_format( 'Letter Spacing', array(
 					'letter-spacing-0',
