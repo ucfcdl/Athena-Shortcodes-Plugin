@@ -142,7 +142,6 @@ if ( ! class_exists( 'ATHENA_SC_TinyMCE_Config' ) ) {
 					array( 'classes' => 'hr-white', 'selector' => 'hr' ),
 				) ),
 				self::get_format( 'Inline Text Styles', array(
-					'initialism',
 					'lead',
 					'mark',
 					'small'
