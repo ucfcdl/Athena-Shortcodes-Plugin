@@ -267,7 +267,7 @@ if ( ! class_exists( 'CollapseToggleSC' ) ) {
 			$styles     = $atts['style'];
 			$attributes = array( 'data-toggle="collapse"' );
 			$classes    = $atts['class'] ?: false;
-			$elem       = in_array( $atts['element_type'], $this->element_type_options() ) ? $atts['element_type'] : $this->defaults( 'element_type' );
+			$elem       = array_key_exists( $atts['element_type'], $this->element_type_options() ) ? $atts['element_type'] : $this->defaults( 'element_type' );
 			$expanded   = $atts['is_expanded'] ?: $this->defaults( 'is_expanded' );
 
 			// Get applicable attributes

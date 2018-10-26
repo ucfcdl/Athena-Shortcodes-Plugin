@@ -50,7 +50,6 @@ if ( ! class_exists( 'ATHENA_SC_Config' ) ) {
 				'AlertHeadingSC',
 				'AccordionSC',
 				'BadgeSC',
-				'BlockLinkSC',
 				'ButtonSC',
 				'CardSC',
 				'CardHeaderSC',
@@ -66,6 +65,7 @@ if ( ! class_exists( 'ATHENA_SC_Config' ) ) {
 				'CloseSC',
 				'CollapseSC',
 				'CollapseToggleSC',
+				'GenericLinkSC',
 				'IconSC',
 				'JumbotronSC',
 				'MediaBackgroundContainerSC',
@@ -86,9 +86,12 @@ if ( ! class_exists( 'ATHENA_SC_Config' ) ) {
 
 		public static function athena_sc_get_formatted_shortcodes() {
 			$installed = self::installed_shortcodes();
+			$shortcodes = array();
 
 			foreach( $installed as $shortcode ) {
-				$shortcodes[] = $shortcode->command;
+				foreach ( $shortcode->command_names() as $command ) {
+					$shortcodes[] = $command;
+				}
 			}
 
 			return $shortcodes;
