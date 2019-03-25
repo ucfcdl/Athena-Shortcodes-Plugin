@@ -19,6 +19,15 @@ Provides shortcodes that support the use of the [Athena Framework](https://githu
 
 ## Changelog ##
 
+### 0.3.2 ###
+Enhancements:
+* Added ID attribute support to container, row and col shortcodes.
+* Added WYSIWYG format option support for mark and small classes.
+* Renames the `[block-link]` shortcode to `[link]` for clarity, since this shortcode doesn't technically generate a block-level link. To maintain backward compatibility, the alias block-link has been added, so either shortcode name can be used interchangeably.
+
+Bug fixes:
+* Setting the `element_type` to "button" on the shortcode now generates a button element instead of an `<a>` tag.
+
 ### 0.3.1 ###
 Bug fixes:
 * Added missing `max-width` styling on `<figure>` element markup modified by this plugin, which prevents figure caption text from spanning a width greater than the image's width.
