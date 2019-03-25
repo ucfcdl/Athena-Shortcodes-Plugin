@@ -365,10 +365,12 @@ if ( ! class_exists( 'ATHENA_SC_TinyMCE_Config' ) ) {
 			$class         = trim( 'figure ' . $athena_align . ' ' . $atts['class'] );
 			$html5         = current_theme_supports( 'html5', 'caption' );
 
-			// Add 'figure-img' class to inner <img>
+			// Add 'figure-img' class to inner <img> and
+			// remove any previously-added alignment classes
 			if ( preg_match( '/<img [^>]+>/', $content, $matches ) !== false ) {
 				if ( strpos( $matches[0], 'figure-img' ) === false ) {
 					$image_filtered = str_replace( "class='", "class='figure-img ", str_replace( 'class="', 'class="figure-img ', $matches[0] ) );
+					$image_filtered = str_replace( array( 'float-left', 'float-right', 'mx-auto d-block' ), '', $image_filtered );
 					$content = str_replace( $matches[0], $image_filtered, $content );
 				}
 			}
