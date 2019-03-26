@@ -1,53 +1,50 @@
-var gulp   = require('gulp'),
-    autoprefixer = require('gulp-autoprefixer'),
-    cleanCSS = require('gulp-clean-css'),
-    rename = require('gulp-rename'),
-    sass = require('gulp-sass'),
-    scsslint = require('gulp-scss-lint'),
-    readme = require('gulp-readme-to-markdown');
+const fs = require('fs');
+const browserSync = require('browser-sync').create();
+const gulp = require('gulp');
+const autoprefixer = require('gulp-autoprefixer');
+const cleanCSS = require('gulp-clean-css');
+const rename = require('gulp-rename');
+const sass = require('gulp-sass');
+const sassLint = require('gulp-sass-lint');
+const readme = require('gulp-readme-to-markdown');
+const merge = require('merge');
 
-var config = {
+
+let config = {
   src: {
-    scssPath: './src/scss'
+    scssPath: './src/scss',
   },
   dist: {
     cssPath: './static/css',
     fontPath: './static/fonts'
   },
-  packagesPath: './node_modules'
+  packagesPath: './node_modules',
+  sync: false,
+  syncTarget: 'http://localhost/wordpress/'
 };
 
-
-//
-// Installation of components/dependencies
-//
-
-// Copy Athena fonts
-gulp.task('move-components-athena-fonts', function() {
-  gulp.src(config.packagesPath + '/ucf-athena-framework/dist/fonts/**/*')
-   .pipe(gulp.dest(config.dist.fontPath));
-});
-
-// Run all component-related tasks
-gulp.task('components', [
-  'move-components-athena-fonts'
-]);
+/* eslint-disable no-sync */
+if (fs.existsSync('./gulp-config.json')) {
+  const overrides = JSON.parse(fs.readFileSync('./gulp-config.json'));
+  config = merge(config, overrides);
+}
+/* eslint-enable no-sync */
 
 
 //
-// CSS
+// Helper functions
 //
 
-// Lint scss files
-gulp.task('scss-lint', function() {
-  return gulp.src(config.src.scssPath + '/*.scss')
-    .pipe(scsslint({
-      'maxBuffer': 400 * 1024  // default: 300 * 1024
-    }));
-});
+// Base SCSS linting function
+function lintSCSS(src) {
+  return gulp.src(src)
+    .pipe(sassLint())
+    .pipe(sassLint.format())
+    .pipe(sassLint.failOnError());
+}
 
-// Compile scss files
-function buildCSS(src, filename, dest) {
+// Base SCSS compile function
+function buildCSS(src, dest) {
   dest = dest || config.dist.cssPath;
 
   return gulp.src(src)
@@ -60,31 +57,92 @@ function buildCSS(src, filename, dest) {
       // Supported browsers added in package.json ("browserslist")
       cascade: false
     }))
-    .pipe(rename(filename))
+    .pipe(rename({
+      extname: '.min.css'
+    }))
     .pipe(gulp.dest(dest));
 }
 
-gulp.task('scss-build-editor-css', function() {
-  return buildCSS(config.src.scssPath + '/athena-editor-styles.scss', 'athena-editor-styles.min.css');
+// BrowserSync reload function
+function serverReload(done) {
+  if (config.sync) {
+    browserSync.reload();
+  }
+  done();
+}
+
+// BrowserSync serve function
+function serverServe(done) {
+  if (config.sync) {
+    browserSync.init({
+      proxy: {
+        target: config.syncTarget
+      }
+    });
+  }
+  done();
+}
+
+
+//
+// Installation of components/dependencies
+//
+
+// Copy Athena fonts
+gulp.task('move-components-athena-fonts', () => {
+  return gulp.src(`${config.packagesPath}/ucf-athena-framework/dist/fonts/**/*`)
+    .pipe(gulp.dest(config.dist.fontPath));
 });
 
-gulp.task('scss-build', ['scss-build-editor-css']);
-
-// All css-related tasks
-gulp.task('css', ['scss-lint', 'scss-build']);
+// Run all component-related tasks
+gulp.task('components', gulp.series('move-components-athena-fonts'));
 
 
 //
-// Readme
+// CSS
 //
 
-gulp.task('readme', function() {
-  gulp.src('./readme.txt')
+// Lint all plugin scss files
+gulp.task('scss-lint-plugin', () => {
+  return lintSCSS(`${config.src.scssPath}/*.scss`);
+});
+
+// Build WYSIWYG editor stylesheet
+gulp.task('scss-build-editor', () => {
+  return buildCSS(`${config.src.scssPath}/athena-editor-styles.scss`);
+});
+
+// All plugin css-related tasks
+gulp.task('css', gulp.series('scss-lint-plugin', 'scss-build-editor'));
+
+
+//
+// Documentation
+//
+
+// Generates a README.md from README.txt
+gulp.task('readme', () => {
+  return gulp.src('readme.txt')
     .pipe(readme({
       details: false,
-      screenshot_ext: []
+      screenshot_ext: [] // eslint-disable-line camelcase
     }))
     .pipe(gulp.dest('.'));
 });
 
-gulp.task('default', ['components', 'css', 'readme']);
+
+//
+// Rerun tasks when files change
+//
+gulp.task('watch', (done) => {
+  serverServe(done);
+
+  gulp.watch(`${config.src.scssPath}/**/*.scss`, gulp.series('css', serverReload));
+  gulp.watch('./**/*.php', gulp.series(serverReload));
+});
+
+
+//
+// Default task
+//
+gulp.task('default', gulp.series('components', 'css', 'readme'));
