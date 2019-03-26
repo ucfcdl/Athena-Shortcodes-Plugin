@@ -114,7 +114,7 @@ if ( ! class_exists( 'ATHENA_SC_TinyMCE_Config' ) ) {
 				self::get_format( 'Font Weight/Style', array(
 					'font-weight-light',
 					'font-weight-normal',
-					'font-weight-italic',
+					'font-italic',
 					'font-weight-bold',
 					'font-weight-black'
 				) ),
