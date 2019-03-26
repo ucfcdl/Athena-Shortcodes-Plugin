@@ -107,18 +107,13 @@ gulp.task('scss-lint-plugin', () => {
   return lintSCSS(`${config.src.scssPath}/*.scss`);
 });
 
-// Compile plugin stylesheet
-gulp.task('scss-build-plugin', () => {
-  return buildCSS(`${config.src.scssPath}/style.scss`);
-});
-
 // Build WYSIWYG editor stylesheet
 gulp.task('scss-build-editor', () => {
   return buildCSS(`${config.src.scssPath}/athena-editor-styles.scss`);
 });
 
 // All plugin css-related tasks
-gulp.task('css', gulp.series('scss-lint-plugin', 'scss-build-plugin', 'scss-build-editor'));
+gulp.task('css', gulp.series('scss-lint-plugin', 'scss-build-editor'));
 
 
 //
