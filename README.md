@@ -24,6 +24,14 @@ Head over to the [Athena Shortcodes Plugin wiki](https://github.com/UCF/Athena-S
 
 ## Changelog ##
 
+### 0.3.3 ###
+Enhancements:
+* Upgraded packages, linter configs, and gulpfile; added Github issue/PR templates and CONTRIBUTING file to the repo
+
+Bug fixes:
+* Removed alignment classes from `.figure-img` images (images with captions, within `<figure>`s); fixes various vertical spacing and float clearing issues when left- or right-alignment is set on the `<figure>`.
+* Fixed incorrect class name `font-weight-italic` in WYSIWYG Formats dropdown > Font Weight/Style (now `font-italic`)
+
 ### 0.3.2 ###
 Enhancements:
 * Added ID attribute support to container, row and col shortcodes.
