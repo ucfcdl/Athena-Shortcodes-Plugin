@@ -3,7 +3,7 @@ Contributors: ucfwebcom
 Tags: athena-framework, shortcodes
 Requires at least: 4.5.3
 Tested up to: 4.9.9
-Stable tag: 0.3.2
+Stable tag: 0.3.3
 License: GPLv3 or later
 License URI: http://www.gnu.org/copyleft/gpl-3.0.html
 
@@ -31,6 +31,14 @@ Head over to the [Athena Shortcodes Plugin wiki](https://github.com/UCF/Athena-S
 
 
 == Changelog ==
+
+= 0.3.3 =
+Enhancements:
+* Upgraded packages, linter configs, and gulpfile; added Github issue/PR templates and CONTRIBUTING file to the repo
+
+Bug fixes:
+* Removed alignment classes from `.figure-img` images (images with captions, within `<figure>`s); fixes various vertical spacing and float clearing issues when left- or right-alignment is set on the `<figure>`.
+* Fixed incorrect class name `font-weight-italic` in WYSIWYG Formats dropdown > Font Weight/Style (now `font-italic`)
 
 = 0.3.2 =
 Enhancements:
