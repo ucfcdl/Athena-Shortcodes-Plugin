@@ -14,6 +14,30 @@ if ( ! defined( 'WPINC' ) ) {
 define( 'ATHENA_SC__PLUGIN_FILE', __FILE__ );
 define( 'ATHENA_SC__PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
+if ( ! function_exists( 'athena_sc_get_cache_bust' ) ) {
+	function athena_sc_get_cache_bust() {
+		$plugin_cache_bust = '';
+		$plugin_data = function_exists( 'get_plugin_data' ) ? get_plugin_data( ATHENA_SC__PLUGIN_FILE ) : array();
+
+		if ( WP_DEBUG === true ) {
+			$plugin_cache_bust = date( 'YmdHis' );
+		}
+		else {
+			if ( ! empty( $plugin_data ) && isset( $plugin['Version'] ) ) {
+				$plugin_cache_bust = $plugin_data['Version'];
+			}
+			else {
+				$plugin_cache_bust = date( 'YmdH' );
+			}
+		}
+
+		return 'v=' . $plugin_cache_bust;
+	}
+}
+
+define( 'ATHENA_SC__CACHE_BUST', athena_sc_get_cache_bust() );
+
+
 // Shortcode files
 include_once 'includes/class-shortcode.php';
 include_once 'shortcodes/shortcodes.php';
@@ -71,7 +95,8 @@ if ( ! function_exists( 'athena_sc_tinymce_init' ) ) {
 		$options_enabled = apply_filters( 'athena_sc_enable_tinymce_formatting', false );
 		if ( $options_enabled ) {
 			// Enqueue TinyMCE styles.
-			add_editor_style( plugins_url( 'static/css/athena-editor-styles.min.css', ATHENA_SC__PLUGIN_FILE ) );
+
+			add_editor_style( plugins_url( 'static/css/athena-editor-styles.min.css?' . ATHENA_SC__CACHE_BUST, ATHENA_SC__PLUGIN_FILE ) );
 			// Enable custom TinyMCE formats.
 			add_filter( 'mce_buttons_2', array( 'ATHENA_SC_TinyMCE_Config', 'enable_formats' ) );
 			// Register custom formatting options with TinyMCE.
