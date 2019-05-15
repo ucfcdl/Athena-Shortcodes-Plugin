@@ -24,6 +24,11 @@ Head over to the [Athena Shortcodes Plugin wiki](https://github.com/UCF/Athena-S
 
 ## Changelog ##
 
+### 0.3.4 ###
+Enhancements:
+* Added cache-busting for the WYSIWYG editor stylesheet
+* Upgraded packages
+
 ### 0.3.3 ###
 Enhancements:
 * Upgraded packages, linter configs, and gulpfile; added Github issue/PR templates and CONTRIBUTING file to the repo
