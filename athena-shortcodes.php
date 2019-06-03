@@ -44,6 +44,7 @@ include_once 'shortcodes/shortcodes.php';
 
 include_once 'includes/athena-sc-config.php';
 include_once 'includes/athena-sc-tinymce-config.php';
+include_once 'includes/athena-sc-embeds.php';
 
 
 if ( ! function_exists( 'athena_sc_plugin_activated' ) ) {
@@ -95,7 +96,6 @@ if ( ! function_exists( 'athena_sc_tinymce_init' ) ) {
 		$options_enabled = apply_filters( 'athena_sc_enable_tinymce_formatting', false );
 		if ( $options_enabled ) {
 			// Enqueue TinyMCE styles.
-
 			add_editor_style( plugins_url( 'static/css/athena-editor-styles.min.css?' . ATHENA_SC__CACHE_BUST, ATHENA_SC__PLUGIN_FILE ) );
 			// Enable custom TinyMCE formats.
 			add_filter( 'mce_buttons_2', array( 'ATHENA_SC_TinyMCE_Config', 'enable_formats' ) );
@@ -108,6 +108,12 @@ if ( ! function_exists( 'athena_sc_tinymce_init' ) ) {
 			add_filter( 'the_content', array( 'ATHENA_SC_TinyMCE_Config', 'format_image_output' ) );
 			// Override the default caption shortcode to apply Athena classes.
 			add_filter( 'img_caption_shortcode', array( 'ATHENA_SC_TinyMCE_Config', 'format_caption_shortcode' ), 10, 3 );
+		}
+
+		$responsive_videos_enabled = apply_filters( 'athena_sc_enable_responsive_videos', false );
+		if ( $responsive_videos_enabled ) {
+			// Enable responsive embed wrappers around video embeds.
+			add_filter( 'oembed_dataparse', array( 'ATHENA_SC_Embed_Config', 'wrap_responsive_videos' ), 10, 3 );
 		}
 	}
 
