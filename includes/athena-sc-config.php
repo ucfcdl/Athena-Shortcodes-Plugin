@@ -1,130 +1,343 @@
 <?php
+
 /**
- * Handles registering shortcodes.
+ * Basic class for individual plugin options.
+ **/
+if ( ! class_exists( 'ATHENA_SC_Plugin_Option' ) ) {
+	class ATHENA_SC_Plugin_Option {
+		public
+			$option_name,
+			$default         = null,  // default value for the option
+			$format_callback = 'sanitize_text_field',  // function that formats the option value
+			$field_title     = null,
+			$field_desc      = null,
+			$field_type      = 'text',
+			$field_options   = null,
+			$field_options_section = 'athena_sc_settings_general';
+
+		function __construct( $option_name, $args=array() ) {
+			$this->option_name     = $option_name;
+			$this->default         = isset( $args['default'] ) ? $args['default'] : $this->default;
+			$this->format_callback = isset( $args['format_callback'] ) ? $args['format_callback'] : $this->format_callback;
+			$this->field_title     = isset( $args['field_title'] ) ? $args['field_title'] : $this->field_title;
+			$this->field_desc      = isset( $args['field_desc'] ) ? $args['field_desc'] : $this->field_desc;
+			$this->field_type      = isset( $args['field_type'] ) ? $args['field_type'] : $this->field_type;
+			$this->field_options   = isset( $args['field_options'] ) ? $args['field_options'] : $this->field_options;
+			$this->field_options_section = isset( $args['field_options_section'] ) ? $args['field_options_section'] : $this->field_options_section;
+		}
+
+		/**
+		 * Returns the formatted value, using the function name passed to
+		 * $this->format_callback.
+		 *
+		 * @author Jo Dickson
+		 * @since 0.4.0
+		 * @param mixed $value Option value to apply formatting to
+		 * @return mixed Option value with formatting applied
+		 **/
+		function format( $value ) {
+			return call_user_func( $this->format_callback, $value );
+		}
+	}
+}
+
+
+/**
+ * Handles options/settings and displaying them in the WordPress admin.
  **/
 if ( ! class_exists( 'ATHENA_SC_Config' ) ) {
 	class ATHENA_SC_Config {
+		public static
+			$option_prefix = 'athena_sc_',
+			$settings_page_prefix = 'athena_sc_settings';
+
 		/**
-		 * Registers the shortcodes
+		 * Returns a full list of plugin option objects.
+		 *
+		 * @author Jo Dickson
+		 * @since 0.4.0
+		 * @return array array of ATHENA_SC_Plugin_Option objects
 		 **/
-		public static function register_shortcodes() {
-			$shortcodes = self::installed_shortcodes();
-
-			foreach( $shortcodes as $shortcode ) {
-				$shortcode->register_shortcode();
-			}
-		}
-
-		public static function register_shortcodes_interface( $shortcodes ) {
-			$installed = self::installed_shortcodes();
-
-			foreach( $installed as $shortcode ) {
-				$shortcodes[] = $shortcode->register_interface();
-			}
-
-			return $shortcodes;
-		}
-
-		public static function register_shortcodes_preview_styles( $stylesheets ) {
-			$stylesheets[] = plugins_url( 'static/css/athena-editor-styles.min.css', ATHENA_SC__PLUGIN_FILE );
-			return $stylesheets;
-		}
-
-		public static function installed_shortcodes() {
-			// Get shortcodes via the `athena_sc_add_shortcode` hook.
-			$installed = self::athena_sc_add_shortcode();
-			$installed = apply_filters( 'athena_sc_add_shortcode', $installed );
-
-			return array_map( create_function( '$class', '
-				return new $class;
-			' ), $installed );
-		}
-
-		public static function athena_sc_add_shortcode() {
+		public static function get_options() {
 			return array(
-				'ContainerSC',
-				'RowSC',
-				'ColSC',
-				'AlertSC',
-				'AlertLinkSC',
-				'AlertHeadingSC',
-				'AccordionSC',
-				'BadgeSC',
-				'ButtonSC',
-				'CardSC',
-				'CardHeaderSC',
-				'CardFooterSC',
-				'CardBlockSC',
-				'CardTitleSC',
-				'CardSubtitleSC',
-				'CardTextSC',
-				'CardLinkSC',
-				'CardGroupSC',
-				'CardDeckSC',
-				'CardColumnsSC',
-				'CloseSC',
-				'CollapseSC',
-				'CollapseToggleSC',
-				'GenericLinkSC',
-				'IconSC',
-				'JumbotronSC',
-				'MediaBackgroundContainerSC',
-				'MediaBackgroundSC',
-				'ModalSC',
-				'ModalHeaderSC',
-				'ModalFooterSC',
-				'ModalBodySC',
-				'ModalTitleSC',
-				'ModalToggleSC',
-				'NavSC',
-				'NavItemSC',
-				'NavLinkSC',
-				'TabContentSC',
-				'TabPaneSC'
+				new ATHENA_SC_Plugin_Option( self::$option_prefix . 'enable_tinymce_formatting', array(
+					'default'         => false, // TODO integrate with hook
+					'format_callback' => 'wp_validate_boolean',
+					'field_title'     => 'Enable TinyMCE tools and formatting',
+					'field_desc'      => 'When checked, custom Athena Framework formats will be made available in the TinyMCE editor.<br>Additionally, images added to posts/pages via the Media Library will include Athena-friendly alignment and responsiveness classes (does not affect images in existing posts/pages).',
+					'field_type'      => 'checkbox'
+				) ),
+				new ATHENA_SC_Plugin_Option( self::$option_prefix . 'enable_responsive_videos', array(
+					'default'         => false, // TODO integrate with hook
+					'format_callback' => 'wp_validate_boolean',
+					'field_title'     => 'Enable responsive video embeds',
+					'field_desc'      => 'When checked, all videos added to post/page content will be made responsive.  We recommend enabling this setting on new sites only.<br><strong>Enabling on an existing site will break existing embeds that include responsive embed wrappers already.  Tread carefully!</strong>',
+					'field_type'      => 'checkbox'
+				) )
 			);
 		}
 
-		public static function athena_sc_get_formatted_shortcodes() {
-			$installed = self::installed_shortcodes();
-			$shortcodes = array();
-
-			foreach( $installed as $shortcode ) {
-				foreach ( $shortcode->command_names() as $command ) {
-					$shortcodes[] = $command;
-				}
+		/**
+		 * Returns an option object or false if it doesn't exist.
+		 *
+		 * @author Jo Dickson
+		 * @since 0.4.0
+		 * @param string $option_name Name of the option object to return
+		 * @return mixed ATHENA_SC_Plugin_Option object, or false on failure
+		 **/
+		public static function get_option( $option_name ) {
+			$options  = self::get_options();
+			if ( substr( $option_name, 0, strlen( self::$option_prefix ) ) !== self::$option_prefix ) {
+				$option_name = self::$option_prefix . $option_name;
 			}
 
-			return $shortcodes;
+			$filtered = array_filter( $options, function( $option ) {
+				return $option->option_name === $option_name;
+			} );
+
+			return ( ! empty( $filered ) ) ? $filtered[0] : false;
+			// return isset( $options[$option_name] ) ? $options[$option_name] : false;
 		}
 
 		/**
-		 * Strip out <p></p> and <br> from inner shortcode contents. Applied
-		 * only to shortcodes returned by the
-		 * athena_sc_get_formatted_shortcodes hook.
+		 * Creates options via the WP Options API that are utilized by the
+		 * plugin.  Intended to be run on plugin activation.
 		 *
-		 * https://wordpress.stackexchange.com/a/130185
+		 * @author Jo Dickson
+		 * @since 0.4.0
+		 * @return void
 		 **/
-		public static function format_shortcode_output( $content ) {
-			// Get shortcodes via the `athena_sc_get_formatted_shortcodes` hook.
-			$shortcodes = self::athena_sc_get_formatted_shortcodes();
-			$shortcodes = apply_filters( 'athena_sc_get_formatted_shortcodes', $shortcodes );
-
-			$block = join( '|', $shortcodes );
-			$rep = preg_replace( "/(<p>)?\[($block)(\s[^\]]+)?\](<\/p>|<br \/>)?/", "[$2$3]", $content );
-			$rep = preg_replace( "/(<p>)?\[\/($block)](<\/p>|<br \/>)?/", "[/$2]", $rep );
-			return $rep;
+		public static function add_options() {
+			foreach ( self::get_options() as $option ) {
+				add_option( $option->option_name, $option->default );
+			}
 		}
 
 		/**
-		 * Strip out <p></p> and <br> from inner shortcode contents within ACF
-		 * WYSIWYG field contents.
+		 * Deletes options via the WP Options API that are utilized by the
+		 * plugin.  Intended to be run on plugin uninstallation.
 		 *
-		 * There is probably a less janky way of doing this that doesn't
-		 * involve re-fetching the field value, but this works at least
+		 * @author Jo Dickson
+		 * @since 0.4.0
+		 * @return void
 		 **/
-		public static function format_acf_wysiwyg_output( $content, $post_id, $field ) {
-			$value_raw = acf_get_value( $post_id, $field );
-			return apply_filters( 'the_content', $value_raw );
+		public static function delete_options() {
+			foreach ( self::get_options() as $option ) {
+				delete_option( $option->option_name );
+			}
+		}
+
+
+		/**
+		 * Applies formatting to a single option.
+		 * Intended to be passed to the 'option_{$option}' hook.
+		 *
+		 * @author Jo Dickson
+		 * @since 0.4.0
+		 * @param mixed $value Value of the option
+		 * @param string $option_name Option name
+		 * @return mixed Formatted option value, or false on failure
+		 **/
+		public static function format_option( $value, $option_name ) {
+			$option = self::get_option( $option_name );
+			if ( $option ) {
+				return $option->format( $value );
+			}
+			return $value;
+		}
+
+
+		/**
+		 * Adds filters for plugin options that apply our
+		 * formatting rules and defaults.
+		 *
+		 * NOTE: option defaults get added to the
+		 * `default_option_{$option_name}` hook when registered via
+		 * `register_setting()` with the `default` arg param passed in,
+		 * so a default_option hook isn't necessary here.
+		 *
+		 * @author Jo Dickson
+		 * @since 0.4.0
+		 * @return void
+		 **/
+		public static function add_option_filters() {
+			foreach ( self::get_options() as $option ) {
+				// Apply formatting to returned option values
+				add_filter( 'option_{$option->option_name}', array( 'ATHENA_SC_Config', 'format_option' ), 10, 2 );
+			}
+		}
+
+
+		/**
+		 * Returns a setting type valid for use in `register_setting()`
+		 * for the given option object.
+		 *
+		 * @see https://developer.wordpress.org/reference/functions/register_setting/#parameters
+		 *
+		 * @author Jo Dickson
+		 * @since 0.4.0
+		 * @param object $option ATHENA_SC_Plugin_Option object
+		 * @return string WP setting "type" value for the given option
+		 */
+		public static function get_setting_type( $option ) {
+			$type = 'string';
+
+			// NOTE: Add more use cases here as needed to
+			// cover other future field types.
+			switch ( $option->field_type ) {
+				case 'checkbox':
+					$type = 'boolean';
+					break;
+				case 'text':
+				default:
+					break;
+			}
+
+			return $type;
+		}
+
+
+		/**
+		 * Initializes setting registration with the Settings API.
+		 *
+		 * @author Jo Dickson
+		 * @since 0.4.0
+		 * @return void
+		 **/
+		public static function settings_init() {
+			// Register setting sections
+			add_settings_section(
+				self::$settings_page_prefix . '_general', // option section slug
+				'General Settings', // formatted title
+				'', // callback that echoes any content at the top of the section
+				self::$settings_page_prefix // settings page slug
+			);
+
+			foreach ( self::get_options() as $option ) {
+				// Register setting
+				register_setting(
+					self::$settings_page_prefix,
+					$option->option_name,
+					array(
+						'type'              => self::get_setting_type( $option ),
+						'description'       => $option->field_desc,
+						'sanitize_callback' => $option->format_callback,
+						'default'           => $option->default
+					)
+				);
+
+				// Add individual setting field
+				if ( $option->field_title && $option->field_options_section ) {
+					add_settings_field(
+						$option->option_name,
+						$option->field_title,  // formatted field title
+						array( 'ATHENA_SC_Config', 'display_settings_field' ),  // display callback
+						self::$settings_page_prefix,  // settings page slug
+						$option->field_options_section,  // option section slug
+						array(  // extra arguments to pass to the callback function
+							'label_for'   => $option->option_name,
+							'description' => $option->field_desc ?: '',
+							'type'        => $option->field_type ?: 'text'
+						)
+					);
+				}
+			}
+		}
+
+		/**
+		 * Displays an individual setting's field markup.
+		 *
+		 * @author Jo Dickson
+		 * @since 0.4.0
+		 * @param array $args Array of field display arguments
+		 * @return string Field input HTML
+		 **/
+		public static function display_settings_field( $args ) {
+			$option_name   = $args['label_for'];
+			$description   = $args['description'];
+			$field_type    = $args['type'];
+			$current_value = get_option( $option_name );
+			$markup        = '';
+
+			switch ( $field_type ) {
+				case 'checkbox':
+					ob_start();
+				?>
+					<input type="checkbox" id="<?php echo $option_name; ?>" name="<?php echo $option_name; ?>" <?php checked( $current_value ); ?>>
+					<p class="description">
+						<?php echo $description; ?>
+					</p>
+				<?php
+					$markup = ob_get_clean();
+					break;
+
+				case 'text':
+				default:
+					ob_start();
+				?>
+					<input type="text" id="<?php echo $option_name; ?>" name="<?php echo $option_name; ?>" value="<?php echo $current_value; ?>">
+					<p class="description">
+						<?php echo $description; ?>
+					</p>
+				<?php
+					$markup = ob_get_clean();
+					break;
+			}
+		?>
+
+		<?php
+			echo $markup;
+		}
+
+
+		/**
+		 * Registers the settings page to display in the WordPress admin.
+		 *
+		 * @author Jo Dickson
+		 * @since 0.4.0
+		 * @return string The resulting page's hook_suffix
+		 **/
+		public static function add_options_page() {
+			$page_title = 'Athena Shortcodes Plugin Settings';
+			$menu_title = 'Athena Shortcodes';
+			$capability = 'manage_options';
+			$menu_slug  = 'athena_sc_settings';
+			$callback   = array( 'ATHENA_SC_Config', 'options_page_html' );
+
+			return add_options_page(
+				$page_title,
+				$menu_title,
+				$capability,
+				$menu_slug,
+				$callback
+			);
+		}
+
+
+		/**
+		 * Displays the plugin's settings page form.
+		 *
+		 * @author Jo Dickson
+		 * @since 0.4.0
+		 * @return string Options page form HTML
+		 **/
+		public static function options_page_html() {
+			ob_start();
+		?>
+
+		<div class="wrap">
+			<h1><?php echo get_admin_page_title(); ?></h1>
+			<form method="post" action="options.php">
+				<?php
+				settings_fields( self::$settings_page_prefix );
+				do_settings_sections( self::$settings_page_prefix );
+				submit_button();
+				?>
+			</form>
+		</div>
+
+		<?php
+			echo ob_get_clean();
 		}
 	}
 }
