@@ -61,17 +61,29 @@ if ( ! class_exists( 'ATHENA_SC_Config' ) ) {
 		public static function get_options() {
 			return array(
 				new ATHENA_SC_Plugin_Option( self::$option_prefix . 'enable_tinymce_formatting', array(
-					'default'         => false, // TODO integrate with hook
+					'default'         => false,
 					'format_callback' => 'wp_validate_boolean',
 					'field_title'     => 'Enable TinyMCE tools and formatting',
-					'field_desc'      => 'When checked, custom Athena Framework formats will be made available in the TinyMCE editor.<br>Additionally, images added to posts/pages via the Media Library will include Athena-friendly alignment and responsiveness classes (does not affect images in existing posts/pages).',
+					'field_desc'      => "When checked, custom Athena Framework formats will be made available in the TinyMCE editor.
+										  <br>Additionally, images added to posts/pages via the Media Library will include
+										  Athena-friendly alignment and responsiveness classes (does not affect images in existing
+										  posts/pages).",
 					'field_type'      => 'checkbox'
 				) ),
 				new ATHENA_SC_Plugin_Option( self::$option_prefix . 'enable_responsive_videos', array(
-					'default'         => false, // TODO integrate with hook
+					'default'         => false,
 					'format_callback' => 'wp_validate_boolean',
 					'field_title'     => 'Enable responsive video embeds',
-					'field_desc'      => 'When checked, all videos added to post/page content will be made responsive.  We recommend enabling this setting on new sites only.<br><strong>Enabling on an existing site will break existing embeds that include responsive embed wrappers already.  Tread carefully!</strong>',
+					'field_desc'      => "When checked, all videos added to post/page content will be made responsive.
+										  We recommend enabling this setting on new sites only.
+										  <br><strong style='display: inline-block; padding-top: .5rem;'>
+										  Please read before changing this setting:
+										  </strong>
+										  <br>&bull; After modifying this setting, you should flush your oEmbed cache</strong>
+										  by using either <a href='https://developer.wordpress.org/cli/commands/embed-2/cache/clear/' _target='blank'>wp-cli</a>
+										  or a third-party plugin.  Depending on the size of your site, this could take a while to complete.
+										  <br>&bull; Enabling on an existing site will break existing embeds that include responsive
+										  embed wrappers already.  <strong>Tread carefully!</strong>",
 					'field_type'      => 'checkbox'
 				) )
 			);
@@ -91,12 +103,14 @@ if ( ! class_exists( 'ATHENA_SC_Config' ) ) {
 				$option_name = self::$option_prefix . $option_name;
 			}
 
-			$filtered = array_filter( $options, function( $option ) {
+			$filtered = array_filter( $options, function( $option ) use ( $option_name ) {
 				return $option->option_name === $option_name;
 			} );
 
-			return ( ! empty( $filered ) ) ? $filtered[0] : false;
-			// return isset( $options[$option_name] ) ? $options[$option_name] : false;
+			// Return the first array item in $filtered.
+			// NOTE: Use `reset()` here since the first index
+			// of $filtered may not be 0.
+			return ( ! empty( $filtered ) ) ? reset( $filtered ) : false;
 		}
 
 		/**
@@ -213,6 +227,7 @@ if ( ! class_exists( 'ATHENA_SC_Config' ) ) {
 				self::$settings_page_prefix // settings page slug
 			);
 
+			// Register settings and their fields
 			foreach ( self::get_options() as $option ) {
 				// Register setting
 				register_setting(
