@@ -70,12 +70,14 @@ if ( ! class_exists( 'ATHENA_SC_Config' ) ) {
 										  posts/pages).",
 					'field_type'      => 'checkbox'
 				) ),
-				new ATHENA_SC_Plugin_Option( self::$option_prefix . 'enable_responsive_videos', array(
+				new ATHENA_SC_Plugin_Option( self::$option_prefix . 'enable_responsive_embeds', array(
 					'default'         => false,
 					'format_callback' => 'wp_validate_boolean',
-					'field_title'     => 'Enable responsive video embeds',
-					'field_desc'      => "When checked, all videos added to post/page content will be made responsive.
-										  We recommend enabling this setting on new sites only.
+					'field_title'     => 'Enable responsive embeds',
+					'field_desc'      => "When checked, all videos and embed content (e.g. social media embeds) added to post/page
+										  content will be made responsive.  Video embeds will span the full width of their containers
+										  without overflowing, and social widgets will be centered within their parent containers.
+										  <br>We recommend enabling this setting on new sites only.
 										  <br><strong style='display: inline-block; padding-top: .5rem;'>
 										  Please read before changing this setting:
 										  </strong>
