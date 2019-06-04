@@ -135,10 +135,12 @@ if ( ! function_exists( 'athena_sc_tinymce_init' ) ) {
 if ( ! function_exists( 'athena_sc_responsive_videos_init' ) ) {
 	function athena_sc_responsive_videos_init() {
 		// Register actions/filters for responsive videos if enabled.
-		$responsive_videos_enabled = get_option( 'athena_sc_enable_responsive_videos' );
-		if ( $responsive_videos_enabled ) {
-			// Enable responsive embed wrappers around video embeds.
-			add_filter( 'oembed_dataparse', array( 'ATHENA_SC_Embed_Config', 'wrap_responsive_videos' ), 10, 3 );
+		$responsive_embeds_enabled = get_option( 'athena_sc_enable_responsive_embeds' );
+		if ( $responsive_embeds_enabled ) {
+			// Enable responsive embed wrappers around oEmbed content.
+			add_filter( 'oembed_dataparse', array( 'ATHENA_SC_Embed_Config', 'enable_responsive_oembeds' ), 10, 3 );
+			// Enable responsive videos added using the [video] shortcode.
+			add_filter( 'wp_video_shortcode', array( 'ATHENA_SC_Embed_Config', 'enable_responsive_videos' ), 10, 5 );
 		}
 	}
 
