@@ -3,7 +3,7 @@ Contributors: ucfwebcom
 Tags: athena-framework, shortcodes
 Requires at least: 4.5.3
 Tested up to: 4.9.9
-Stable tag: 0.3.4
+Stable tag: 0.4.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/copyleft/gpl-3.0.html
 
@@ -31,6 +31,12 @@ Head over to the [Athena Shortcodes Plugin wiki](https://github.com/UCF/Athena-S
 
 
 == Changelog ==
+
+= 0.4.0 =
+Enhancements:
+* Adds a new settings page for the plugin, which allows users to adjust the plugin's TinyMCE + image formatting option, as well as a new option for enabling responsive wrappers around oEmbeds and videos.
+
+  Responsive embeds are disabled by default to avoid conflicts with sites that already have `.embed-responsive` wrapper divs added around their embeds manually.  Site administrators should enable this setting on new sites, or audit and update any existing posts/pages to ensure embeds won't be double-wrapped after enabling this setting.
 
 = 0.3.4 =
 Enhancements:
