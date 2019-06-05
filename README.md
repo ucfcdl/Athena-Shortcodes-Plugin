@@ -24,6 +24,12 @@ Head over to the [Athena Shortcodes Plugin wiki](https://github.com/UCF/Athena-S
 
 ## Changelog ##
 
+### 0.4.0 ###
+Enhancements:
+* Adds a new settings page for the plugin, which allows users to adjust the plugin's TinyMCE + image formatting option, as well as a new option for enabling responsive wrappers around oEmbeds and videos.
+
+  Responsive embeds are disabled by default to avoid conflicts with sites that already have `.embed-responsive` wrapper divs added around their embeds manually.  Site administrators should enable this setting on new sites, or audit and update any existing posts/pages to ensure embeds won't be double-wrapped after enabling this setting.
+
 ### 0.3.4 ###
 Enhancements:
 * Added cache-busting for the WYSIWYG editor stylesheet
