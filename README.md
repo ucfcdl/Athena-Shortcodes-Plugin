@@ -24,6 +24,11 @@ Head over to the [Athena Shortcodes Plugin wiki](https://github.com/UCF/Athena-S
 
 ## Changelog ##
 
+### 0.4.1 ###
+Enhancements:
+* Removed usage of `create_function()` in the plugin to support newer versions of PHP.
+* Added a minimum PHP requirement for the plugin.
+
 ### 0.4.0 ###
 Enhancements:
 * Adds a new settings page for the plugin, which allows users to adjust the plugin's TinyMCE + image formatting option, as well as a new option for enabling responsive wrappers around oEmbeds and videos.

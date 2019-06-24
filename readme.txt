@@ -3,7 +3,8 @@ Contributors: ucfwebcom
 Tags: athena-framework, shortcodes
 Requires at least: 4.5.3
 Tested up to: 4.9.9
-Stable tag: 0.4.0
+Stable tag: 0.4.1
+Requires PHP: 5.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/copyleft/gpl-3.0.html
 
@@ -31,6 +32,11 @@ Head over to the [Athena Shortcodes Plugin wiki](https://github.com/UCF/Athena-S
 
 
 == Changelog ==
+
+= 0.4.1 =
+Enhancements:
+* Removed usage of `create_function()` in the plugin to support newer versions of PHP.
+* Added a minimum PHP requirement for the plugin.
 
 = 0.4.0 =
 Enhancements:
