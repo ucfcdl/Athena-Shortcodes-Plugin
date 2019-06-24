@@ -35,9 +35,9 @@ if ( ! class_exists( 'ATHENA_SC_Shortcode_Config' ) ) {
 			$installed = self::athena_sc_add_shortcode();
 			$installed = apply_filters( 'athena_sc_add_shortcode', $installed );
 
-			return array_map( create_function( '$class', '
+			return array_map( function( $class ) {
 				return new $class;
-			' ), $installed );
+			}, $installed );
 		}
 
 		public static function athena_sc_add_shortcode() {
