@@ -24,6 +24,10 @@ Head over to the [Athena Shortcodes Plugin wiki](https://github.com/UCF/Athena-S
 
 ## Changelog ##
 
+### 0.4.2 ###
+Enhancements:
+* Add Github URI
+
 ### 0.4.1 ###
 Enhancements:
 * Removed usage of `create_function()` in the plugin to support newer versions of PHP.
