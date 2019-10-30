@@ -70,6 +70,15 @@ if ( ! class_exists( 'ATHENA_SC_Config' ) ) {
 										  posts/pages).",
 					'field_type'      => 'checkbox'
 				) ),
+				new ATHENA_SC_Plugin_Option( self::$option_prefix . 'enable_optin_classes', array(
+					'default'         => true,
+					'format_callback' => 'wp_validate_boolean',
+					'field_title'     => 'Enable automatic insertion of opt-in content classes',
+					'field_desc'      => "When checked, CSS classes for opt-in content styles will be added to elements automatically
+										  in the TinyMCE editor.  Currently, this includes <code>.table</code> for tables and
+										  <code>.blockquote</code> for blockquotes.",
+					'field_type'      => 'checkbox'
+				) ),
 				new ATHENA_SC_Plugin_Option( self::$option_prefix . 'enable_responsive_embeds', array(
 					'default'         => false,
 					'format_callback' => 'wp_validate_boolean',
@@ -179,7 +188,7 @@ if ( ! class_exists( 'ATHENA_SC_Config' ) ) {
 		public static function add_option_filters() {
 			foreach ( self::get_options() as $option ) {
 				// Apply formatting to returned option values
-				add_filter( 'option_{$option->option_name}', array( 'ATHENA_SC_Config', 'format_option' ), 10, 2 );
+				add_filter( "option_{$option->option_name}", array( 'ATHENA_SC_Config', 'format_option' ), 10, 2 );
 			}
 		}
 
