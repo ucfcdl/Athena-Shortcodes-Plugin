@@ -267,9 +267,34 @@ if ( ! class_exists( 'ATHENA_SC_TinyMCE_Config' ) ) {
 			return json_encode( array_merge( $style_formats, $new_style_formats ) );
 		}
 
+		public static function get_init_instance_callback() {
+			ob_start();
+		?>
+		function (editor) {
+			editor.on('NodeChange', function (e) {
+				var elems = e.parents;
+
+				elems.forEach(function(elem) {
+					/* Tables */
+					if (elem.tagName.toLowerCase() === 'table') {
+						elem.classList.add('table');
+					}
+
+					/* Blockquotes */
+					if (elem.tagName.toLowerCase() === 'blockquote') {
+						elem.classList.add('blockquote');
+					}
+				});
+			});
+		}
+		<?php
+			return trim( ob_get_clean() );
+		}
+
 		public static function register_settings( $settings ) {
 			$settings['block_formats'] = self::get_block_formats( isset( $settings['block_formats'] ) ? $settings['block_formats'] : false );
 			$settings['style_formats'] = self::get_style_formats( isset( $settings['style_formats'] ) ? $settings['style_formats'] : false );
+			$settings['init_instance_callback'] = self::get_init_instance_callback();
 
 			return $settings;
 		}
