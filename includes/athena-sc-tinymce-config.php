@@ -73,7 +73,7 @@ if ( ! class_exists( 'ATHENA_SC_TinyMCE_Config' ) ) {
 						if ( !$option['title'] ) { $option['title'] = $option['classes']; }
 					}
 					else {
-						break;
+						continue;
 					}
 
 					$option = array_filter( $option );
@@ -95,10 +95,18 @@ if ( ! class_exists( 'ATHENA_SC_TinyMCE_Config' ) ) {
 
 			$new_style_formats = array();
 
+			// Define opt-in element classes if automatic insertion of
+			// these classes is disabled:
+			$blockquote_optin_class = $table_optin_class = null;
+			if ( ! get_option( 'athena_sc_enable_optin_classes' ) ) {
+				$blockquote_optin_class = array( 'block' => 'blockquote', 'classes' => 'blockquote', 'selector' => 'blockquote' );
+				$table_optin_class      = array( 'classes' => 'table', 'selector' => 'table' );
+			}
+
 			// Text, list formatting options
 			$new_style_formats = array(
 				self::get_format( 'Blockquote Styles', array(
-					array( 'block' => 'blockquote', 'classes' => 'blockquote', 'selector' => 'blockquote' ),
+					$blockquote_optin_class,
 					array( 'block' => 'blockquote', 'classes' => 'blockquote-reverse', 'selector' => 'blockquote' ),
 					array( 'block' => 'blockquote', 'classes' => 'blockquote-quotation', 'selector' => 'blockquote' ),
 					array( 'block' => 'blockquote', 'classes' => 'blockquote-quotation-inverse', 'selector' => 'blockquote' ),
@@ -176,7 +184,7 @@ if ( ! class_exists( 'ATHENA_SC_TinyMCE_Config' ) ) {
 					'hidden-print'
 				) ),
 				self::get_format( 'Table Styles', array(
-					array( 'classes' => 'table', 'selector' => 'table' ),
+					$table_optin_class,
 					array( 'classes' => 'table-responsive', 'selector' => 'table' ),
 					array( 'classes' => 'table-striped', 'selector' => 'table' ),
 					array( 'classes' => 'table-bordered', 'selector' => 'table' ),
@@ -267,9 +275,48 @@ if ( ! class_exists( 'ATHENA_SC_TinyMCE_Config' ) ) {
 			return json_encode( array_merge( $style_formats, $new_style_formats ) );
 		}
 
+		public static function get_init_instance_callback() {
+			$callback     = '';
+			$has_callback = false;
+
+			if ( get_option( 'athena_sc_enable_optin_classes' ) === true ) {
+				$has_callback = true;
+			}
+
+			if ( $has_callback ):
+				ob_start();
+			?>
+			function (editor) {
+				editor.on('NodeChange', function (e) {
+					var elems = e.parents;
+
+					elems.forEach(function(elem) {
+						/* Tables */
+						if (elem.tagName.toLowerCase() === 'table') {
+							elem.classList.add('table');
+						}
+
+						/* Blockquotes */
+						if (elem.tagName.toLowerCase() === 'blockquote') {
+							elem.classList.add('blockquote');
+						}
+					});
+				});
+			}
+			<?php
+				$callback = trim( ob_get_clean() );
+			endif;
+
+			return $callback;
+		}
+
 		public static function register_settings( $settings ) {
 			$settings['block_formats'] = self::get_block_formats( isset( $settings['block_formats'] ) ? $settings['block_formats'] : false );
 			$settings['style_formats'] = self::get_style_formats( isset( $settings['style_formats'] ) ? $settings['style_formats'] : false );
+
+			if ( $init_instance_callback = self::get_init_instance_callback() ) {
+				$settings['init_instance_callback'] = $init_instance_callback;
+			}
 
 			return $settings;
 		}
