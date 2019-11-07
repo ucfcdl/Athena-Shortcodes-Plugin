@@ -2,8 +2,8 @@
 Contributors: ucfwebcom
 Tags: athena-framework, shortcodes
 Requires at least: 4.5.3
-Tested up to: 4.9.9
-Stable tag: 0.4.2
+Tested up to: 5.2.3
+Stable tag: 0.5.0
 Requires PHP: 5.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/copyleft/gpl-3.0.html
@@ -32,6 +32,17 @@ Head over to the [Athena Shortcodes Plugin wiki](https://github.com/UCF/Athena-S
 
 
 == Changelog ==
+
+= 0.5.0 =
+Enhancements:
+* Added the ability to let TinyMCE automatically add opt-in content classes (`.table` on `<table>`s, `.blockquote` on `<blockquote>`s.  By default this is enabled, but it can be disabled via plugin settings in case of third-party component conflicts.
+* Updated the "Formats" dropdown in the WYSIWYG editor to exclude `.table` and `.blockquote` classes when automatic opt-in class insertion is enabled.
+* Added a new `labelledby` shortcode attribute for `[tab-pane]`.
+* Upgraded packages
+
+Bug fixes:
+* Fixed non-functional `option_{$option->option_name}` filters.  Plugin options are now properly formatted when returned via `get_option()`.
+* Replaced `break` with `continue` in `ATHENA_SC_TinyMCE_Config::get_format_options()` to allow null format options to be passed in without breaking all other format options.
 
 = 0.4.2 =
 Enhancements:
