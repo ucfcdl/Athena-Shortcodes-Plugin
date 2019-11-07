@@ -211,7 +211,7 @@ if ( ! class_exists( 'NavLinkSC' ) ) {
 				array(
 					'param'   => 'id',
 					'name'    => 'ID',
-					'desc'    => 'ID attribute for the link. Must be unique.',
+					'desc'    => 'ID attribute for the link. Must be unique. This value is required if this nav link opens a tab pane.',
 					'type'    => 'text'
 				),
 				array(
@@ -390,6 +390,12 @@ if ( ! class_exists( 'TabPaneSC' ) ) {
 					'type'    => 'text'
 				),
 				array(
+					'param'   => 'labelledby',
+					'name'    => 'Labelled By (ARIA)',
+					'desc'    => 'ID of an element that provides label or title text for the tab pane. In most cases, this value should be the ID of the pane\'s corresponding [nav-link]. Required for accessibility purposes.',
+					'type'    => 'text'
+				),
+				array(
 					'param'   => 'style',
 					'name'    => 'Inline Styles',
 					'desc'    => 'Any additional styles for the tab-pane element.',
@@ -404,13 +410,15 @@ if ( ! class_exists( 'TabPaneSC' ) ) {
 		public function callback( $atts, $content='' ) {
 			$atts = shortcode_atts( $this->defaults(), $atts );
 
-			$id      = $atts['id'];
-			$styles  = $atts['style'];
-			$classes = array_unique( array_merge( array( 'tab-pane' ), explode( ' ', $atts['class'] ) ) );
+			$id         = $atts['id'];
+			$labelledby = $atts['labelledby'];
+			$styles     = $atts['style'];
+			$classes    = array_unique( array_merge( array( 'tab-pane' ), explode( ' ', $atts['class'] ) ) );
 
 			ob_start();
 		?>
 			<div class="<?php echo implode( ' ', $classes ); ?>" role="tabpanel" id="<?php echo $id; ?>"
+			<?php if ( $labelledby ) { echo 'aria-labelledby="' . $labelledby . '"'; } ?>
 			<?php if ( $styles ) { echo 'style="' . $styles . '"'; } ?>
 			>
 				<?php echo do_shortcode( $content ); ?>
