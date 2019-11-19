@@ -2,8 +2,8 @@
 Contributors: ucfwebcom
 Tags: athena-framework, shortcodes
 Requires at least: 4.5.3
-Tested up to: 5.2.3
-Stable tag: 0.5.0
+Tested up to: 5.3
+Stable tag: 0.5.1
 Requires PHP: 5.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/copyleft/gpl-3.0.html
@@ -32,6 +32,10 @@ Head over to the [Athena Shortcodes Plugin wiki](https://github.com/UCF/Athena-S
 
 
 == Changelog ==
+
+= 0.5.1 =
+Enhancements:
+* Upgraded packages, including Athena Framework, to latest versions
 
 = 0.5.0 =
 Enhancements:
