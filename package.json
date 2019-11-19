@@ -12,7 +12,7 @@
     "merge": "^1.2.1"
   },
   "dependencies": {
-    "ucf-athena-framework": "^1.0.6"
+    "ucf-athena-framework": "^1.0.7"
   },
   "browserslist": [
     "last 2 versions"
