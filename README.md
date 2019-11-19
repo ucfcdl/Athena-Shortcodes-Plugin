@@ -24,6 +24,10 @@ Head over to the [Athena Shortcodes Plugin wiki](https://github.com/UCF/Athena-S
 
 ## Changelog ##
 
+### 0.5.1 ###
+Enhancements:
+* Upgraded packages, including Athena Framework, to latest versions
+
 ### 0.5.0 ###
 Enhancements:
 * Added the ability to let TinyMCE automatically add opt-in content classes (`.table` on `<table>`s, `.blockquote` on `<blockquote>`s.  By default this is enabled, but it can be disabled via plugin settings in case of third-party component conflicts.
