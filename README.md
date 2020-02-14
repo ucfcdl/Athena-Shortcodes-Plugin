@@ -24,6 +24,10 @@ Head over to the [Athena Shortcodes Plugin wiki](https://github.com/UCF/Athena-S
 
 ## Changelog ##
 
+### 0.5.2 ###
+Documentation:
+* Updated the contributing doc to reflect the switch from slack to teams.
+
 ### 0.5.1 ###
 Enhancements:
 * Upgraded packages, including Athena Framework, to latest versions
