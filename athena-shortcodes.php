@@ -39,13 +39,13 @@ define( 'ATHENA_SC__CACHE_BUST', athena_sc_get_cache_bust() );
 
 
 // Shortcode files
-include_once 'includes/class-shortcode.php';
-include_once 'shortcodes/shortcodes.php';
+include_once ATHENA_SC__PLUGIN_DIR . 'includes/class-shortcode.php';
+include_once ATHENA_SC__PLUGIN_DIR . 'shortcodes/shortcodes.php';
 
-include_once 'includes/athena-sc-config.php';
-include_once 'includes/athena-sc-shortcode-config.php';
-include_once 'includes/athena-sc-tinymce-config.php';
-include_once 'includes/athena-sc-embeds.php';
+include_once ATHENA_SC__PLUGIN_DIR . 'includes/athena-sc-config.php';
+include_once ATHENA_SC__PLUGIN_DIR . 'includes/athena-sc-shortcode-config.php';
+include_once ATHENA_SC__PLUGIN_DIR . 'includes/athena-sc-tinymce-config.php';
+include_once ATHENA_SC__PLUGIN_DIR . 'includes/athena-sc-embeds.php';
 
 
 if ( ! function_exists( 'athena_sc_plugin_activated' ) ) {
